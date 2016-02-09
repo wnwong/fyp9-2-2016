@@ -1,0 +1,192 @@
+<resources>
+    <string name="app_name">簡易二手物品交易平台</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="search_hint">搜尋 品牌,型號</string>
+
+    <string name="action_search">Search</string>
+    <string name="action_settings">設定</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <!--Navigation Drawer Label -->
+    <string name="nav_item_camera">數碼相機</string>
+    <string name="nav_item_tablet">平板電腦</string>
+    <string name="nav_item_smartphone">智能手機</string>
+    <string name="nav_item_vgame">電子遊戲</string>
+    <string name="nav_item_earphone">耳機</string>
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_camera</item>
+        <item>@string/nav_item_tablet</item>
+        <item>@string/nav_item_smartphone</item>
+        <item>@string/nav_item_vgame</item>
+    </string-array>
+
+    <!--User Information (Used in Register.java) -->
+    <string name="username">帳户名稱</string>
+    <string name="pwd">密碼</string>
+    <string name="email">電郵地址</string>
+    <string name="location">最方便交易地點</string>
+    <string name="register">註冊</string>
+    <string name="confirm">確認密碼</string>
+    <string name="gender">性別</string>
+    <string name="female">女性</string>
+    <string name="male">男性</string>
+
+    <string name="title_Camera">數碼相機</string>
+    <string name="title_Tablet">平板電腦</string>
+    <string name="title_activity_login">登入</string>
+    <string name="logout">登出</string>
+
+    <!-- add gadget-->
+    <string name="gadget_name">出售物品名稱</string>
+    <string name="gadget_price">售價</string>
+    <string name="gadget_warranty">保養期內:</string>
+    <string name="gadget_type">物品類型</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string-array name="productType">
+        <item>""</item>
+        <item>@string/nav_item_earphone</item>
+        <item>@string/nav_item_camera</item>
+        <item>@string/nav_item_tablet</item>
+        <item>@string/nav_item_smartphone</item>
+        <item>@string/nav_item_vgame</item>
+    </string-array>
+    <string name="brand">品牌</string>
+    <string name="model">型號</string>
+
+    <!--earphone Inforamtion -->
+    <string name="shure">Shure</string>
+    <string name="westone">Westone</string>
+    <string name="beats">Beats</string>
+    <string name="ue">Ultimate Ears</string>
+    <string-array name="epBrand">
+        <item>""</item>
+        <item>@string/shure</item>
+        <item>@string/westone</item>
+        <item>@string/beats</item>
+        <item>@string/ue</item>
+    </string-array>
+    <string-array name="shureModel">
+        <item>""</item>
+        <item>"SE112m+"</item>
+        <item>"SE112"</item>
+        <item>"SE215"</item>
+        <item>"SE215SPE"</item>
+        <item>"SE315"</item>
+        <item>"SE425"</item>
+        <item>"SE535"</item>
+        <item>"SE535LTD"</item>
+        <item>"SE846"</item>
+    </string-array>
+    <!-- gadget info-->
+    <string name="gname">物品名稱</string>
+    <string name="gprice">售價</string>
+    <string name="gwarranty">保養期內</string>
+    <string name="glocation">交易地點</string>
+
+
+    <!--location-->
+    <string name="mtr">地鐵</string>
+    <string name="uni">大專院校</string>
+    <string name="hkIsland">香港島</string>
+    <string name="kowloon">九龍</string>
+    <string name="nt">新界</string>
+    <string name="oIsland">離島</string>
+    <string-array name="locationMenu">
+        <item>@string/mtr</item>
+        <item>@string/uni</item>
+        <item>@string/hkIsland</item>
+        <item>@string/kowloon</item>
+        <item>@string/nt</item>
+        <item>@string/oIsland</item>
+    </string-array>
+    <string-array name="mtr">
+        <item>"觀塘綫"</item>
+        <item>"荃灣綫"</item>
+        <item>"港島綫"</item>
+        <item>"將軍澳綫"</item>
+        <item>"東涌綫及迪士尼綫"</item>
+        <item>"東鐵綫"</item>
+        <item>"馬鞍山綫"</item>
+        <item>"西鐵綫"</item>
+
+    </string-array>
+    <string-array name="uni">
+        <item>"香港大學"</item>
+        <item>"香港中文大學"</item>
+        <item>"香港科技大學"</item>
+        <item>"香港城市大學"</item>
+        <item>"香港理工大學"</item>
+        <item>"香港浸會大學"</item>
+        <item>"香港教育學院"</item>
+        <item>嶺南大學</item>
+        <item>香港公開大學</item>
+        <item>香港演藝學院</item>
+        <item>"香港樹仁大學"</item>
+        <item>"恆生管理學院"</item>
+        <item>珠海學院</item>
+        <item>明愛專上學院</item>
+        <item>東華學院</item>
+        <item>明德學院</item>
+        <item>香港能仁專上學院</item>
+        <item>港專學院</item>
+        <item>宏恩基督教學院</item>
+    </string-array>
+    <string-array name="hkIsland">
+        <item>"西環"</item>
+        <item>"堅尼地城"</item>
+        <item>"西營盤"</item>
+        <item>"中環"</item>
+        <item>"上環"</item>
+        <item>"金鐘"</item>
+        <item>"灣仔"</item>
+        <item>"銅鑼灣"</item>
+        <item>"天后"</item>
+    </string-array>
+    <string-array name="kowloon">
+        <item>"油麻地"</item>
+        <item>"旺角"</item>
+        <item>"尖沙咀"</item>
+        <item>"深水埗"</item>
+        <item>"觀塘"</item>
+        <item>"土瓜灣"</item>
+        <item>"黃大仙"</item>
+        <item>"彩虹"</item>
+        <item>"鑽石山"</item>
+    </string-array>
+    <string-array name="nt">
+        <item>"元朗"</item>
+        <item>"屯門"</item>
+        <item>"荃灣"</item>
+        <item>"青衣"</item>
+        <item>"天水圍"</item>
+    </string-array>
+    <string-array name="oIsland">
+        <item>"大嶼山"</item>
+        <item>"長州"</item>
+        <item>"南丫島"</item>
+        <item>"梅窩"</item>
+    </string-array>
+
+    <string name="os">作業系統</string>
+    <string name="mon">顯示屏</string>
+    <string name="resolution">解像度</string>
+    <string name="weight">重量</string>
+    <string name="camera">鏡頭</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_add__gadget_">出售物品</string>
+    <string name="title_activity_register">註冊</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_add_new_gadget">AddNewGadget</string>
+    <string name="title_activity_add_gadget">addGadget</string>
+    <string name="title_activity_product_info"> 產品資料</string>
+    <string name="title_activity_search_result">搜尋結果</string>
+    <string name="title_activity_trage_page">tragePage</string>
+
+</resources>

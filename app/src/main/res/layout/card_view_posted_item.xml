@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/itemCview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/product_photo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="10dp"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:id="@+id/sellername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/product_photo"
+                android:paddingTop="24dp"
+                android:text="Peter"
+                android:textColor="@color/primaryText"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/sellingPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/sellername"
+                android:layout_below="@+id/sellername"
+                android:text="HK$4500"
+                android:textColor="@color/colorAccent"
+                android:textSize="24sp"
+                android:paddingTop="8dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/place"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignLeft="@+id/sellername"
+                android:layout_below="@+id/sellingPrice"
+                android:src="@mipmap/ic_place"
+                android:tint="@color/secondaryText" />
+
+            <TextView
+                android:id="@+id/tradePlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/place"
+                android:layout_marginLeft="8dp"
+                android:layout_below="@+id/sellingPrice"
+                android:text="觀塘綫"/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
