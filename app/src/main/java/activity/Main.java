@@ -58,6 +58,7 @@ public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     UserLocalStore userLocalStore;
     ProgressDialog progressDialog;
+    //    TextView username, email;
     private Realm realm;
     private SearchView sv;
     public static final String tag = "getProductList";
@@ -71,8 +72,11 @@ public class Main extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+        //       username = (TextView) findViewById(R.id.tv);
+        //       email = (TextView) findViewById(R.id.textView);
         userLocalStore = new UserLocalStore(this);
         if (userLocalStore.getRefreshStatus() == true) {
+            Log.i("Refresh", "Refreshing");
             showProgress();
             new loadAllProducts().execute();
             new getProductList().execute();
@@ -137,13 +141,13 @@ public class Main extends AppCompatActivity
             menu.findItem(R.id.nav_login).setTitle(getString(R.string.logout));
             menu.findItem(R.id.nav_register).setVisible(false);
             //Update nav_header
-            TextView username = (TextView) findViewById(R.id.username);
-            TextView email = (TextView) findViewById(R.id.email);
+            TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv);
+            TextView email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
             username.setText(userLocalStore.getLoggedInUser().getUsername().toString());
             email.setText(userLocalStore.getLoggedInUser().getEmail().toString());
         }
         switchDefaultFragment();
-        if(sv!=null){
+        if (sv != null) {
             sv.setIconified(true);
         }
     }
@@ -182,7 +186,7 @@ public class Main extends AppCompatActivity
                 QueryCamera queryCamera = new QueryCamera(getApplicationContext());
                 RealmResults<RealmProduct> result = queryCamera.searchProductsByModel(query);
                 List<RealmProduct> results = new ArrayList<>();
-                for(int i=0; i<result.size(); i++){
+                for (int i = 0; i < result.size(); i++) {
                     results.add(result.get(i));
                 }
                 SearchResultActivity.results = results;
@@ -240,8 +244,8 @@ public class Main extends AppCompatActivity
                 menu.findItem(R.id.nav_login).setTitle(getString(R.string.title_activity_login));
                 menu.findItem(R.id.nav_register).setVisible(true);
                 //Update nav_header
-                TextView username = (TextView) findViewById(R.id.username);
-                TextView email = (TextView) findViewById(R.id.email);
+                TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv);
+                TextView email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
                 username.setText("");
                 email.setText("");
             } else {
@@ -442,7 +446,7 @@ public class Main extends AppCompatActivity
 //        rp.setBuyer(buyer);
 //        rp.setSeller(seller);
         System.out.println("rp.getSller()" + rp.getSeller());
-                realm.commitTransaction();
+        realm.commitTransaction();
         Log.i(tag, "The inserted Products:");
         Log.i(tag, rp.getBrand() + " " + rp.getModel());
     }

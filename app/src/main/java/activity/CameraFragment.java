@@ -9,9 +9,10 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.user.secondhandtradingplatform.DetailPageActivity;
 import com.example.user.secondhandtradingplatform.ProductInfo;
@@ -33,10 +34,11 @@ import adapter.RVAdapter;
 
 public class CameraFragment extends Fragment implements passToDetailPageListener {
 
-public static Context context;
-   public static  Handler mHandler;
-//    List<Camera> cameras;
-  public static  List<RealmProduct> products = new ArrayList<>();
+    public static Context context;
+    public static Handler mHandler;
+    //    List<Camera> cameras;
+//    public static List<RealmProduct> products = new ArrayList<>();
+    List<RealmProduct> products = new ArrayList<>();
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -52,23 +54,19 @@ public static Context context;
         context = getContext();
         System.out.println("run to here");
 
-          mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch(msg.what){
+                switch (msg.what) {
                     case 1:
                         //處理少量資訊或UI
-                   System.out.println("Form past page");
-                        Integer position = (Integer)msg.obj;
+                        System.out.println("Form past page");
+                        Integer position = (Integer) msg.obj;
                         RealmProduct obj = products.get(position);
                         ProductInfo.realmProduct = obj;
 
                         System.out.println(obj.getBrand() + " " + obj.getModel() + " " + obj.getMonitor());
-//                        Object anyobject = obj;
                         Intent intent = new Intent(context, ProductInfo.class);
-
-//                        Bundle extras = new Bundle();
-//                        extras.se
                         startActivity(intent);
 
 
@@ -77,45 +75,18 @@ public static Context context;
             }
         };  // pass the object date to detailPage
 
-//        Intent intent = new Intent(this.getContext(), DetailPageActivity.class);
-//        startActivity(intent);
-
-
-
-
-/**********************************************************************************************/
-  //testing
-        Camera cam = new Camera("Canon PowerShot G7 X", "2500","Yes", "MongKok", R.mipmap.ic_g7, "philip", "1000","999","Gmail");
-        Camera cam1 = new Camera("Canon EOS 7D Mark II", "4300", "Yes", "Causeway Bay", R.mipmap.ic_7d,"philip", "2000","999","Gmail");
-        Camera cam2 = new Camera("Canon EOS 760D", "5000", "No", "HongKongIsland", R.mipmap.ic_760d,"philip", "3000","999","Gmail");
-        cam.add(cam);
-        cam1.add(cam1);
-        cam2.add(cam2);
         QueryCamera queryCamera = new QueryCamera(getContext());
-//        cameras = Camera.cameras;
-//        queryCamera.insertCameraToDb(cameras);
-//       queryCamera.retrieveCameraByName("canon eOS 760D");
+
         RealmResults<RealmProduct> result = queryCamera.retrieveProductsByType("smartphone");
-        for(int i=0; i<result.size(); i++){
+        Log.i("Refresh","result.size");
+        Log.i("Refresh",""+result.size());
+
+        for (int i = 0; i < result.size(); i++) {
             products.add(result.get(i));
         }
 
-
-//        callBackFinishInsert call;
-//        queryCamera.retrieveCameraByAllField("", "", "", "", -1, "", "", "", "G");
-//        {
-//            @Override
-//            public String retriveCameraRealmList(String done) {
-//               System.out.println("calll query" + done);
-//                System.out.println("Callback String From queryCamera: " );
-//                return "Callback String From queryCamera" ;
-//            }
-//        }) ;
-
-//        callback.retriveCameraRealmList();
-
-/**********************************************************************************************/
-                RVAdapter adapter = new RVAdapter(products, R.layout.cardview);
+        RVAdapter adapter = new RVAdapter(products, R.layout.cardview);
+        Log.i("Refresh", "" + products.size());
         rv.setAdapter(adapter);
     }
 

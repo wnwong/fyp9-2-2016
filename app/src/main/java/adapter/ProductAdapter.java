@@ -71,7 +71,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             InfoViewHolder iHolder = (InfoViewHolder) holder;
-//            iHolder.image.setImageBitmap(bitmap);
+            iHolder.image.setImageBitmap(bitmap);
             iHolder.pName.setText(pName);
             iHolder.mon.setText(mon + "吋");
             iHolder.os.setText(os);

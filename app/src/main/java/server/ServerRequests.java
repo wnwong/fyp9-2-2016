@@ -169,7 +169,7 @@ public class ServerRequests {
                 con.setRequestMethod("POST");
                 //To enable inputting values using POST method
                 con.setDoOutput(true);
-                con.setDoOutput(true);
+                con.setDoInput(true);
                 OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
                 //Write dataToSend to OutputStreamWriter
                 writer.write(encodedStr);

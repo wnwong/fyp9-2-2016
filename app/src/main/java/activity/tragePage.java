@@ -277,7 +277,6 @@ class SimplerExpandableListAdapter extends BaseExpandableListAdapter {
                 //POST method
                 con.setRequestMethod("POST");
                 con.setDoOutput(true);
-                con.setDoOutput(true);
                 con.setDoInput(true);
                  Uri.Builder builder = new Uri.Builder()
                 .appendQueryParameter("c_location", "tset")

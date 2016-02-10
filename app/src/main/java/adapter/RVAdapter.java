@@ -83,10 +83,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CameraViewHolder>{
                 Message message = new Message();
                 message.obj = new Integer(position);
                 message.what = 1;
-                if(products.size()>0){
+ /*               if(products.size()>0){
                     CameraFragment.products = products;
                 }
-                CameraFragment.mHandler.sendMessage(message);
+ */               CameraFragment.mHandler.sendMessage(message);
 
 
             }
