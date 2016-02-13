@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.user.secondhandtradingplatform.ProductInfo"
-    tools:showIn="@layout/activity_product_info">
+    tools:showIn="@layout/activity_product_info"
+    android:id="@+id/container_body">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

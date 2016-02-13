@@ -80,9 +80,12 @@ public class QueryCamera   {
     }
     public RealmResults<RealmProduct> searchProductsByModel(String query)
     {
-        RealmResults<RealmProduct> realmProducts = realm.where(RealmProduct.class).beginGroup().contains("model", query, Case.INSENSITIVE).or().contains("brand", query).endGroup().findAll();
+        RealmResults<RealmProduct> realmProducts = realm.where(RealmProduct.class).beginGroup().contains("model", query, Case.INSENSITIVE).or().contains("brand", query, Case.INSENSITIVE).endGroup().findAll();
 
         return realmProducts;
+    }
+    public RealmGadget retrieveGadgetById(int id){
+        return realm.where(RealmGadget.class).equalTo("product_id", id).findFirst();
     }
     public RealmResults<RealmGadget> retrieveProductsByModel(String model)
     {

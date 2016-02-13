@@ -15,6 +15,25 @@ public class RealmGadget extends RealmObject {
     private String color;
     private String image;
     private String type;
+    private String image1;
+    private String seller_date;
+    private String seller_time;
+
+    public String getSeller_date() {
+        return seller_date;
+    }
+
+    public void setSeller_date(String seller_date) {
+        this.seller_date = seller_date;
+    }
+
+    public String getSeller_time() {
+        return seller_time;
+    }
+
+    public void setSeller_time(String seller_time) {
+        this.seller_time = seller_time;
+    }
 
     public int getProduct_id() {
         return product_id;
@@ -22,6 +41,14 @@ public class RealmGadget extends RealmObject {
 
     public void setProduct_id(int product_id) {
         this.product_id = product_id;
+    }
+
+    public String getImage1() {
+        return image1;
+    }
+
+    public void setImage1(String image1) {
+        this.image1 = image1;
     }
 
     public String getBrand() {

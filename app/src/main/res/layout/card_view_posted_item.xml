@@ -19,9 +19,11 @@
                 android:layout_height="100dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
                 android:paddingRight="10dp"
-                android:scaleType="fitXY"
-                />
+                android:paddingTop="16dp"
+                android:scaleType="fitXY" />
 
             <TextView
                 android:id="@+id/sellername"
@@ -39,10 +41,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/sellername"
                 android:layout_below="@+id/sellername"
+                android:paddingTop="8dp"
                 android:text="HK$4500"
                 android:textColor="@color/colorAccent"
                 android:textSize="24sp"
-                android:paddingTop="8dp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -58,10 +60,21 @@
                 android:id="@+id/tradePlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/place"
-                android:layout_marginLeft="8dp"
                 android:layout_below="@+id/sellingPrice"
-                android:text="觀塘綫"/>
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/place"
+                android:text="觀塘綫" />
+
+            <Button
+                android:id="@+id/tradeBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/product_photo"
+                android:padding="8dp"
+                android:text=" 進行交易"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
 
         </RelativeLayout>

@@ -1,6 +1,7 @@
 package adapter;
 
 
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -10,10 +11,12 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.content.Intent;
+import android.widget.Toast;
 
 
 import com.example.user.secondhandtradingplatform.ProductInfo;
@@ -77,36 +80,31 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             iHolder.os.setText(os);
             iHolder.price.setText("HK$" + price);
             iHolder.camera.setText(camera + "萬像素");
-            if(position == 0)
-            {
-                iHolder.tradingButton.setBackgroundColor(Color.BLUE);
-                iHolder.tradingButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        System.out.println("OK for bu");
-                        Message message = new Message();
-                        message.obj = new String(pName);
-                        message.what = 1;
-                        ProductInfo.mHandler.sendMessage(message);
-
-                    }
-                });
-
-            }
-
-
         } else {
             PostViewHolder pHolder = (PostViewHolder) holder;
-            if(gadgets != null){
-                RealmGadget gadget = gadgets.get(position-1);
+            if (gadgets != null) {
+                final RealmGadget gadget = gadgets.get(position - 1);
                 pHolder.sellerName.setText(gadget.getSeller());
                 pHolder.sellingPrice.setText("HK$" + gadget.getPrice());
                 pHolder.tradePlace.setText(gadget.getSeller_location());
+                byte[] decodedString = Base64.decode(gadget.getImage(), Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                pHolder.productPhoto.setImageBitmap(bitmap);
+                pHolder.tradeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Toast.makeText(v.getContext(), "Trade Button Clicked",Toast.LENGTH_SHORT).show();
+                        Message message = new Message();
+         //               message.obj = new String(pName);
+                        System.out.println(gadget.getProduct_id());
+                        message.obj = new Integer(gadget.getProduct_id());
+                        message.what = 1;
+                        ProductInfo.mHandler.sendMessage(message);
+                    }
+                });
             }
 
         }
-        System.out.println("position"+position);
-
     }
 
     @Override
@@ -122,7 +120,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public class InfoViewHolder extends ProductViewHolder {
         TextView pName, price, os, mon, camera;
         ImageView image;
-        ImageButton tradingButton;
 
         public InfoViewHolder(View itemView) {
             super(itemView);
@@ -132,14 +129,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             os = (TextView) itemView.findViewById(R.id.etOS);
             mon = (TextView) itemView.findViewById(R.id.etMon);
             camera = (TextView) itemView.findViewById(R.id.etCam);
-            tradingButton = (ImageButton) itemView.findViewById(R.id.imageButton);
         }
     }
 
     public class PostViewHolder extends ProductViewHolder {
         TextView sellerName, sellingPrice, tradePlace;
         ImageView productPhoto;
-
+        Button tradeBtn;
 
         public PostViewHolder(View itemView) {
             super(itemView);
@@ -148,7 +144,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             sellerName = (TextView) itemView.findViewById(R.id.sellername);
             sellingPrice = (TextView) itemView.findViewById(R.id.sellingPrice);
             tradePlace = (TextView) itemView.findViewById(R.id.tradePlace);
-
+            tradeBtn = (Button) itemView.findViewById(R.id.tradeBtn);
         }
     }
 

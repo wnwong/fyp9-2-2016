@@ -225,15 +225,13 @@ public class Main extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-
-            fragment = new CameraFragment();
-            title = getString(R.string.title_Camera);
+        if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_tablet) {
             title = getString(R.string.title_Tablet);
         } else if (id == R.id.nav_smartphone) {
-
+            fragment = new CameraFragment();
+            title = getString(R.string.nav_item_smartphone);
         } else if (id == R.id.nav_games) {
 
         } else if (id == R.id.nav_login) {
@@ -315,14 +313,17 @@ public class Main extends AppCompatActivity
                     String warranty = obj.getString("warranty");
                     String price = obj.getString("price");
                     String seller_location = obj.getString("seller_location");
+                    String seller_date = obj.getString("seller_date");
+                    String seller_time = obj.getString("seller_time");
                     String type = obj.getString("type");
                     String seller = obj.getString("seller");
                     String scratch = obj.getString("scratch");
                     String color = obj.getString("color");
                     //Base64 encoded gadget image
                     String image = obj.getString("path");
-                    Log.i(tag, brand + " " + model + " " + seller_location);
-                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image);
+                    String image1 = obj.getString("path1");
+  //                  Log.i(tag, brand + " " + model + " " + seller_location);
+                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -392,7 +393,7 @@ public class Main extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_body, frag);
         fragmentTransaction.commit();
-        getSupportActionBar().setTitle(getString(R.string.title_Camera));
+        getSupportActionBar().setTitle(getString(R.string.nav_item_smartphone));
     }
 
     private void showProgress() {
@@ -447,11 +448,11 @@ public class Main extends AppCompatActivity
 //        rp.setSeller(seller);
         System.out.println("rp.getSller()" + rp.getSeller());
         realm.commitTransaction();
-        Log.i(tag, "The inserted Products:");
-        Log.i(tag, rp.getBrand() + " " + rp.getModel());
+//        Log.i(tag, "The inserted Products:");
+//        Log.i(tag, rp.getBrand() + " " + rp.getModel());
     }
 
-    private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image) {
+    private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image, String image1, String seller_date, String seller_time) {
         realm.beginTransaction();
         RealmGadget rc = realm.createObject(RealmGadget.class);
         rc.setProduct_id(pid);
@@ -465,6 +466,9 @@ public class Main extends AppCompatActivity
         rc.setSeller_location(seller_location);
         rc.setColor(color);
         rc.setImage(image);
+        rc.setImage1(image1);
+        rc.setSeller_date(seller_date);
+        rc.setSeller_time(seller_time);
         realm.commitTransaction();
     }
 

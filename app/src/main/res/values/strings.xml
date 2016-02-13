@@ -108,12 +108,140 @@
         <item>"荃灣綫"</item>
         <item>"港島綫"</item>
         <item>"將軍澳綫"</item>
-        <item>"東涌綫及迪士尼綫"</item>
+        <item>"機場快綫"</item>
+        <item>"東涌綫"</item>
+        <item>"迪士尼綫"</item>
         <item>"東鐵綫"</item>
         <item>"馬鞍山綫"</item>
         <item>"西鐵綫"</item>
-
     </string-array>
+    <string-array name="ktl">
+        <item>"調景嶺"</item>
+        <item>"油塘"</item>
+        <item>"藍田"</item>
+        <item>"觀塘"</item>
+        <item>"牛頭角"</item>
+        <item>"九龍灣"</item>
+        <item>"彩虹"</item>
+        <item>"鑽石山"</item>
+        <item>"黃大仙"</item>
+        <item>"樂富"</item>
+        <item>"九龍塘"</item>
+        <item>"石硤尾"</item>
+        <item>"太子"</item>
+        <item>"旺角"</item>
+        <item>"油麻地"</item>
+    </string-array>
+    <string-array name="twl">
+        <item>"荃灣"</item>
+        <item>"大窩口"</item>
+        <item>"葵興"</item>
+        <item>"葵芳"</item>
+        <item>"茘景"</item>
+        <item>"美孚"</item>
+        <item>"茘枝角"</item>
+        <item>"長沙灣"</item>
+        <item>"深水埗"</item>
+        <item>"太子"</item>
+        <item>"旺角"</item>
+        <item>"油麻地"</item>
+        <item>"佐敦"</item>
+        <item>"尖沙咀"</item>
+        <item>"金鐘"</item>
+        <item>"中環"</item>
+    </string-array>
+    <string-array name="isl">
+        <item>"柴灣"</item>
+        <item>"杏花邨"</item>
+        <item>"筲箕灣"</item>
+        <item>"西灣河"</item>
+        <item>"太古"</item>
+        <item>"鰂魚涌"</item>
+        <item>"北角"</item>
+        <item>"炮台山"</item>
+        <item>"天后"</item>
+        <item>"銅鑼灣"</item>
+        <item>"灣仔"</item>
+        <item>"金鐘"</item>
+        <item>"中環"</item>
+        <item>"上環"</item>
+        <item>"西營盤"</item>
+        <item>"香港大學"</item>
+        <item>"堅尼地城"</item>
+    </string-array>
+    <string-array name="tcl">
+        <item>"東涌"</item>
+        <item>"欣澳"</item>
+        <item>"青衣"</item>
+        <item>"荔景"</item>
+        <item>"南昌"</item>
+        <item>"奧運"</item>
+        <item>"九龍"</item>
+        <item>"香港"</item>
+    </string-array>
+    <string-array name="ael">
+        <item>"博覽館"</item>
+        <item>"機場"</item>
+        <item>"青衣"</item>
+        <item>"九龍"</item>
+        <item>"香港"</item>
+    </string-array>
+    <string-array name="tkl">
+        <item>"北角"</item>
+        <item>"鰂魚涌"</item>
+        <item>"油塘"</item>
+        <item>"調景嶺"</item>
+        <item>"將軍澳"</item>
+        <item>"坑口"</item>
+        <item>"寶琳"</item>
+        <item>"康城"</item>
+    </string-array>
+    <string-array name="drl">
+        <item>"欣澳"</item>
+        <item>"迪士尼"</item>
+    </string-array>
+    <string-array name="erl">
+        <item>"紅磡"</item>
+        <item>"旺角東"</item>
+        <item>"九龍塘"</item>
+        <item>"大圍"</item>
+        <item>"沙田"</item>
+        <item>"火炭"</item>
+        <item>"馬場"</item>
+        <item>"大學"</item>
+        <item>"大埔墟"</item>
+        <item>"太和"</item>
+        <item>"粉嶺"</item>
+        <item>"上水"</item>
+        <item>"羅湖"</item>
+        <item>"落馬洲"</item>
+    </string-array>
+    <string-array name="wrl">
+        <item>"紅磡"</item>
+        <item>"尖東"</item>
+        <item>"柯士甸"</item>
+        <item>"南昌"</item>
+        <item>"美孚"</item>
+        <item>"荃灣西"</item>
+        <item>"錦上路"</item>
+        <item>"元朗"</item>
+        <item>"朗屏"</item>
+        <item>"天水圍"</item>
+        <item>"兆康"</item>
+        <item>"屯門"</item>
+    </string-array>
+    <string-array name="mol">
+        <item>"烏溪沙"</item>
+        <item>"馬鞍山"</item>
+        <item>"恆安"</item>
+        <item>"大水坑"</item>
+        <item>"石門"</item>
+        <item>"第一城"</item>
+        <item>"沙田圍"</item>
+        <item>"車公廟"</item>
+        <item>"大圍"</item>
+    </string-array>
+
     <string-array name="uni">
         <item>"香港大學"</item>
         <item>"香港中文大學"</item>
@@ -177,6 +305,13 @@
     <string name="weight">重量</string>
     <string name="camera">鏡頭</string>
 
+    <string name="seller_date">賣家預定日期</string>
+    <string name="seller_time">賣家預定時間</string>
+    <string name="seller_location">賣家預定交易地點</string>
+    <string name="seller_price">物品價錢</string>
+    <string name="choose_date">請選擇交易時間和日期</string>
+    <string name="choose_location">請選擇交易地點</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add__gadget_">出售物品</string>
@@ -188,5 +323,6 @@
     <string name="title_activity_product_info"> 產品資料</string>
     <string name="title_activity_search_result">搜尋結果</string>
     <string name="title_activity_trage_page">tragePage</string>
+    <string name="title_activity_trade_">交易詳情</string>
 
 </resources>
