@@ -28,7 +28,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
             mCallback = (OnTimePickedListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement  OnTimePickedListener");
         }
     }
 

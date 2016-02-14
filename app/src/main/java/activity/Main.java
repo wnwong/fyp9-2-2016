@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.user.secondhandtradingplatform.CreatePost;
 import com.example.user.secondhandtradingplatform.Login;
 import com.example.user.secondhandtradingplatform.R;
 import com.example.user.secondhandtradingplatform.Register;
@@ -88,7 +89,7 @@ public class Main extends AppCompatActivity
             public void onClick(View view) {
              /*   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                Intent myIntent = new Intent(Main.this, addGadget.class);
+                Intent myIntent = new Intent(Main.this, CreatePost.class);
                 startActivity(myIntent);
 
 
@@ -159,6 +160,7 @@ public class Main extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            startActivity(new Intent(this, Main.class));
         }
     }
 
