@@ -1,7 +1,6 @@
 package server;
 
 
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,36 +33,89 @@ public class ServerRequests {
     ProgressDialog progressDialog;
     public static final String SERVER_ADDRESS = "http://php-etrading.rhcloud.com/";
 
-    public ServerRequests(Context context){
+    public ServerRequests(Context context) {
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
         progressDialog.setTitle("Processing");
         progressDialog.setMessage("Please wait...");
     }
 
-    public void storeUserDataInBackground(User user, GetUserCallback userCallback){
+    public void storeUserDataInBackground(User user, GetUserCallback userCallback) {
         progressDialog.show();
         new StoreUserDataAsyncTask(user, userCallback).execute();
     }
 
-    public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
+    public void fetchUserDataInBackground(User user, GetUserCallback userCallback) {
         progressDialog.show();
         new fetchUserDataAsyncTask(user, userCallback).execute();
     }
 
-    public class StoreUserDataAsyncTask extends AsyncTask<Void, Void, Void>{
+    public void storeTradeDataInBackground(String type, String brand, String model, String warranty, String price, String timeStart,
+                                           String timeEnd, String image1, String image2, String seller_location, String datePattern) {
+        progressDialog.show();
+        new storeTradeDataAsyncTask(type, brand, model, warranty, price, timeStart,
+                timeEnd, image1, image2, seller_location, datePattern).execute();
+    }
+
+    public class storeTradeDataAsyncTask extends AsyncTask<Void, Void, Void> {
+        private String type, brand, model, warranty, price, timeStart,
+                timeEnd, image1, image2, seller_location, datePattern;
+
+        public storeTradeDataAsyncTask(String type, String brand, String model, String warranty, String price, String timeStart, String timeEnd, String image1,
+                                       String image2, String seller_location, String datePattern) {
+            this.type = type;
+            this.brand = brand;
+            this.model = model;
+            this.warranty = warranty;
+            this.price = price;
+            this.timeStart = timeStart;
+            this.timeEnd = timeEnd;
+            this.image1 = image1;
+            this.image2 = image2;
+            this.seller_location = seller_location;
+            this.datePattern = datePattern;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Uri.Builder builder = new Uri.Builder()
+                    .appendQueryParameter("type", type)
+                    .appendQueryParameter("brand", brand)
+                    .appendQueryParameter("model", model)
+                    .appendQueryParameter("warranty", warranty)
+                    .appendQueryParameter("price", price)
+                    .appendQueryParameter("timeStart", timeStart)
+                    .appendQueryParameter("timeEnd", timeEnd)
+                    .appendQueryParameter("image1", image1)
+                    .appendQueryParameter("image2", image2)
+                    .appendQueryParameter("datePattern", datePattern)
+                    .appendQueryParameter("seller_location", seller_location);
+            String query = builder.build().getEncodedQuery();
+            getResponseFromServer("", query);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+        }
+    }
+
+    public class StoreUserDataAsyncTask extends AsyncTask<Void, Void, Void> {
         User user;
         GetUserCallback userCallback;
 
-        public StoreUserDataAsyncTask(User user, GetUserCallback userCallback){
+        public StoreUserDataAsyncTask(User user, GetUserCallback userCallback) {
             this.user = user;
             this.userCallback = userCallback;
         }
+
         @Override
         protected Void doInBackground(Void... params) {
             HttpURLConnection con = null;
             //Data to be sent to the Server
-            Map<String,String> dataToSend = new HashMap<>();
+            Map<String, String> dataToSend = new HashMap<>();
             dataToSend.put("username", user.getUsername());
             dataToSend.put("password", user.getPassword());
             dataToSend.put("email", user.getEmail());
@@ -73,11 +125,11 @@ public class ServerRequests {
             //Encoded String
             String encodedStr = getEncodedData(dataToSend);
 
-            try{
+            try {
                 //Conerting address String to URL
                 URL url = new URL(SERVER_ADDRESS + "test.php");
                 //Opening the connection
-                 con = (HttpURLConnection) url.openConnection();
+                con = (HttpURLConnection) url.openConnection();
 
                 //POST method
                 con.setRequestMethod("POST");
@@ -88,7 +140,7 @@ public class ServerRequests {
                         .appendQueryParameter("username", user.getUsername())
                         .appendQueryParameter("password", user.getPassword())
                         .appendQueryParameter("email", user.getEmail())
-                        .appendQueryParameter ("location", user.getLocation())
+                        .appendQueryParameter("location", user.getLocation())
                         .appendQueryParameter("gender", user.getGender());
                 String query = builder.build().getEncodedQuery();
 
@@ -101,13 +153,13 @@ public class ServerRequests {
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String line;
-                while ((line = reader.readLine())!= null) {
+                while ((line = reader.readLine()) != null) {
                     System.out.println(line);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-            }finally {
-                if(con != null){
+            } finally {
+                if (con != null) {
                     con.disconnect();
                 }
             }
@@ -122,24 +174,7 @@ public class ServerRequests {
         }
     }
 
-    private String getEncodedData(Map<String,String> data) {
-        StringBuilder sb = new StringBuilder();
-        for(String key : data.keySet()) {
-            String value = null;
-            try {
-                value = URLEncoder.encode(data.get(key), "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            if(sb.length()>0)
-                sb.append("&");
-
-            sb.append(key + "=" + value);
-        }
-        return sb.toString();
-    }
-
-    public class fetchUserDataAsyncTask extends AsyncTask<Void, Void, User>{
+    public class fetchUserDataAsyncTask extends AsyncTask<Void, Void, User> {
         User user;
         GetUserCallback userCallback;
 
@@ -151,19 +186,19 @@ public class ServerRequests {
         @Override
         protected User doInBackground(Void... params) {
             HttpURLConnection con = null;
-            Map<String,String> dataToSend = new HashMap<>();
+            Map<String, String> dataToSend = new HashMap<>();
             dataToSend.put("username", user.getUsername());
             dataToSend.put("password", user.getPassword());
 
             String encodedStr = getEncodedData(dataToSend);
             BufferedReader reader = null;
-            User returnedUser=null;
+            User returnedUser = null;
             System.out.println("before try");
-            try{
+            try {
                 //Conerting address String to URL
                 URL url = new URL(SERVER_ADDRESS + "login.php");
                 //Opening the connection
-                 con = (HttpURLConnection) url.openConnection();
+                con = (HttpURLConnection) url.openConnection();
                 System.out.println("connection opened");
                 //POST method
                 con.setRequestMethod("POST");
@@ -178,7 +213,7 @@ public class ServerRequests {
                 StringBuilder sb = new StringBuilder();
                 reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String line;
-                while((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     sb.append(line + "\n");
                 }
                 String json = sb.toString();
@@ -187,29 +222,29 @@ public class ServerRequests {
                 Log.i("custom_check", json);
 
                 JSONObject jObject = new JSONObject(json);
-             //   JSONArray array = new JSONArray(json);
-            //    JSONArray arr = jObject.getJSONArray("return_arr");
+                //   JSONArray array = new JSONArray(json);
+                //    JSONArray arr = jObject.getJSONArray("return_arr");
 
-                if(jObject.length() == 0){
+                if (jObject.length() == 0) {
                     returnedUser = null;
                     Log.i("custom_check", "No returnedUser!! ");
-                }else{
+                } else {
                     String email = null;
                     String location = null;
                     String gender = null;
-                         email = jObject.getString("email");
-                         location = jObject.getString("location");
-                         gender = jObject.getString("gender");
-                        int user_id = jObject.getInt("user_id");
+                    email = jObject.getString("email");
+                    location = jObject.getString("location");
+                    gender = jObject.getString("gender");
+                    int user_id = jObject.getInt("user_id");
                     Log.i("custom_check", "the parsed JSON info are as follows:");
-                    Log.i("custom_check", user_id + " " + email + " " + location + " " +gender);
+                    Log.i("custom_check", user_id + " " + email + " " + location + " " + gender);
                     returnedUser = new User(user_id, user.getUsername(), user.getPassword(), email, location, gender);
                     reader.close();
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-            }finally{
-                if(con != null){
+            } finally {
+                if (con != null) {
                     con.disconnect();
                 }
             }
@@ -222,6 +257,50 @@ public class ServerRequests {
             userCallback.done(returnedUser);
             super.onPostExecute(returnedUser);
         }
+    }
+
+    private String getEncodedData(Map<String, String> data) {
+        StringBuilder sb = new StringBuilder();
+        for (String key : data.keySet()) {
+            String value = null;
+            try {
+                value = URLEncoder.encode(data.get(key), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            if (sb.length() > 0)
+                sb.append("&");
+
+            sb.append(key + "=" + value);
+        }
+        return sb.toString();
+    }
+
+    private String getResponseFromServer(String php, String query) {
+        String json = null;
+        try {
+            URL url = new URL(SERVER_ADDRESS + php + ".php");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setDoInput(true);
+            if (query != null) {
+                con.setDoOutput(true);
+                OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                writer.write(query);
+                writer.flush();
+                writer.close();
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            json = sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }
 

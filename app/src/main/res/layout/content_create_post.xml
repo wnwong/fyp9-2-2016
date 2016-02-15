@@ -15,6 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/mainLayout"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
@@ -271,86 +272,96 @@
             android:textSize="14sp" />
 
         <LinearLayout
+            android:id="@+id/checkBoxLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="16dp">
+            android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/Monday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/checkBox1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/MON" />
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
 
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/Tuesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/Monday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/MON" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/Tuesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/TUE" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/Wednesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/WED" />
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/Thursday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/THU" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkBox2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/TUE" />
+                android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/Wednesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/Friday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/WED" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/FRI" />
 
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/Thursday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/Saturday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/THU" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/SAT" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/Sunday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/Friday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/SUN" />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/FRI" />
-
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/Saturday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/SAT" />
-
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/Sunday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/SUN" />
         </LinearLayout>
 
         <TextView
@@ -407,6 +418,15 @@
             android:paddingTop="16dp">
 
         </android.support.v7.widget.AppCompatSpinner>
+
+        <Button
+            android:id="@+id/addViewBtn"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="按此增加第二交易日子時間地點組合"
+            android:textColor="@color/tabsScrollColor" />
+
 
     </LinearLayout>
 </ScrollView>

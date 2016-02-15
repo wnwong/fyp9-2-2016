@@ -367,12 +367,7 @@ public class Main extends AppCompatActivity
                     String monitor = obj.getString("monitor");
                     String camera = obj.getString("camera");
                     String path = obj.getString("path");
-//                    String seller = obj.getString("seller");
-//                    String buyer = obj.getString("buyer");
-//                    System.out.println("buyer" + buyer);
-//                    System.out.println("seller" + seller);
 
-//                    createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
                     createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
                 }
             } catch (Exception e) {
