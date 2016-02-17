@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 
 import com.example.user.secondhandtradingplatform.R;
+import com.example.user.secondhandtradingplatform.SearchResultActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,24 +25,24 @@ import RealmModel.RealmProduct;
 import activity.CameraFragment;
 
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CameraViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
     public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     private List<RealmProduct> products = new ArrayList<>();
     private int rowLayout;
     Context context;
 
-    public RVAdapter(List<RealmProduct> cam, int rowLayout, Context context) {
+    public SearchAdapter(List<RealmProduct> cam, int rowLayout, Context context) {
         this.products = cam;
         this.rowLayout = rowLayout;
         this.context = context;
     }
 
-    public static class CameraViewHolder extends RecyclerView.ViewHolder {
+    public static class SearchViewHolder extends RecyclerView.ViewHolder {
         CardView cview;
         TextView name;
         ImageView photo;
 
-        CameraViewHolder(View itemView) {
+        SearchViewHolder(View itemView) {
             super(itemView);
             cview = (CardView) itemView.findViewById(R.id.cview);
             name = (TextView) itemView.findViewById(R.id.product_name);
@@ -50,13 +51,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CameraViewHolder> 
     }
 
     @Override
-    public CameraViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
-        return new CameraViewHolder(v);
+        return new SearchViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(CameraViewHolder holder, final int position) {
+    public void onBindViewHolder(SearchViewHolder holder, final int position) {
         // Get the list of product
         RealmProduct product = products.get(position);
         // Display the attributes of a product one by one
@@ -69,7 +70,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CameraViewHolder> 
                 Message message = new Message();
                 message.obj = new Integer(position);
                 message.what = 1;
-                CameraFragment.mHandler.sendMessage(message);
+                SearchResultActivity.mHandler.sendMessage(message);
             }
         });
     }

@@ -100,6 +100,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         intent.putExtra("username", returnedUser.getUsername());
         intent.putExtra("email", returnedUser.getEmail());
         startActivity(intent);
+        finish();
     }
 
     private void showErrorMessage(){

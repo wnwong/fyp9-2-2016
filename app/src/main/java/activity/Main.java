@@ -33,7 +33,6 @@ import com.example.user.secondhandtradingplatform.Login;
 import com.example.user.secondhandtradingplatform.R;
 import com.example.user.secondhandtradingplatform.Register;
 import com.example.user.secondhandtradingplatform.SearchResultActivity;
-import com.example.user.secondhandtradingplatform.addGadget;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,16 +52,18 @@ import RealmQuery.QueryCamera;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import product.earphone;
+import user.RefreshLocalStore;
 import user.UserLocalStore;
 
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    RefreshLocalStore refreshLocalStore;
     UserLocalStore userLocalStore;
     ProgressDialog progressDialog;
     //    TextView username, email;
     private Realm realm;
     private SearchView sv;
-    public static final String tag = "getProductList";
+    public static final String TAG = "getProductList";
     public static final String SERVER_ADDRESS = "http://php-etrading.rhcloud.com/";
 
     @Override
@@ -76,12 +77,13 @@ public class Main extends AppCompatActivity
         //       username = (TextView) findViewById(R.id.tv);
         //       email = (TextView) findViewById(R.id.textView);
         userLocalStore = new UserLocalStore(this);
-        if (userLocalStore.getRefreshStatus() == true) {
+        refreshLocalStore = new RefreshLocalStore(this);
+        if (refreshLocalStore.getRefreshStatus() == true) {
             Log.i("Refresh", "Refreshing");
             showProgress();
             new loadAllProducts().execute();
             new getProductList().execute();
-            userLocalStore.setRefreshStatus(false);
+            refreshLocalStore.setRefreshStatus(false);
         }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -89,8 +91,12 @@ public class Main extends AppCompatActivity
             public void onClick(View view) {
              /*   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                Intent myIntent = new Intent(Main.this, CreatePost.class);
-                startActivity(myIntent);
+                if(userLocalStore.getLoggedInUser()!=null){
+                    startActivity(new Intent(Main.this, CreatePost.class));
+                }else{
+                    startActivity(new Intent(Main.this, Login.class));
+                }
+
 
 
             }
@@ -160,7 +166,6 @@ public class Main extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            startActivity(new Intent(this, Main.class));
         }
     }
 
@@ -301,7 +306,7 @@ public class Main extends AppCompatActivity
             realm = Realm.getInstance(getApplicationContext());
             ///         clearDB(realm);
             String JSONResponse = getResponseFromServer("getPosts", null);
-            Log.i(tag, JSONResponse);
+            Log.i(TAG, JSONResponse);
             try {
                 JSONObject jObject = new JSONObject(JSONResponse);
                 String gadget = jObject.getString("gadgets");
@@ -324,7 +329,7 @@ public class Main extends AppCompatActivity
                     //Base64 encoded gadget image
                     String image = obj.getString("path");
                     String image1 = obj.getString("path1");
-  //                  Log.i(tag, brand + " " + model + " " + seller_location);
+  //                  Log.i(TAG, brand + " " + model + " " + seller_location);
                     createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time);
                 }
             } catch (Exception e) {
@@ -350,7 +355,7 @@ public class Main extends AppCompatActivity
                     .appendQueryParameter("type", "smartphone");
             String query = builder.build().getEncodedQuery();
             String JSONResponse = getResponseFromServer("getProductList", query);
-            Log.i(tag, JSONResponse);
+            Log.i(TAG, JSONResponse);
             try {
                 JSONObject jObject = new JSONObject(JSONResponse);
                 String product = jObject.getString("products");
@@ -366,8 +371,8 @@ public class Main extends AppCompatActivity
                     String os = obj.getString("os");
                     String monitor = obj.getString("monitor");
                     String camera = obj.getString("camera");
-                    String path = obj.getString("path");
-
+                    String path = obj.getString("image_name");
+                    Log.i(TAG, "Image_Name = " + path);
                     createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
                 }
             } catch (Exception e) {
@@ -445,8 +450,8 @@ public class Main extends AppCompatActivity
 //        rp.setSeller(seller);
         System.out.println("rp.getSller()" + rp.getSeller());
         realm.commitTransaction();
-//        Log.i(tag, "The inserted Products:");
-//        Log.i(tag, rp.getBrand() + " " + rp.getModel());
+//        Log.i(TAG, "The inserted Products:");
+//        Log.i(TAG, rp.getBrand() + " " + rp.getModel());
     }
 
     private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image, String image1, String seller_date, String seller_time) {

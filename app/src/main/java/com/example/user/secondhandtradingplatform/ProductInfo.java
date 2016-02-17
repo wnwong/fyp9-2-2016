@@ -23,9 +23,10 @@ import adapter.ProductAdapter;
 import io.realm.RealmResults;
 
 public class ProductInfo extends AppCompatActivity {
-     List<RealmGadget> gadgets = new ArrayList<>();
-     public static RealmProduct realmProduct;
-     public static Handler mHandler;
+    List<RealmGadget> gadgets = new ArrayList<>();
+    public static RealmProduct realmProduct;
+    public static Handler mHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,26 +42,27 @@ public class ProductInfo extends AppCompatActivity {
         QueryCamera queryCamera = new QueryCamera(this);
         // Retrieve posts of specific gadget
         RealmResults<RealmGadget> result = queryCamera.retrieveProductsByModel(realmProduct.getModel());
-        for(int i=0; i<result.size(); i++){
+        for (int i = 0; i < result.size(); i++) {
             gadgets.add(result.get(i));
         }
 
         ProductAdapter adapter =
-                new ProductAdapter(gadgets, realmProduct.getBrand() + " " + realmProduct.getModel(), realmProduct.getPrice(), realmProduct.getOs(), realmProduct.getMonitor(), realmProduct.getCamera(), realmProduct.getPath());
+                new ProductAdapter(gadgets, realmProduct.getBrand() + " " + realmProduct.getModel(), realmProduct.getPrice(), realmProduct.getOs(), realmProduct.getMonitor(), realmProduct.getCamera(), realmProduct.getPath(), this);
         rv.setAdapter(adapter);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    System.out.println("get");
-                    mHandler = new Handler(){
-                        @Override
-                        public void handleMessage(Message msg) {
-                            switch(msg.what){
+
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
                     case 1:
-                     System.out.println("get from info page");
+                        System.out.println("get from info page");
                         Integer id = (Integer) msg.obj;
                         Intent intent = new Intent(getApplicationContext(), Trade_Activity.class);
                         intent.putExtra("id", id);
                         startActivity(intent);
                         break;
+                    case 2:
+                        startActivity(new Intent(getApplicationContext(), Login.class));
                 }
             }
         };  // pass the object date to detailPage

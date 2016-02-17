@@ -18,6 +18,7 @@
                 android:id="@+id/product_photo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:padding="8dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:paddingRight="10dp"

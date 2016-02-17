@@ -36,8 +36,7 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
 
     public static Context context;
     public static Handler mHandler;
-    //    List<Camera> cameras;
-//    public static List<RealmProduct> products = new ArrayList<>();
+    public static boolean refresh = true;
     List<RealmProduct> products = new ArrayList<>();
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -68,8 +67,6 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
                         System.out.println(obj.getBrand() + " " + obj.getModel() + " " + obj.getMonitor());
                         Intent intent = new Intent(context, ProductInfo.class);
                         startActivity(intent);
-
-
                         break;
                 }
             }
@@ -84,10 +81,12 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
         for (int i = 0; i < result.size(); i++) {
             products.add(result.get(i));
         }
+        if(refresh == true){
+            RVAdapter adapter = new RVAdapter(products, R.layout.cardview, getContext());
+            Log.i("Refresh", "" + products.size());
+            rv.setAdapter(adapter);
+        }
 
-        RVAdapter adapter = new RVAdapter(products, R.layout.cardview);
-        Log.i("Refresh", "" + products.size());
-        rv.setAdapter(adapter);
     }
 
     @Override

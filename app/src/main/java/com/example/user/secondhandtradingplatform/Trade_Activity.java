@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -64,11 +65,12 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     Spinner locationSpinner;
     UserLocalStore userLocalStore;
     public static final String SERVER_ADDRESS = "http://php-etrading.rhcloud.com/";
+    public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     public static final String DATE_FORMAT = "dd/MM/yyyy";
     public static final String SQL_DATE_FORMAT = "yyyy-MM-dd";
     public static final String TIME_FORMAT = "HH:mm";
     public static final String SQL_TIME_FORMAT = "HH:mm:ss";
-    public static final String tag = "Trade_Activity";
+    public static final String TAG = "Trade_Activity";
     SimpleDateFormat simpleDateFormat;
 
     @Override
@@ -83,7 +85,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         gadget = query.retrieveGadgetById(product_id);
         if (gadget != null) {
             image = gadget.getImage();
-            image1 = gadget.getImage1();
+             image1 = gadget.getImage1();
         }
         if (image != null) {
             images.add(image);
@@ -165,7 +167,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ProductInfo.class));
+                finish();
             }
         });
     }
@@ -227,9 +229,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             LayoutInflater inflater = LayoutInflater.from(mContext);
             ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.pager_item, container, false);
             ImageView imageView = (ImageView) layout.findViewById(R.id.imageView);
-            byte[] decodedString = Base64.decode(images.get(position), Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            imageView.setImageBitmap(bitmap);
+            Picasso.with(getApplicationContext()).load(IMAGE_ADDRESS + images.get(position)).into(imageView);
             container.addView(layout);
             return layout;
         }
@@ -324,7 +324,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             successMessage();
-            startActivity(new Intent(getApplicationContext(), Main.class));
+            finish();
         }
 
     }

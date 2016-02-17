@@ -2,6 +2,7 @@ package adapter;
 
 
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.example.user.secondhandtradingplatform.ProductInfo;
 import com.example.user.secondhandtradingplatform.R;
 import com.example.user.secondhandtradingplatform.SearchResultActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,16 +31,20 @@ import java.util.List;
 import RealmModel.RealmCamera;
 import RealmModel.RealmGadget;
 import activity.CameraFragment;
+import user.UserLocalStore;
 
 import static android.support.v4.app.ActivityCompat.startActivity;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+    public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     private static final int TYPE_INFO = 1;
     private static final int TYPE_POST = 2;
     List<RealmGadget> gadgets = new ArrayList<>();
     String os, mon, camera, pName, price, image;
+    Context context;
+    UserLocalStore userLocalStore;
 
-    public ProductAdapter(List<RealmGadget> gadgets, String pName, String price, String os, String mon, String camera, String image) {
+    public ProductAdapter(List<RealmGadget> gadgets, String pName, String price, String os, String mon, String camera, String image, Context context) {
         this.gadgets = gadgets;
         this.pName = pName;
         this.price = price;
@@ -46,7 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.mon = mon;
         this.camera = camera;
         this.image = image;
-        System.out.println("pName:" + pName);
+        this.context = context;
     }
 
     @Override
@@ -71,10 +77,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(ProductViewHolder holder, final int position) {
         if (holder.getItemViewType() == TYPE_INFO) {
-            byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             InfoViewHolder iHolder = (InfoViewHolder) holder;
-            iHolder.image.setImageBitmap(bitmap);
+            Picasso.with(context).load(IMAGE_ADDRESS + image).into(iHolder.image);
             iHolder.pName.setText(pName);
             iHolder.mon.setText(mon + "吋");
             iHolder.os.setText(os);
@@ -87,23 +91,25 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 pHolder.sellerName.setText(gadget.getSeller());
                 pHolder.sellingPrice.setText("HK$" + gadget.getPrice());
                 pHolder.tradePlace.setText(gadget.getSeller_location());
-                byte[] decodedString = Base64.decode(gadget.getImage(), Base64.DEFAULT);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                pHolder.productPhoto.setImageBitmap(bitmap);
+                Picasso.with(context).load(IMAGE_ADDRESS + image).fit().into(pHolder.productPhoto);
                 pHolder.tradeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Toast.makeText(v.getContext(), "Trade Button Clicked",Toast.LENGTH_SHORT).show();
+                        userLocalStore = new UserLocalStore(context);
                         Message message = new Message();
-         //               message.obj = new String(pName);
-                        System.out.println(gadget.getProduct_id());
-                        message.obj = new Integer(gadget.getProduct_id());
-                        message.what = 1;
-                        ProductInfo.mHandler.sendMessage(message);
+                        if(userLocalStore.getLoggedInUser()!=null){
+                            message.obj = new Integer(gadget.getProduct_id());
+                            message.what = 1;
+                            ProductInfo.mHandler.sendMessage(message);
+                        }else{
+                            message.what = 2;
+                            message.obj = null;
+                            ProductInfo.mHandler.sendMessage(message);
+                        }
+
                     }
                 });
             }
-
         }
     }
 
@@ -139,7 +145,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         public PostViewHolder(View itemView) {
             super(itemView);
-
             productPhoto = (ImageView) itemView.findViewById(R.id.product_photo);
             sellerName = (TextView) itemView.findViewById(R.id.sellername);
             sellingPrice = (TextView) itemView.findViewById(R.id.sellingPrice);
