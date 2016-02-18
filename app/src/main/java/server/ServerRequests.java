@@ -52,19 +52,20 @@ public class ServerRequests {
     }
 
     public void storeTradeDataInBackground(String type, String brand, String model, String warranty, String color, String scratch, String price, String timeStart,
-                                           String timeEnd, Bitmap image1, Bitmap image2, String seller_location, String datePattern, String seller) {
+                                           String timeEnd, Bitmap image1, Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback) {
         progressDialog.show();
         new storeTradeDataAsyncTask(type, brand, model, warranty, color, scratch, price, timeStart,
-                timeEnd, image1, image2, seller_location, datePattern, seller).execute();
+                timeEnd, image1, image2, seller_location, datePattern, seller, getPostCallback).execute();
     }
 
     public class storeTradeDataAsyncTask extends AsyncTask<Void, Void, Void> {
         private String type, brand, model, warranty, price, color, scratch, timeStart,
                 timeEnd, seller_location, datePattern, seller;
         private Bitmap image1, image2;
+        GetPostCallback getPostCallback;
 
         public storeTradeDataAsyncTask(String type, String brand, String model, String warranty, String color, String scratch, String price, String timeStart, String timeEnd, Bitmap image1,
-                                       Bitmap image2, String seller_location, String datePattern, String seller) {
+                                       Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback) {
             this.type = type;
             this.brand = brand;
             this.model = model;
@@ -79,6 +80,7 @@ public class ServerRequests {
             this.seller_location = seller_location;
             this.datePattern = datePattern;
             this.seller = seller;
+            this.getPostCallback = getPostCallback;
         }
 
         @Override
@@ -120,6 +122,7 @@ public class ServerRequests {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
+            getPostCallback.done();
         }
     }
 

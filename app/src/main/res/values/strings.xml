@@ -403,7 +403,92 @@
         <item>iPhone 6S Plus 128GB</item>
     </string-array>
     <string-array name="sonyPhone">
-        <item></item>
+        <item>Xperia™ Z5 Premium</item>
+        <item>Xperia™ Z5 Premium Dual</item>
+        <item>Xperia™ Z5 Dual</item>
+        <item>Xperia™ Z5</item>
+        <item>Xperia™ Z5 Compact</item>
+        <item>Xperia™ M5 Dual</item>
+        <item>Xperia™ M5</item>
+        <item>Xperia™ C5 Ultra</item>
+        <item>Xperia™ C5 Ultra Dual</item>
+        <item>Xperia™ M4 Aqua</item>
+        <item>Xperia™ Z3+</item>
+        <item>Xperia™ Z3+ Dual</item>
+        <item>Xperia™ C4</item>
+        <item>Xperia™ C4 Dual</item>
+        <item>Xperia™ M4 Aqua Dual</item>
+        <item>Xperia™ E4g</item>
+        <item>Xperia™ E4 Dual</item>
+        <item>Xperia™ Z3</item>
+        <item>Xperia™ Z3 Dual</item>
+        <item>Xperia™ Z3 Compact</item>
+        <item>Xperia™ E3</item>
+        <item>Xperia™ M2 Aqua</item>
+        <item>Xperia™ C3 Dual</item>
+        <item>Xperia™ C3</item>
+        <item>Xperia™ T3</item>
+        <item>Xperia™ M2 Dual</item>
+        <item>Xperia™ T2 Ultra</item>
+        <item>Xperia™ Z2</item>
+        <item>Xperia™ Z1 Compact</item>
+        <item>Xperia™ C</item>
+        <item>Xperia™ Z1</item>
+        <item>Xperia™ M</item>
+        <item>Xperia™ ZR</item>
+        <item>Xperia™ Z Ultra</item>
+        <item>Xperia™ L</item>
+        <item>Xperia™ SP</item>
+        <item>Xperia™ E</item>
+        <item>Xperia™ ZL</item>
+        <item>Xperia™ Z</item>
+        <item>Xperia™ tipo</item>
+        <item>Xperia™ go</item>
     </string-array>
+    <string-array name="LGPhone">
+        <item>NEXUS 5X</item>
+        <item>LG V10</item>
+        <item>LG G4 Beat</item>
+        <item>LG G4c</item>
+        <item>LG G4 Stylus</item>
+        <item>LG G4</item>
+        <item>LG G4 Dual-LTE</item>
+        <item>LG Spirit</item>
+        <item>LG AKA</item>
+        <item>LG G FLEX2</item>
+        <item>LG L Fino Dual </item>
+        <item>LG L Bello Dual</item>
+        <item>LG G3 Stylus</item>
+        <item>LG G3 Dual-LTE</item>
+        <item>LG G3 BEAT</item>
+        <item>LG G3</item>
+        <item>G2 Mini</item>
+        <item>L70</item>
+        <item>L90 Dual</item>
+        <item>G Pro 2</item>
+        <item>G Flex</item>
+        <item>G Pro Lite</item>
+        <item>LG G2</item>
+        <item>Nexus 5</item>
+        <item>Optimus G Pro</item>
+        <item>LG OPTIMUS F5</item>
+        <item>Optimus L3II Dual</item>
+        <item>LG Optimus L5 II</item>
+        <item>LG Optimus L7 II Dual</item>
+        <item>Optimus G</item>
+        <item>Nexus 4</item>
+        <item>Optimus L9</item>
+        <item>LG Optimus Vu</item>
+        <item>Optimus 4X HD</item>
+        <item>Optimus L3</item>
+        <item>Optimus L5</item>
+        <item>Optimus L7</item>
+        <item>LG Optimus 3D Max</item>
+        <item>Optimus True HD LTE</item>
+        <item>LG Optimus HUB (E510)</item>
+    </string-array>
+    <string-array name="Samsung"></string-array>
+    <string-array name="HTCPhone"></string-array>
+    <string-array name="AsusPhone"></string-array>
     <!-- **************************************************All Product List******************************************************************-->
 </resources>

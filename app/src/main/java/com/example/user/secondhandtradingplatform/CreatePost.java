@@ -1,5 +1,6 @@
 package com.example.user.secondhandtradingplatform;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import server.GetPostCallback;
 import server.ServerRequests;
 import user.UserLocalStore;
 
@@ -222,7 +224,13 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 price = gPrice.getText().toString();
                ServerRequests serverRequests = new ServerRequests(this);
                serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
-                        timeEnd, image1, image2, seller_location, datePattern, seller);
+                       timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {
+                           @Override
+                           public void done() {
+                               successMessage();
+                               finish();
+                           }
+                       });
                 return true;
 
             default:
@@ -344,5 +352,10 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+    private void successMessage() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setMessage("資料已被確認");
+        dialogBuilder.show();
     }
 }

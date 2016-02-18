@@ -69,7 +69,7 @@
                 android:layout_below="@+id/brand"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@+id/productType"
-                android:entries="@array/epBrand"
+                android:entries="@array/smartphoneBrand"
                 android:paddingTop="20dp"></android.support.v7.widget.AppCompatSpinner>
         </RelativeLayout>
 
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="6"
-                android:entries="@array/shureModel"
+                android:entries="@array/iPhone"
                 android:paddingTop="20dp"></android.support.v7.widget.AppCompatSpinner>
         </LinearLayout>
 
