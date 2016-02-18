@@ -91,7 +91,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 pHolder.sellerName.setText(gadget.getSeller());
                 pHolder.sellingPrice.setText("HK$" + gadget.getPrice());
                 pHolder.tradePlace.setText(gadget.getSeller_location());
-                Picasso.with(context).load(IMAGE_ADDRESS + image).fit().into(pHolder.productPhoto);
+                Picasso.with(context).load(IMAGE_ADDRESS + gadget.getImage()).fit().into(pHolder.productPhoto);
                 pHolder.tradeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

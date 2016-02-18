@@ -13,9 +13,9 @@
     tools:showIn="@layout/activity_create_post">
 
     <LinearLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mainLayout"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
@@ -97,6 +97,50 @@
                 android:paddingTop="20dp"></android.support.v7.widget.AppCompatSpinner>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp"
+                android:text="@string/color"
+                android:textSize="20sp" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/colorSpinner"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="16dp"
+                android:entries="@array/colors"
+                android:paddingTop="20dp">
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+            <TextView
+                android:id="@+id/scratch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="@string/scratch"
+                android:textSize="20sp" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/scratchSpinner"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="16dp"
+
+                android:entries="@array/scratches">
+
+            </android.support.v7.widget.AppCompatSpinner>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

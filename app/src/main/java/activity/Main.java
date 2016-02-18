@@ -321,7 +321,8 @@ public class Main extends AppCompatActivity
                     String price = obj.getString("price");
                     String seller_location = obj.getString("seller_location");
                     String seller_date = obj.getString("seller_date");
-                    String seller_time = obj.getString("seller_time");
+                    String seller_time_start = obj.getString("seller_time_start");
+                    String seller_time_end = obj.getString("seller_time_end");
                     String type = obj.getString("type");
                     String seller = obj.getString("seller");
                     String scratch = obj.getString("scratch");
@@ -330,7 +331,7 @@ public class Main extends AppCompatActivity
                     String image = obj.getString("path");
                     String image1 = obj.getString("path1");
   //                  Log.i(TAG, brand + " " + model + " " + seller_location);
-                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time);
+                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time_start, seller_time_end);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -454,7 +455,7 @@ public class Main extends AppCompatActivity
 //        Log.i(TAG, rp.getBrand() + " " + rp.getModel());
     }
 
-    private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image, String image1, String seller_date, String seller_time) {
+    private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image, String image1, String seller_date, String seller_time_start, String seller_time_end) {
         realm.beginTransaction();
         RealmGadget rc = realm.createObject(RealmGadget.class);
         rc.setProduct_id(pid);
@@ -470,7 +471,8 @@ public class Main extends AppCompatActivity
         rc.setImage(image);
         rc.setImage1(image1);
         rc.setSeller_date(seller_date);
-        rc.setSeller_time(seller_time);
+        rc.setSeller_time_start(seller_time_start);
+        rc.setSeller_time_end(seller_time_end);
         realm.commitTransaction();
     }
 

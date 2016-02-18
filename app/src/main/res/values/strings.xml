@@ -42,10 +42,36 @@
     <!-- add gadget-->
     <string name="gadget_name">出售物品名稱</string>
     <string name="gadget_price">售價</string>
+    <string name="color">顏色</string>
+    <string name="scratch">刮花</string>
+    <string name="available">放售中</string>
+    <string name="hold">已被預訂</string>
+    <string name="not_available">已出售</string>
+    <string-array name="scratches">
+        <item>前方</item>
+        <item>後方</item>
+        <item>左方</item>
+        <item>右方</item>
+        <item>上方</item>
+        <item>下方</item>
+        <item>沒有</item>
+    </string-array>
     <string name="gadget_warranty">保養期內:</string>
     <string name="gadget_type">物品類型</string>
     <string name="yes">是</string>
     <string name="no">否</string>
+    <string-array name="colors">
+        <item>黑色</item>
+        <item>藍色	</item>
+        <item>啡色</item>
+        <item>綠色</item>
+        <item>金色</item>
+        <item>黃色</item>
+        <item>白色</item>
+        <item>粉紅色</item>
+        <item>紫色</item>
+        <item>橙色</item>
+    </string-array>
     <string-array name="productType">
         <item>""</item>
         <item>@string/nav_item_earphone</item>
@@ -56,7 +82,16 @@
     </string-array>
     <string name="brand">品牌</string>
     <string name="model">型號</string>
-
+    <string-array name="smartphoneBrand">
+        <item>Apple</item>
+        <item>Sony</item>
+        <item>LG</item>
+        <item>Samsung</item>
+        <item>HTC</item>
+        <item>Asus</item>
+        <item>Huawei</item>
+        <item>小米</item>
+    </string-array>
     <!--earphone Inforamtion -->
     <string name="shure">Shure</string>
     <string name="westone">Westone</string>

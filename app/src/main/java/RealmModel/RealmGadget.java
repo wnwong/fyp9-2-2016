@@ -17,7 +17,8 @@ public class RealmGadget extends RealmObject {
     private String type;
     private String image1;
     private String seller_date;
-    private String seller_time;
+    private String seller_time_start;
+    private String seller_time_end;
 
     public String getSeller_date() {
         return seller_date;
@@ -27,12 +28,20 @@ public class RealmGadget extends RealmObject {
         this.seller_date = seller_date;
     }
 
-    public String getSeller_time() {
-        return seller_time;
+    public String getSeller_time_start() {
+        return seller_time_start;
     }
 
-    public void setSeller_time(String seller_time) {
-        this.seller_time = seller_time;
+    public void setSeller_time_start(String seller_time_start) {
+        this.seller_time_start = seller_time_start;
+    }
+
+    public String getSeller_time_end() {
+        return seller_time_end;
+    }
+
+    public void setSeller_time_end(String seller_time_end) {
+        this.seller_time_end = seller_time_end;
     }
 
     public int getProduct_id() {

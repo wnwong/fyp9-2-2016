@@ -74,7 +74,7 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
 
         QueryCamera queryCamera = new QueryCamera(getContext());
 
-        RealmResults<RealmProduct> result = queryCamera.retrieveProductsByType("smartphone");
+        RealmResults<RealmProduct> result = queryCamera.retrieveProductsByType("智能手機");
         Log.i("Refresh","result.size");
         Log.i("Refresh",""+result.size());
 

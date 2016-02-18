@@ -32,6 +32,7 @@ import user.User;
 public class ServerRequests {
     ProgressDialog progressDialog;
     public static final String SERVER_ADDRESS = "http://php-etrading.rhcloud.com/";
+    public static final String TAG = "ServerRequests";
 
     public ServerRequests(Context context) {
         progressDialog = new ProgressDialog(context);
@@ -50,23 +51,26 @@ public class ServerRequests {
         new fetchUserDataAsyncTask(user, userCallback).execute();
     }
 
-    public void storeTradeDataInBackground(String type, String brand, String model, String warranty, String price, String timeStart,
-                                           String timeEnd, String image1, String image2, String seller_location, String datePattern) {
+    public void storeTradeDataInBackground(String type, String brand, String model, String warranty, String color, String scratch, String price, String timeStart,
+                                           String timeEnd, Bitmap image1, Bitmap image2, String seller_location, String datePattern, String seller) {
         progressDialog.show();
-        new storeTradeDataAsyncTask(type, brand, model, warranty, price, timeStart,
-                timeEnd, image1, image2, seller_location, datePattern).execute();
+        new storeTradeDataAsyncTask(type, brand, model, warranty, color, scratch, price, timeStart,
+                timeEnd, image1, image2, seller_location, datePattern, seller).execute();
     }
 
     public class storeTradeDataAsyncTask extends AsyncTask<Void, Void, Void> {
-        private String type, brand, model, warranty, price, timeStart,
-                timeEnd, image1, image2, seller_location, datePattern;
+        private String type, brand, model, warranty, price, color, scratch, timeStart,
+                timeEnd, seller_location, datePattern, seller;
+        private Bitmap image1, image2;
 
-        public storeTradeDataAsyncTask(String type, String brand, String model, String warranty, String price, String timeStart, String timeEnd, String image1,
-                                       String image2, String seller_location, String datePattern) {
+        public storeTradeDataAsyncTask(String type, String brand, String model, String warranty, String color, String scratch, String price, String timeStart, String timeEnd, Bitmap image1,
+                                       Bitmap image2, String seller_location, String datePattern, String seller) {
             this.type = type;
             this.brand = brand;
             this.model = model;
             this.warranty = warranty;
+            this.color = color;
+            this.scratch = scratch;
             this.price = price;
             this.timeStart = timeStart;
             this.timeEnd = timeEnd;
@@ -74,24 +78,41 @@ public class ServerRequests {
             this.image2 = image2;
             this.seller_location = seller_location;
             this.datePattern = datePattern;
+            this.seller = seller;
         }
 
         @Override
         protected Void doInBackground(Void... params) {
+            Log.i(TAG, "Sending to Server");
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            image1.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+            byte[] array = byteArrayOutputStream.toByteArray();
+            String encodeImage = Base64.encodeToString(array, Base64.DEFAULT);
+            Log.i(TAG, "encodeImage: " + encodeImage);
+            ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
+            image2.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream2);
+            byte[] array2 = byteArrayOutputStream2.toByteArray();
+            String encodeImage2 = Base64.encodeToString(array2, Base64.DEFAULT);
+            Log.i(TAG, "encodeImage2: " + encodeImage2);
             Uri.Builder builder = new Uri.Builder()
                     .appendQueryParameter("type", type)
                     .appendQueryParameter("brand", brand)
                     .appendQueryParameter("model", model)
+                    .appendQueryParameter("color", color)
+                    .appendQueryParameter("scratch", scratch)
                     .appendQueryParameter("warranty", warranty)
                     .appendQueryParameter("price", price)
                     .appendQueryParameter("timeStart", timeStart)
                     .appendQueryParameter("timeEnd", timeEnd)
-                    .appendQueryParameter("image1", image1)
-                    .appendQueryParameter("image2", image2)
+                    .appendQueryParameter("image1", encodeImage)
+                    .appendQueryParameter("image2", encodeImage2)
                     .appendQueryParameter("datePattern", datePattern)
-                    .appendQueryParameter("seller_location", seller_location);
+                    .appendQueryParameter("seller", seller)
+                    .appendQueryParameter("seller_location", seller_location)
+                    .appendQueryParameter("availability", "放售中");
             String query = builder.build().getEncodedQuery();
-            getResponseFromServer("", query);
+            Log.i(TAG, "query:" + query);
+            getResponseFromServer("postGadget", query);
             return null;
         }
 
@@ -285,6 +306,7 @@ public class ServerRequests {
             con.setDoInput(true);
             if (query != null) {
                 con.setDoOutput(true);
+                Log.i(TAG, "Writing to Server!");
                 OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
                 writer.write(query);
                 writer.flush();
@@ -295,8 +317,10 @@ public class ServerRequests {
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
+                Log.i(TAG, "Response from server" + line);
             }
             json = sb.toString();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

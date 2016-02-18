@@ -119,18 +119,19 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         tvPrice.setText("HK$" + gadget.getPrice());
 
         try { //Format the date and time obtained from the database
-            simpleDateFormat = new SimpleDateFormat(SQL_DATE_FORMAT);
-            Date date = simpleDateFormat.parse(gadget.getSeller_date());
-            simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
-            String dateString = simpleDateFormat.format(date);
             tvDate = (TextView) findViewById(R.id.tvDate);
-            tvDate.setText(dateString);
+            tvDate.setText(gadget.getSeller_date());
             simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
-            Date time = simpleDateFormat.parse(gadget.getSeller_time());
+            Date time = simpleDateFormat.parse(gadget.getSeller_time_start());
             simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
-            String timeString = simpleDateFormat.format(time);
+            String timeStringStart = simpleDateFormat.format(time);
             tvTime = (TextView) findViewById(R.id.tvTime);
-            tvTime.setText(timeString);
+            simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+            Date timeEnd = simpleDateFormat.parse(gadget.getSeller_time_end());
+            simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+            String timeStringEnd = simpleDateFormat.format(timeEnd);
+            tvTime = (TextView) findViewById(R.id.tvTime);
+            tvTime.setText(timeStringStart + " - " + timeStringEnd);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -314,6 +315,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
                     .appendQueryParameter("time", buyer_time)
                     .appendQueryParameter("c_location", buyer_location)
                     .appendQueryParameter("product_id", String.valueOf(product_id))
+                    .appendQueryParameter("availability", "已被預訂")
                     .appendQueryParameter("buyer", (userLocalStore.getLoggedInUser().getUsername()));
             String query = builder.build().getEncodedQuery();
             getResponseFromServer("tradeDetail", query);

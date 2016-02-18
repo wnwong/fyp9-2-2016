@@ -27,22 +27,33 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import server.ServerRequests;
+import user.UserLocalStore;
 
 public class CreatePost extends AppCompatActivity implements View.OnClickListener, TimePickerDialogFragment.OnTimePickedListener, AdapterView.OnItemSelectedListener {
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_CAMERA = 10;
     private static final int RESULT_LOAD_IMAGE2 = 2;
     private static final int REQUEST_CAMERA2 = 20;
+    public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final String SQL_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String TIME_FORMAT = "HH:mm";
+    public static final String SQL_TIME_FORMAT = "HH:mm:ss";
     private static final String TAG = "CreatePostActivity";
     public static final String SERVER_ADDRESS = "http://php-etrading.rhcloud.com/";
+    SimpleDateFormat simpleDateFormat;
     ImageView imageToUpload, imageToUpload2;
     boolean canAddCheckBoxes = true;
-    String timeSelectFrom, type, brand, model, warranty, price, timeStart,
-            timeEnd, image1, image2, seller_location, datePattern;
+    UserLocalStore userLocalStore;
+    Bitmap image1, image2;
+    String timeSelectFrom, type, brand, model, warranty, color, scratch, price, timeStart,
+            timeEnd, seller_location, datePattern, seller;
     ImageButton addCameraBtn, addGalleryBtn, addCameraBtn2, addGalleryBtn2;
     CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday;
-    Spinner productBrand, productModel, productType, locationSpinner;
+    Spinner productBrand, productModel, productType, locationSpinner, scratchSpinner, colorSpinner;
     EditText gPrice;
     RadioGroup rgroup;
     RadioButton yesBtn, noBtn;
@@ -54,11 +65,15 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_create_post);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        userLocalStore = new UserLocalStore(this);
+        seller = userLocalStore.getLoggedInUser().getUsername();
         //Initialize Views
         productBrand = (Spinner) findViewById(R.id.productBrand);
         productModel = (Spinner) findViewById(R.id.productModel);
         productType = (Spinner) findViewById(R.id.productType);
         locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
+        colorSpinner = (Spinner) findViewById(R.id.colorSpinner);
+        scratchSpinner = (Spinner) findViewById(R.id.scratchSpinner);
         gPrice = (EditText) findViewById(R.id.gPrice);
         rgroup = (RadioGroup) findViewById(R.id.rgroup);
         yesBtn = (RadioButton) findViewById(R.id.yesButton);
@@ -94,6 +109,8 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         productBrand.setOnItemSelectedListener(this);
         productModel.setOnItemSelectedListener(this);
         locationSpinner.setOnItemSelectedListener(this);
+        colorSpinner.setOnItemSelectedListener(this);
+        scratchSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -140,11 +157,13 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
             // Image captured
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             imageToUpload.setImageBitmap(bitmap);
+            image1 = bitmap;
         }
         if (requestCode == REQUEST_CAMERA2 && resultCode == RESULT_OK) {
             //Image captured
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             imageToUpload2.setImageBitmap(bitmap);
+            image2 = bitmap;
         } // Get image from Gallery
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
             Uri uri = data.getData();
@@ -153,6 +172,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 // Thumbnail image shown in imageview
                 Bitmap minibm = ThumbnailUtils.extractThumbnail(bitmap, 680, 480);
                 imageToUpload.setImageBitmap(minibm);
+                image1 = minibm;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -163,6 +183,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 Bitmap minibm = ThumbnailUtils.extractThumbnail(bitmap, 680, 480);
                 imageToUpload2.setImageBitmap(minibm);
+                image2 = minibm;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -198,9 +219,10 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 // User chose the "Confirm" item, show the app settings UI...
                 //              Toast.makeText(getApplicationContext(), "Confirm Button Clicked", Toast.LENGTH_SHORT).show();
                 datePattern = getCheckBoxValue();
-   //             ServerRequests serverRequests = new ServerRequests(this);
-   //             serverRequests.storeTradeDataInBackground(type, brand, model, warranty, price, timeStart,
-   //                     timeEnd, image1, image2, seller_location, datePattern);
+                price = gPrice.getText().toString();
+               ServerRequests serverRequests = new ServerRequests(this);
+               serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
+                        timeEnd, image1, image2, seller_location, datePattern, seller);
                 return true;
 
             default:
@@ -257,11 +279,25 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
        switch(timeSelectFrom){
            case "start":
                mTimeStartButton.setText(msg);
-               timeStart = msg;
+               try {
+                   simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+                   Date time = simpleDateFormat.parse(msg);
+                   simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+                   timeStart = simpleDateFormat.format(time);
+               } catch (Exception e) {
+                   e.printStackTrace();
+               }
                break;
            case "end":
                mTimeEndButton.setText(msg);
-               timeEnd = msg;
+               try {
+                   simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+                   Date time = simpleDateFormat.parse(msg);
+                   simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+                   timeEnd = simpleDateFormat.format(time);
+               } catch (Exception e) {
+                   e.printStackTrace();
+               }
                break;
            case "newStart":
                if(mTimeStartButtonNew!=null)
@@ -276,7 +312,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch(view.getId()){
+        switch(parent.getId()){
             case R.id.locationSpinner:
                 seller_location = parent.getItemAtPosition(position).toString();
                 Log.i(TAG, "seller_location:" + seller_location);
@@ -292,6 +328,14 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
             case R.id.productModel:
                 model = parent.getItemAtPosition(position).toString();
                 Log.i(TAG, "model:" + model);
+                break;
+            case R.id.colorSpinner:
+                color = parent.getItemAtPosition(position).toString();
+                Log.i(TAG, "color:" + color);
+                break;
+            case R.id.scratchSpinner:
+                scratch = parent.getItemAtPosition(position).toString();
+                Log.i(TAG, "scratch:" + scratch);
                 break;
         }
 
