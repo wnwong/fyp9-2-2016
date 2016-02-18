@@ -73,39 +73,27 @@
         <item>橙色</item>
     </string-array>
     <string-array name="productType">
-        <item>""</item>
+        <item>@string/nav_item_smartphone</item>
         <item>@string/nav_item_earphone</item>
         <item>@string/nav_item_camera</item>
         <item>@string/nav_item_tablet</item>
-        <item>@string/nav_item_smartphone</item>
         <item>@string/nav_item_vgame</item>
     </string-array>
     <string name="brand">品牌</string>
     <string name="model">型號</string>
-    <string-array name="smartphoneBrand">
-        <item>Apple</item>
-        <item>Sony</item>
-        <item>LG</item>
-        <item>Samsung</item>
-        <item>HTC</item>
-        <item>Asus</item>
-        <item>Huawei</item>
-        <item>小米</item>
-    </string-array>
+
     <!--earphone Inforamtion -->
     <string name="shure">Shure</string>
     <string name="westone">Westone</string>
     <string name="beats">Beats</string>
     <string name="ue">Ultimate Ears</string>
     <string-array name="epBrand">
-        <item>""</item>
         <item>@string/shure</item>
         <item>@string/westone</item>
         <item>@string/beats</item>
         <item>@string/ue</item>
     </string-array>
     <string-array name="shureModel">
-        <item>""</item>
         <item>"SE112m+"</item>
         <item>"SE112"</item>
         <item>"SE215"</item>
@@ -383,4 +371,39 @@
     <string name="SAT">星期六</string>
     <string name="SUN">星期日</string>
 
+    <!-- **************************************************All Product List******************************************************************-->
+    <string-array name="smartphoneBrand">
+        <item>Apple</item>
+        <item>Sony</item>
+        <item>LG</item>
+        <item>Samsung</item>
+        <item>HTC</item>
+        <item>Asus</item>
+        <item>Huawei</item>
+        <item>小米</item>
+    </string-array>
+    <string-array name="iPhone">
+        <item>iPhone 5 16GB</item>
+        <item>iPhone 5 32GB</item>
+        <item>iPhone 5 64GB</item>
+        <item>iPhone 5S 16GB</item>
+        <item>iPhone 5S 32GB</item>
+        <item>iPhone 5S 64GB</item>
+        <item>iPhone 6 16GB</item>
+        <item>iPhone 6 64GB</item>
+        <item>iPhone 6 128GB</item>
+        <item>iPhone 6 Plus 16GB</item>
+        <item>iPhone 6 Plus 64GB</item>
+        <item>iPhone 6 Plus 128GB</item>
+        <item>iPhone 6S 16GB</item>
+        <item>iPhone 6S 64GB</item>
+        <item>iPhone 6S 128GB</item>
+        <item>iPhone 6S Plus 16GB</item>
+        <item>iPhone 6S Plus 64GB</item>
+        <item>iPhone 6S Plus 128GB</item>
+    </string-array>
+    <string-array name="sonyPhone">
+        <item></item>
+    </string-array>
+    <!-- **************************************************All Product List******************************************************************-->
 </resources>
