@@ -65,7 +65,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     PagerAdapter mPagerAdapter;
     RealmGadget gadget;
     List<String> images = new ArrayList<>();
-    String image, image1, seller_location, buyer_time, buyer_date, buyer_location, time, date;
+    String image, image1, seller_location, buyer_time, buyer_date, buyer_location, time, date, seller;
     int product_id;
     TextView tvDate, tvTime, tvLocation, tvPrice;
     Spinner locationSpinner;
@@ -91,6 +91,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         refreshLocalStore = new RefreshLocalStore(this);
         QueryCamera query = new QueryCamera(this);
         gadget = query.retrieveGadgetById(product_id);
+        seller = gadget.getSeller();
         if (gadget != null) {
             image = gadget.getImage();
              image1 = gadget.getImage1();
@@ -340,6 +341,17 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
  //       cal.set(mDate.getYear(), mDate.getMonth(), mDate.getDay());
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
     }
+    public class sendNotification extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Uri.Builder builder = new Uri.Builder()
+                    .appendQueryParameter("seller", seller);
+            String query = builder.build().getEncodedQuery();
+            getResponseFromServer("pushNotification", query);
+            return null;
+        }
+    }
     public class sendTradeDetail extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
@@ -360,6 +372,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             super.onPostExecute(aVoid);
             successMessage();
 //            refreshLocalStore.setTradeDetail(new userGadget(gadget.getBrand() + " " + gadget.getModel(),gadget.getSeller(), buyer_time, buyer_date, buyer_location));
+            new sendNotification().execute();
             setNotification();
             finish();
         }

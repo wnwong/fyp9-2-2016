@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.pushbots.push.Pushbots;
+
 import activity.Main;
 import server.GetUserCallback;
 import server.ServerRequests;
@@ -99,6 +101,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         Intent intent = new Intent(this, Main.class);
         intent.putExtra("username", returnedUser.getUsername());
         intent.putExtra("email", returnedUser.getEmail());
+        Pushbots.sharedInstance().setAlias(returnedUser.getUsername());
         startActivity(intent);
         finish();
     }

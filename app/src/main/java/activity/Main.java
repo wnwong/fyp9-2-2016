@@ -33,6 +33,7 @@ import com.example.user.secondhandtradingplatform.Login;
 import com.example.user.secondhandtradingplatform.R;
 import com.example.user.secondhandtradingplatform.Register;
 import com.example.user.secondhandtradingplatform.SearchResultActivity;
+import com.pushbots.push.Pushbots;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -71,6 +72,7 @@ public class Main extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Pushbots.sharedInstance().init(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
@@ -96,9 +98,6 @@ public class Main extends AppCompatActivity
                 }else{
                     startActivity(new Intent(Main.this, Login.class));
                 }
-
-
-
             }
         });
 
@@ -156,6 +155,10 @@ public class Main extends AppCompatActivity
         switchDefaultFragment();
         if (sv != null) {
             sv.setIconified(true);
+        }
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            Log.i(TAG, extras.getString("author"));
         }
     }
 
