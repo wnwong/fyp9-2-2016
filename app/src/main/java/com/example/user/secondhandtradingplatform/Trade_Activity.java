@@ -346,7 +346,11 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         @Override
         protected Void doInBackground(Void... params) {
             Uri.Builder builder = new Uri.Builder()
-                    .appendQueryParameter("seller", seller);
+                    .appendQueryParameter("seller", seller)
+                    .appendQueryParameter("time", buyer_time)
+                    .appendQueryParameter("date", buyer_date)
+                    .appendQueryParameter("location", buyer_location);
+            Log.i(TAG, seller);
             String query = builder.build().getEncodedQuery();
             getResponseFromServer("pushNotification", query);
             return null;

@@ -156,10 +156,6 @@ public class Main extends AppCompatActivity
         if (sv != null) {
             sv.setIconified(true);
         }
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            Log.i(TAG, extras.getString("author"));
-        }
     }
 
     @Override
