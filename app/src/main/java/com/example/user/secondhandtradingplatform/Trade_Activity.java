@@ -1,6 +1,9 @@
 package com.example.user.secondhandtradingplatform;
 
+import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -45,13 +48,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import RealmModel.RealmGadget;
 import RealmQuery.QueryCamera;
 import activity.Main;
+import user.RefreshLocalStore;
 import user.UserLocalStore;
+import user.userGadget;
 
 public class Trade_Activity extends AppCompatActivity implements DatePickerDialogFragment.OnDatePickedListener, TimePickerDialogFragment.OnTimePickedListener {
     Button mDateButton, mTimeButton, confirmBtn, cancelBtn;
@@ -59,11 +65,12 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     PagerAdapter mPagerAdapter;
     RealmGadget gadget;
     List<String> images = new ArrayList<>();
-    String image, image1, seller_location, buyer_time, buyer_date, buyer_location;
+    String image, image1, seller_location, buyer_time, buyer_date, buyer_location, time, date;
     int product_id;
     TextView tvDate, tvTime, tvLocation, tvPrice;
     Spinner locationSpinner;
     UserLocalStore userLocalStore;
+    RefreshLocalStore refreshLocalStore;
     public static final String SERVER_ADDRESS = "http://php-etrading.rhcloud.com/";
     public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     public static final String DATE_FORMAT = "dd/MM/yyyy";
@@ -81,6 +88,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         setSupportActionBar(toolbar);
         product_id = getIntent().getIntExtra("id", 0);
         userLocalStore = new UserLocalStore(this);
+        refreshLocalStore = new RefreshLocalStore(this);
         QueryCamera query = new QueryCamera(this);
         gadget = query.retrieveGadgetById(product_id);
         if (gadget != null) {
@@ -177,6 +185,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     public void OnDatePicked(String msg) {
         mDateButton.setText(msg);
         try {
+            date = msg;
             simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
             Date date = simpleDateFormat.parse(msg);
             simpleDateFormat = new SimpleDateFormat(SQL_DATE_FORMAT);
@@ -191,6 +200,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     public void OnTimePicked(String msg) {
         mTimeButton.setText(msg);
         try {
+            time = msg;
             simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
             Date time = simpleDateFormat.parse(msg);
             simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
@@ -307,6 +317,29 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         dialogBuilder.show();
     }
 
+    @TargetApi(19)
+    private void setNotification(){
+        Date mDate = null;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+        notificationIntent.putExtra("seller", gadget.getSeller());
+        notificationIntent.putExtra("time", time);
+        notificationIntent.putExtra("date", date);
+        notificationIntent.putExtra("location", buyer_location);
+        notificationIntent.putExtra("product", gadget.getBrand()+" "+gadget.getModel());
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        try{
+            simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+             mDate = simpleDateFormat.parse(date);
+        }catch(Exception e){ e.printStackTrace();}
+
+        Calendar cal = Calendar.getInstance();
+ //       cal.add(Calendar.SECOND, 30);
+        cal.setTime(mDate);
+ //       cal.set(mDate.getYear(), mDate.getMonth(), mDate.getDay());
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+    }
     public class sendTradeDetail extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
@@ -326,6 +359,8 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             successMessage();
+//            refreshLocalStore.setTradeDetail(new userGadget(gadget.getBrand() + " " + gadget.getModel(),gadget.getSeller(), buyer_time, buyer_date, buyer_location));
+            setNotification();
             finish();
         }
 

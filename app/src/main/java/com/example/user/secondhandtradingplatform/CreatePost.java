@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -320,6 +321,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        ArrayAdapter<String> spinnerArrayAdapter;
         switch(parent.getId()){
             case R.id.locationSpinner:
                 seller_location = parent.getItemAtPosition(position).toString();
@@ -327,10 +329,16 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.productBrand:
                 brand = parent.getItemAtPosition(position).toString();
+                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,  getSpinnerArray(brand)); //selected item will look like a spinner set from XML
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                productModel.setAdapter(spinnerArrayAdapter);
                 Log.i(TAG, "brand:" + brand);
                 break;
             case R.id.productType:
                 type = parent.getItemAtPosition(position).toString();
+                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,  getSpinnerArray(type)); //selected item will look like a spinner set from XML
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                productBrand.setAdapter(spinnerArrayAdapter);
                 Log.i(TAG, "type:" + type);
                 break;
             case R.id.productModel:
@@ -357,5 +365,52 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setMessage("資料已被確認");
         dialogBuilder.show();
+    }
+
+    private String[] getSpinnerArray(String value){
+        String[] result = null;
+        switch(value){
+            // Set Brand From Type
+            case "智能手機":
+                result = getResources().getStringArray(R.array.smartphoneBrand);
+                break;
+            case "平板電腦":
+                result = getResources().getStringArray(R.array.tabletBrand);
+                break;
+            case "數碼相機":
+                result = getResources().getStringArray(R.array.cameraBrand);
+                break;
+            case "電子遊戲":
+                result = getResources().getStringArray(R.array.game_consoleBrand);
+                break;
+            case "耳機":
+                result = getResources().getStringArray(R.array.epBrand);
+                break;
+            // Set Model From Brand
+            case "Apple":
+                result = getResources().getStringArray(R.array.iPhone);
+                break;
+            case "LG":
+                result = getResources().getStringArray(R.array.LGPhone);
+                break;
+            case "Sony":
+                if(type.equals("智能手機")){
+                    result = getResources().getStringArray(R.array.sonyPhone);
+                }
+                else{
+                    result = getResources().getStringArray(R.array.sonyGame);
+                }
+                break;
+            case "HTC":
+                result = getResources().getStringArray(R.array.HTCPhone);
+                break;
+            case "Samsung":
+                result = getResources().getStringArray(R.array.SamsungPhone);
+                break;
+            default:
+                result = getResources().getStringArray(R.array.SamsungPhone);;
+                break;
+        }
+        return result;
     }
 }

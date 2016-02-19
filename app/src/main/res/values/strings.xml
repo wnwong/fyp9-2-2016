@@ -382,6 +382,26 @@
         <item>Huawei</item>
         <item>小米</item>
     </string-array>
+    <string-array name="tabletBrand">
+        <item>Apple</item>
+        <item>Samsung</item>
+        <item>Sony</item>
+    </string-array>
+    <string-array name="game_consoleBrand">
+        <item>Sony</item>
+        <item>Microsoft</item>
+        <item>Ninetendo</item>
+    </string-array>
+    <string-array name="cameraBrand">
+        <item>Canon</item>
+        <item>Nikon</item>
+        <item>Sony</item>
+    </string-array>
+    <string-array name="sonyGame">
+        <item>PS3</item>
+        <item>PS4</item>
+        <item>PSV</item>
+    </string-array>
     <string-array name="iPhone">
         <item>iPhone 5 16GB</item>
         <item>iPhone 5 32GB</item>
@@ -447,48 +467,109 @@
     </string-array>
     <string-array name="LGPhone">
         <item>NEXUS 5X</item>
-        <item>LG V10</item>
-        <item>LG G4 Beat</item>
-        <item>LG G4c</item>
-        <item>LG G4 Stylus</item>
-        <item>LG G4</item>
-        <item>LG G4 Dual-LTE</item>
-        <item>LG Spirit</item>
-        <item>LG AKA</item>
-        <item>LG G FLEX2</item>
-        <item>LG L Fino Dual </item>
-        <item>LG L Bello Dual</item>
-        <item>LG G3 Stylus</item>
-        <item>LG G3 Dual-LTE</item>
-        <item>LG G3 BEAT</item>
-        <item>LG G3</item>
+        <item> V10</item>
+        <item> G4 Beat</item>
+        <item> G4c</item>
+        <item> G4 Stylus</item>
+        <item> G4</item>
+        <item> G4 Dual-LTE</item>
+        <item> Spirit</item>
+        <item> AKA</item>
+        <item> G FLEX2</item>
+        <item> L Fino Dual </item>
+        <item> L Bello Dual</item>
+        <item> G3 Stylus</item>
+        <item> G3 Dual-LTE</item>
+        <item> G3 BEAT</item>
+        <item> G3</item>
         <item>G2 Mini</item>
         <item>L70</item>
         <item>L90 Dual</item>
         <item>G Pro 2</item>
         <item>G Flex</item>
         <item>G Pro Lite</item>
-        <item>LG G2</item>
+        <item> G2</item>
         <item>Nexus 5</item>
         <item>Optimus G Pro</item>
-        <item>LG OPTIMUS F5</item>
+        <item> OPTIMUS F5</item>
         <item>Optimus L3II Dual</item>
-        <item>LG Optimus L5 II</item>
-        <item>LG Optimus L7 II Dual</item>
+        <item> Optimus L5 II</item>
+        <item> Optimus L7 II Dual</item>
         <item>Optimus G</item>
         <item>Nexus 4</item>
         <item>Optimus L9</item>
-        <item>LG Optimus Vu</item>
+        <item> Optimus Vu</item>
         <item>Optimus 4X HD</item>
         <item>Optimus L3</item>
         <item>Optimus L5</item>
         <item>Optimus L7</item>
-        <item>LG Optimus 3D Max</item>
-        <item>Optimus True HD LTE</item>
-        <item>LG Optimus HUB (E510)</item>
+        <item> Optimus 3D Max</item>
+        <item> Optimus True HD LTE</item>
+        <item> Optimus HUB (E510)</item>
     </string-array>
-    <string-array name="Samsung"></string-array>
-    <string-array name="HTCPhone"></string-array>
+    <string-array name="SamsungPhone">
+        <item>Galaxy S</item>
+        <item>Galaxy S II</item>
+        <item>Galaxy S III</item>
+        <item>Galaxy S III Mini</item>
+        <item>Galaxy S4</item>
+        <item>Galaxy S4 Active</item>
+        <item>Galaxy S4 Mini</item>
+        <item>Galaxy S4 Zoom</item>
+        <item>Galaxy S5</item>
+        <item>Galaxy S5 Active</item>
+        <item>Galaxy S5 Plus</item>
+        <item>Galaxy S5 Mini</item>
+        <item>Galaxy S6</item>
+        <item>Galaxy S6 Edge</item>
+        <item>Galaxy S6 Active</item>
+        <item>Galaxy S6 Edge+</item>
+        <item>Galaxy Note</item>
+        <item>Galaxy Note II</item>
+        <item>Galaxy Note 3</item>
+        <item>Galaxy Note 3 Neo</item>
+        <item>Galaxy Note 4</item>
+        <item>Galaxy Note Edge</item>
+        <item>Galaxy Note 5</item>
+        <item>Galaxy A3</item>
+        <item>Galaxy A3</item>
+        <item>Galaxy A5</item>
+        <item>Galaxy A5</item>
+        <item>Galaxy A7</item>
+        <item>Galaxy A7</item>
+        <item>Galaxy A8</item>
+        <item>Galaxy A9</item>
+    </string-array>
+    <string-array name="HTCPhone">
+        <item> One A9</item>
+        <item> One M9+</item>
+        <item> One E9 dual sim</item>
+        <item> One ME dual sim</item>
+        <item> One M9</item>
+        <item> One E9+ dual sim</item>
+        <item> One (M8)</item>
+        <item> One (E8)</item>
+        <item> One max</item>
+        <item> One mini </item>
+        <item> New HTC One</item>
+        <item> Butterfly 2</item>
+        <item> Butterfly s</item>
+        <item> Desire EYE</item>
+        <item> Desire 728 dual sim</item>
+        <item> Desire 826 dual sim</item>
+        <item> Desire 820 dual sim</item>
+        <item> Desire 820s dual sim</item>
+        <item> Desire 816G dual sim</item>
+        <item> Desire 816</item>
+        <item> Desire 620 dual sim</item>
+        <item> Desire 616</item>
+        <item> Desire 610</item>
+        <item> Desire 310 dual sim</item>
+        <item> Desire 700 dual sim</item>
+        <item> Desire 600 Dual Sim</item>
+        <item> One SV</item>
+        <item> Desire X</item>
+    </string-array>
     <string-array name="AsusPhone"></string-array>
     <!-- **************************************************All Product List******************************************************************-->
 </resources>
