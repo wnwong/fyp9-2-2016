@@ -65,7 +65,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     PagerAdapter mPagerAdapter;
     RealmGadget gadget;
     List<String> images = new ArrayList<>();
-    String image, image1, seller_location, buyer_time, buyer_date, buyer_location, time, date, seller;
+    String image, image1, seller_location, buyer_time, buyer_date, buyer_location, time, date, seller, product;
     int product_id;
     TextView tvDate, tvTime, tvLocation, tvPrice;
     Spinner locationSpinner;
@@ -91,6 +91,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         refreshLocalStore = new RefreshLocalStore(this);
         QueryCamera query = new QueryCamera(this);
         gadget = query.retrieveGadgetById(product_id);
+        product = gadget.getBrand()+" "+gadget.getModel();
         seller = gadget.getSeller();
         if (gadget != null) {
             image = gadget.getImage();
@@ -327,7 +328,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         notificationIntent.putExtra("time", time);
         notificationIntent.putExtra("date", date);
         notificationIntent.putExtra("location", buyer_location);
-        notificationIntent.putExtra("product", gadget.getBrand()+" "+gadget.getModel());
+        notificationIntent.putExtra("product",product);
 
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         try{
@@ -338,6 +339,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         Calendar cal = Calendar.getInstance();
  //       cal.add(Calendar.SECOND, 30);
         cal.setTime(mDate);
+        Log.i(TAG, mDate.toString());
  //       cal.set(mDate.getYear(), mDate.getMonth(), mDate.getDay());
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
     }
@@ -347,8 +349,10 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         protected Void doInBackground(Void... params) {
             Uri.Builder builder = new Uri.Builder()
                     .appendQueryParameter("seller", seller)
-                    .appendQueryParameter("time", buyer_time)
+                    .appendQueryParameter("time", time)
                     .appendQueryParameter("date", buyer_date)
+                    .appendQueryParameter("notiDate", date)
+                    .appendQueryParameter("product", product)
                     .appendQueryParameter("location", buyer_location);
             Log.i(TAG, seller);
             String query = builder.build().getEncodedQuery();
@@ -402,6 +406,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
+                Log.i(TAG, line);
             }
             json = sb.toString();
         } catch (Exception e) {

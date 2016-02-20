@@ -120,7 +120,7 @@
                 <category android:name="com.example.user.secondhandtradingplatform" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.pushbots.push.DefaultPushHandler" />
+        <receiver android:name="com.example.user.secondhandtradingplatform.customHandler" />
         <service android:name="com.pushbots.push.GCMIntentService" />
     </application>
 
