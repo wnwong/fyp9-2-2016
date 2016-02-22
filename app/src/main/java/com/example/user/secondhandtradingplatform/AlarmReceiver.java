@@ -20,7 +20,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     String seller, product, time, date, location;
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent notificationIntent = new Intent(context, Main.class);
+        Intent notificationIntent = new Intent(context, UserProfile.class);
         seller = intent.getStringExtra("seller");
         product = intent.getStringExtra("product");
         time = intent.getStringExtra("time");

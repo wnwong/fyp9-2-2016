@@ -3,56 +3,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-android:orientation="vertical"
+    android:divider="?android:dividerHorizontal"
     android:fillViewport="false"
+    android:orientation="vertical"
+    android:showDividers="middle"
     tools:context="com.example.user.secondhandtradingplatform.TradeFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="?android:dividerVertical"
+        android:dividerPadding="8dp"
+        android:orientation="horizontal"
         android:paddingTop="60dp"
-        android:orientation="horizontal">
+        android:showDividers="middle">
 
         <Button
+            android:id="@+id/cancelBtn"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cancelBtn"
+            android:foreground="?android:selectableItemBackground"
             android:layout_weight="1"
-            android:background="#dfdada"
             android:text="取消"
             android:textStyle="bold" />
-
-        <View
-            android:id="@+id/ViewColorPickerHelper"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="?android:attr/dividerVertical" />
 
         <Button
             android:id="@+id/confirmBtn"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:selectableItemBackground"
             android:layout_weight="1"
-            android:background="#dfdada"
             android:text="確定"
             android:textStyle="bold" />
     </LinearLayout>
 
     <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-           >
+            android:orientation="vertical">
 
 
             <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
-                android:layout_height="150dp" />
+                android:layout_height="150dp"
+                android:paddingTop="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -205,7 +206,7 @@ android:orientation="vertical"
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/locationSpinner"
-                style="@style/Widget.AppCompat.Light.DropDownItem.Spinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"

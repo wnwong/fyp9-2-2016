@@ -26,6 +26,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.user.secondhandtradingplatform.CreatePost;
@@ -33,6 +34,7 @@ import com.example.user.secondhandtradingplatform.Login;
 import com.example.user.secondhandtradingplatform.R;
 import com.example.user.secondhandtradingplatform.Register;
 import com.example.user.secondhandtradingplatform.SearchResultActivity;
+import com.example.user.secondhandtradingplatform.UserProfile;
 import com.example.user.secondhandtradingplatform.customHandler;
 import com.pushbots.push.Pushbots;
 
@@ -62,6 +64,7 @@ public class Main extends AppCompatActivity
     RefreshLocalStore refreshLocalStore;
     UserLocalStore userLocalStore;
     ProgressDialog progressDialog;
+    ImageButton profilePic;
     //    TextView username, email;
     private Realm realm;
     private SearchView sv;
@@ -89,15 +92,16 @@ public class Main extends AppCompatActivity
             new getProductList().execute();
             refreshLocalStore.setRefreshStatus(false);
         }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
              /*   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                if(userLocalStore.getLoggedInUser()!=null){
+                if (userLocalStore.getLoggedInUser() != null) {
                     startActivity(new Intent(Main.this, CreatePost.class));
-                }else{
+                } else {
                     startActivity(new Intent(Main.this, Login.class));
                 }
             }
@@ -111,6 +115,13 @@ public class Main extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        profilePic = (ImageButton) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), UserProfile.class));
+            }
+        });
         PackageManager m = getPackageManager();
         String s = getPackageName();
         PackageInfo p = null;

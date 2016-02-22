@@ -348,6 +348,11 @@
     <string name="title_activity_search_result">搜尋結果</string>
     <string name="title_activity_trage_page">tragePage</string>
     <string name="title_activity_trade_">交易詳情</string>
+    <string name="title_activity_user_profile">個人帳戶資料</string>
+
+    <string name="title_fragment_personal_detail">用户資料</string>
+    <string name="title_fragment_trade_history">交易紀錄</string>
+    <string name="title_fragment_processing_trade">進行中的交易</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -571,5 +576,6 @@
         <item> Desire X</item>
     </string-array>
     <string-array name="AsusPhone"></string-array>
+
     <!-- **************************************************All Product List******************************************************************-->
 </resources>

@@ -10,14 +10,19 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- GCM connects to Google Services. -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- GCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <permission android:name="com.example.user.secondhandtradingplatform.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+
+    <permission
+        android:name="com.example.user.secondhandtradingplatform.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.example.user.secondhandtradingplatform.permission.C2D_MESSAGE" />
     <!-- This app has permission to register and receive dataf message. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
@@ -39,13 +44,17 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.user.secondhandtradingplatform.MESSAGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -75,8 +84,7 @@
         <activity
             android:name=".ProductInfo"
             android:label="@string/title_activity_product_info"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SearchResultActivity"
             android:label="@string/title_activity_search_result"
@@ -87,10 +95,6 @@
                 android:value="activity.Main" />
         </activity>
         <activity
-            android:name="com.example.u.Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="activity.tragePage"
             android:label="@string/title_activity_trage_page"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -98,30 +102,39 @@
             android:name=".Trade_Activity"
             android:label="@string/title_activity_trade_"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".CreatePost"
             android:label="@string/title_activity_create_post"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <receiver android:name=".AlarmReceiver">
             <intent-filter>
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
         <receiver
             android:name="com.pushbots.google.gcm.GCMBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
+
                 <!-- Receives the actual messages. -->
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <!-- Receives the registration id. -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.example.user.secondhandtradingplatform" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.example.user.secondhandtradingplatform.customHandler" />
+        <receiver android:name=".customHandler" />
+
         <service android:name="com.pushbots.push.GCMIntentService" />
+
+        <activity
+            android:name=".UserProfile"
+            android:label="@string/title_activity_user_profile"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
