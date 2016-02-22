@@ -25,8 +25,11 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import RealmModel.RealmGadget;
+import io.realm.Realm;
 import user.User;
 
 public class ServerRequests {
@@ -123,6 +126,53 @@ public class ServerRequests {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
             getPostCallback.done();
+        }
+    }
+
+    public void fetchTradeDataInBackground(GetTradeCallback getTradeCallback) {
+//        progressDialog.show();
+        new fetchTradeDataAsyncTask(getTradeCallback).execute();
+    }
+
+    public class fetchTradeDataAsyncTask extends AsyncTask<Void, Void, List<RealmGadget>> {
+        int pid, rating;
+        String buyer, buyer_location, trade_date, trade_time, availability;
+        GetTradeCallback getTradeCallback;
+        List<RealmGadget> gadgets = new ArrayList<>();
+        public fetchTradeDataAsyncTask(GetTradeCallback getTradeCallback) {
+         this.getTradeCallback = getTradeCallback;
+        }
+
+        @Override
+        protected List<RealmGadget> doInBackground(Void... params) {
+            String JSONResponse = getResponseFromServer("getTradeDetail", null);
+            Log.i(TAG, JSONResponse);
+            try {
+                JSONObject jObject = new JSONObject(JSONResponse);
+                String gadget = jObject.getString("gadgets");
+                JSONArray gadgetArray = new JSONArray(gadget);
+                for (int i = 0; i < gadgetArray.length(); i++) {
+                    JSONObject obj = gadgetArray.getJSONObject(i);
+                     pid = obj.getInt("product_id");
+                     rating = obj.getInt("rating");
+                     buyer = obj.getString("buyer");
+                     buyer_location = obj.getString("buyer_location");
+                     trade_date = obj.getString("trade_date");
+                     trade_time = obj.getString("trade_time");
+                     availability = obj.getString("availability");
+                    gadgets.add(new RealmGadget(pid, buyer, buyer_location, trade_date, trade_time, rating, availability));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return gadgets;
+        }
+
+        @Override
+        protected void onPostExecute(List<RealmGadget> realmGadgets) {
+            super.onPostExecute(realmGadgets);
+            getTradeCallback.done(realmGadgets);
+        //    progressDialog.dismiss();
         }
     }
 

@@ -56,6 +56,8 @@ import RealmQuery.QueryCamera;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import product.earphone;
+import server.GetTradeCallback;
+import server.ServerRequests;
 import user.RefreshLocalStore;
 import user.UserLocalStore;
 
@@ -65,6 +67,7 @@ public class Main extends AppCompatActivity
     UserLocalStore userLocalStore;
     ProgressDialog progressDialog;
     ImageButton profilePic;
+    ServerRequests serverRequests;
     //    TextView username, email;
     private Realm realm;
     private SearchView sv;
@@ -81,24 +84,18 @@ public class Main extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        //       username = (TextView) findViewById(R.id.tv);
-        //       email = (TextView) findViewById(R.id.textView);
         userLocalStore = new UserLocalStore(this);
         refreshLocalStore = new RefreshLocalStore(this);
         if (refreshLocalStore.getRefreshStatus() == true) {
             Log.i("Refresh", "Refreshing");
             showProgress();
-            new loadAllProducts().execute();
-            new getProductList().execute();
-            refreshLocalStore.setRefreshStatus(false);
+            refreshDB();
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             /*   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
                 if (userLocalStore.getLoggedInUser() != null) {
                     startActivity(new Intent(Main.this, CreatePost.class));
                 } else {
@@ -119,6 +116,27 @@ public class Main extends AppCompatActivity
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                serverRequests = new ServerRequests(getApplicationContext());
+                serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
+                    @Override
+                    public void done(List<RealmGadget> realmGadgets) {
+                        Realm realm = Realm.getInstance(getApplicationContext());
+                        for (int i = 0; i < realmGadgets.size(); i++) {
+                            RealmGadget currentGadget = realmGadgets.get(i);
+                            RealmGadget toEdit = realm.where(RealmGadget.class).equalTo("product_id", currentGadget.getProduct_id()).findFirst();
+                            realm.beginTransaction();
+                            toEdit.setAvailability(currentGadget.getAvailability());
+                            toEdit.setBuyer(currentGadget.getBuyer());
+                            toEdit.setBuyer_location(currentGadget.getBuyer_location());
+                            toEdit.setTrade_date(currentGadget.getTrade_date());
+                            toEdit.setTrade_time(currentGadget.getTrade_time());
+                            toEdit.setRating(currentGadget.getRating());
+                            realm.commitTransaction();
+                        }
+
+                    }
+                });
+
                 startActivity(new Intent(getApplicationContext(), UserProfile.class));
             }
         });
@@ -160,6 +178,7 @@ public class Main extends AppCompatActivity
             menu.findItem(R.id.nav_login).setTitle(getString(R.string.logout));
             menu.findItem(R.id.nav_register).setVisible(false);
             //Update nav_header
+            profilePic.setVisibility(View.VISIBLE);
             TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv);
             TextView email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
             username.setText(userLocalStore.getLoggedInUser().getUsername().toString());
@@ -226,7 +245,12 @@ public class Main extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_refresh) {
+            refreshLocalStore.setRefreshStatus(true);
+            showProgress();
+            realm = Realm.getInstance(this);
+            clearDB(realm);
+            refreshDB();
             return true;
         }
         if (id == R.id.action_search) {
@@ -342,8 +366,9 @@ public class Main extends AppCompatActivity
                     //Base64 encoded gadget image
                     String image = obj.getString("path");
                     String image1 = obj.getString("path1");
-  //                  Log.i(TAG, brand + " " + model + " " + seller_location);
-                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time_start, seller_time_end);
+                    String availability = obj.getString("availability");
+                    //                  Log.i(TAG, brand + " " + model + " " + seller_location);
+                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time_start, seller_time_end, availability);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -467,7 +492,8 @@ public class Main extends AppCompatActivity
 //        Log.i(TAG, rp.getBrand() + " " + rp.getModel());
     }
 
-    private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image, String image1, String seller_date, String seller_time_start, String seller_time_end) {
+    private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image,
+                                  String image1, String seller_date, String seller_time_start, String seller_time_end, String availability) {
         realm.beginTransaction();
         RealmGadget rc = realm.createObject(RealmGadget.class);
         rc.setProduct_id(pid);
@@ -485,13 +511,21 @@ public class Main extends AppCompatActivity
         rc.setSeller_date(seller_date);
         rc.setSeller_time_start(seller_time_start);
         rc.setSeller_time_end(seller_time_end);
+        rc.setAvailability(availability);
         realm.commitTransaction();
+    }
+
+    private void refreshDB() {
+        new loadAllProducts().execute();
+        new getProductList().execute();
+        refreshLocalStore.setRefreshStatus(false);
     }
 
     private void clearDB(Realm realm) {
         realm.beginTransaction();
-        realm.allObjects(earphone.class).clear();
-        realm.allObjects(RealmCamera.class).clear();
+        //       realm.allObjects(earphone.class).clear();
+        realm.allObjects(RealmProduct.class).clear();
+        realm.allObjects(RealmGadget.class).clear();
         //       realm.allObjects(RealmProduct.class).clear();
         realm.commitTransaction();
     }

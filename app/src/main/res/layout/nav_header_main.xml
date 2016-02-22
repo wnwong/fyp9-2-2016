@@ -19,7 +19,8 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:scaleType="fitCenter"
         android:foreground="?android:selectableItemBackground"
-        android:src="@drawable/ic_profile" />
+        android:src="@drawable/ic_profile"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/tv"

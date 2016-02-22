@@ -19,26 +19,20 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import java.util.List;
+
+import RealmModel.RealmGadget;
+import io.realm.Realm;
+import server.GetTradeCallback;
+import server.ServerRequests;
 import user.PersonalDetailsFragment;
 import user.ProcessingTradeFragment;
 import user.TradeHistoryFragment;
 
 public class UserProfile extends AppCompatActivity {
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
+    ServerRequests serverRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +51,26 @@ public class UserProfile extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+         serverRequests = new ServerRequests(this);
+        serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
+            @Override
+            public void done(List<RealmGadget> realmGadgets) {
+                Realm realm = Realm.getInstance(getApplicationContext());
+                for (int i = 0; i < realmGadgets.size(); i++) {
+                    RealmGadget currentGadget = realmGadgets.get(i);
+                    RealmGadget toEdit = realm.where(RealmGadget.class).equalTo("product_id", currentGadget.getProduct_id()).findFirst();
+                    realm.beginTransaction();
+                    toEdit.setAvailability(currentGadget.getAvailability());
+                    toEdit.setBuyer(currentGadget.getBuyer());
+                    toEdit.setBuyer_location(currentGadget.getBuyer_location());
+                    toEdit.setTrade_date(currentGadget.getTrade_date());
+                    toEdit.setTrade_time(currentGadget.getTrade_time());
+                    toEdit.setRating(currentGadget.getRating());
+                    realm.commitTransaction();
+                }
 
+            }
+        });
 
     }
 

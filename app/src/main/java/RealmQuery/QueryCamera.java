@@ -72,6 +72,14 @@ public class QueryCamera   {
         System.out.println("realmCameras.count()" + realmCameras.count());
         return realmCameras;
     }
+    public RealmResults<RealmGadget> retrieveCompletedGadgetBySeller(String seller){
+        RealmResults<RealmGadget> realmGadgets = realm.where(RealmGadget.class).beginGroup().equalTo("seller", seller).equalTo("availability", "已出售").or().equalTo("availability", "放售中").endGroup().findAll();
+        return realmGadgets;
+    }
+    public RealmResults<RealmGadget> retrieveProcessingGadgetBySeller(String seller){
+        RealmResults<RealmGadget> realmGadgets = realm.where(RealmGadget.class).beginGroup().equalTo("seller", seller).equalTo("availability", "已被預訂").endGroup().findAll();
+        return realmGadgets;
+    }
     public RealmResults<RealmProduct> retrieveProductsByType(String type)
     {
         RealmResults<RealmProduct> realmProducts = realm.where(RealmProduct.class).equalTo("type", type, Case.INSENSITIVE).findAll();

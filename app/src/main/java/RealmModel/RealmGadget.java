@@ -2,8 +2,10 @@ package RealmModel;
 
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class RealmGadget extends RealmObject {
+    @PrimaryKey
     private int product_id;
     private String brand;
     private String model;
@@ -19,6 +21,75 @@ public class RealmGadget extends RealmObject {
     private String seller_date;
     private String seller_time_start;
     private String seller_time_end;
+    private String availability;
+    private String buyer;
+    private String buyer_location;
+    private String trade_date;
+    private String trade_time;
+    private int rating;
+
+    public RealmGadget(){
+        //default constructor
+    }
+
+    public RealmGadget(int product_id, String buyer, String buyer_location, String trade_date, String trade_time, int rating, String availability) {
+        this.product_id = product_id;
+        this.buyer = buyer;
+        this.buyer_location = buyer_location;
+        this.trade_date = trade_date;
+        this.trade_time = trade_time;
+        this.rating = rating;
+        this.availability = availability;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public String getBuyer_location() {
+        return buyer_location;
+    }
+
+    public void setBuyer_location(String buyer_location) {
+        this.buyer_location = buyer_location;
+    }
+
+    public String getTrade_time() {
+        return trade_time;
+    }
+
+    public void setTrade_time(String trade_time) {
+        this.trade_time = trade_time;
+    }
+
+    public void setRating(int rating) {
+
+        this.rating = rating;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
+    }
+
+    public String getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
+    }
+
+    public String getTrade_date() {
+        return trade_date;
+    }
+
+    public void setTrade_date(String trade_date) {
+        this.trade_date = trade_date;
+    }
 
     public String getSeller_date() {
         return seller_date;
