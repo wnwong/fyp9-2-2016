@@ -55,20 +55,20 @@ public class ServerRequests {
     }
 
     public void storeTradeDataInBackground(String type, String brand, String model, String warranty, String color, String scratch, String price, String timeStart,
-                                           String timeEnd, Bitmap image1, Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback) {
+                                           String timeEnd, Bitmap image1, Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback, String seller_phone) {
         progressDialog.show();
         new storeTradeDataAsyncTask(type, brand, model, warranty, color, scratch, price, timeStart,
-                timeEnd, image1, image2, seller_location, datePattern, seller, getPostCallback).execute();
+                timeEnd, image1, image2, seller_location, datePattern, seller, getPostCallback, seller_phone).execute();
     }
 
     public class storeTradeDataAsyncTask extends AsyncTask<Void, Void, Void> {
         private String type, brand, model, warranty, price, color, scratch, timeStart,
-                timeEnd, seller_location, datePattern, seller;
+                timeEnd, seller_location, datePattern, seller, seller_phone;
         private Bitmap image1, image2;
         GetPostCallback getPostCallback;
 
         public storeTradeDataAsyncTask(String type, String brand, String model, String warranty, String color, String scratch, String price, String timeStart, String timeEnd, Bitmap image1,
-                                       Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback) {
+                                       Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback, String seller_phone) {
             this.type = type;
             this.brand = brand;
             this.model = model;
@@ -84,6 +84,7 @@ public class ServerRequests {
             this.datePattern = datePattern;
             this.seller = seller;
             this.getPostCallback = getPostCallback;
+            this.seller_phone = seller_phone;
         }
 
         @Override
@@ -114,6 +115,7 @@ public class ServerRequests {
                     .appendQueryParameter("datePattern", datePattern)
                     .appendQueryParameter("seller", seller)
                     .appendQueryParameter("seller_location", seller_location)
+                    .appendQueryParameter("seller_phone", seller_phone)
                     .appendQueryParameter("availability", "放售中");
             String query = builder.build().getEncodedQuery();
             Log.i(TAG, "query:" + query);
@@ -136,11 +138,12 @@ public class ServerRequests {
 
     public class fetchTradeDataAsyncTask extends AsyncTask<Void, Void, List<RealmGadget>> {
         int pid, rating;
-        String buyer, buyer_location, trade_date, trade_time, availability;
+        String buyer, buyer_location, trade_date, trade_time, availability,seller_phone, buyer_phone;
         GetTradeCallback getTradeCallback;
         List<RealmGadget> gadgets = new ArrayList<>();
+
         public fetchTradeDataAsyncTask(GetTradeCallback getTradeCallback) {
-         this.getTradeCallback = getTradeCallback;
+            this.getTradeCallback = getTradeCallback;
         }
 
         @Override
@@ -153,14 +156,16 @@ public class ServerRequests {
                 JSONArray gadgetArray = new JSONArray(gadget);
                 for (int i = 0; i < gadgetArray.length(); i++) {
                     JSONObject obj = gadgetArray.getJSONObject(i);
-                     pid = obj.getInt("product_id");
-                     rating = obj.getInt("rating");
-                     buyer = obj.getString("buyer");
-                     buyer_location = obj.getString("buyer_location");
-                     trade_date = obj.getString("trade_date");
-                     trade_time = obj.getString("trade_time");
-                     availability = obj.getString("availability");
-                    gadgets.add(new RealmGadget(pid, buyer, buyer_location, trade_date, trade_time, rating, availability));
+                    pid = obj.getInt("product_id");
+                    rating = obj.getInt("rating");
+                    buyer = obj.getString("buyer");
+                    buyer_location = obj.getString("buyer_location");
+                    trade_date = obj.getString("trade_date");
+                    trade_time = obj.getString("trade_time");
+                    availability = obj.getString("availability");
+                    seller_phone = obj.getString("seller_phone");
+                    buyer_phone = obj.getString("buyer_phone");
+                    gadgets.add(new RealmGadget(pid, buyer, buyer_location, trade_date, trade_time, rating, availability, seller_phone, buyer_phone));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -172,7 +177,7 @@ public class ServerRequests {
         protected void onPostExecute(List<RealmGadget> realmGadgets) {
             super.onPostExecute(realmGadgets);
             getTradeCallback.done(realmGadgets);
-        //    progressDialog.dismiss();
+            //    progressDialog.dismiss();
         }
     }
 
@@ -196,9 +201,6 @@ public class ServerRequests {
             dataToSend.put("location", user.getLocation());
             dataToSend.put("gender", user.getGender());
 
-            //Encoded String
-            String encodedStr = getEncodedData(dataToSend);
-
             try {
                 //Conerting address String to URL
                 URL url = new URL(SERVER_ADDRESS + "test.php");
@@ -215,7 +217,8 @@ public class ServerRequests {
                         .appendQueryParameter("password", user.getPassword())
                         .appendQueryParameter("email", user.getEmail())
                         .appendQueryParameter("location", user.getLocation())
-                        .appendQueryParameter("gender", user.getGender());
+                        .appendQueryParameter("gender", user.getGender())
+                        .appendQueryParameter("phone", user.getPhone());
                 String query = builder.build().getEncodedQuery();
 
                 OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
@@ -310,9 +313,10 @@ public class ServerRequests {
                     location = jObject.getString("location");
                     gender = jObject.getString("gender");
                     int user_id = jObject.getInt("user_id");
+                    String phone = jObject.getString("phone");
                     Log.i("custom_check", "the parsed JSON info are as follows:");
                     Log.i("custom_check", user_id + " " + email + " " + location + " " + gender);
-                    returnedUser = new User(user_id, user.getUsername(), user.getPassword(), email, location, gender);
+                    returnedUser = new User(user_id, user.getUsername(), user.getPassword(), email, location, gender, phone);
                     reader.close();
                 }
             } catch (Exception e) {

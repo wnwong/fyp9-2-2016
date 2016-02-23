@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import RealmModel.RealmGadget;
-import io.realm.Realm;
-import server.GetTradeCallback;
-import server.ServerRequests;
 
 
 public class TradeHistoryAdapter extends RecyclerView.Adapter<TradeHistoryAdapter.TradeHistoryViewHolder> {
@@ -43,7 +40,6 @@ public class TradeHistoryAdapter extends RecyclerView.Adapter<TradeHistoryAdapte
         holder.tradeDate.setText(realmGadget.getTrade_date());
         holder.sellingPrice.setText("HKS$" + realmGadget.getPrice());
         holder.buyer.setText(realmGadget.getBuyer());
-        holder.tradeDate.setText(realmGadget.getTrade_date());
         Picasso.with(context).load(IMAGE_ADDRESS + realmGadget.getImage()).fit().into(holder.productPhoto);
         holder.rating.setRating(realmGadget.getRating());
     }

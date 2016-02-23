@@ -66,6 +66,8 @@ public class UserProfile extends AppCompatActivity {
                     toEdit.setTrade_date(currentGadget.getTrade_date());
                     toEdit.setTrade_time(currentGadget.getTrade_time());
                     toEdit.setRating(currentGadget.getRating());
+                    toEdit.setSeller_phone(currentGadget.getSeller_phone());
+                    toEdit.setBuyer_phone(currentGadget.getBuyer_phone());
                     realm.commitTransaction();
                 }
 

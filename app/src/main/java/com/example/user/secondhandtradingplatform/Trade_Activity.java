@@ -369,6 +369,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
                     .appendQueryParameter("c_location", buyer_location)
                     .appendQueryParameter("product_id", String.valueOf(product_id))
                     .appendQueryParameter("availability", "已被預訂")
+                    .appendQueryParameter("buyer_phone", userLocalStore.getLoggedInUser().getPhone())
                     .appendQueryParameter("buyer", (userLocalStore.getLoggedInUser().getUsername()));
             String query = builder.build().getEncodedQuery();
             getResponseFromServer("tradeDetail", query);

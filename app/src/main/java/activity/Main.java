@@ -183,6 +183,8 @@ public class Main extends AppCompatActivity
             TextView email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
             username.setText(userLocalStore.getLoggedInUser().getUsername().toString());
             email.setText(userLocalStore.getLoggedInUser().getEmail().toString());
+        }else{
+            profilePic.setVisibility(View.INVISIBLE);
         }
         switchDefaultFragment();
         if (sv != null) {

@@ -26,7 +26,7 @@ import user.User;
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
     Button reg;
-    EditText uname, pwd, email, location;
+    EditText uname, pwd, email, location, phone;
     RadioButton male,female;
     RadioGroup rgroup;
     String gender;
@@ -47,6 +47,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         male = (RadioButton) findViewById(R.id.mButton);
         female = (RadioButton) findViewById(R.id.fButton);
         rgroup = (RadioGroup) findViewById(R.id.rgroup);
+        phone = (EditText) findViewById(R.id.r_phone);
 
         reg.setOnClickListener(this);
         male.setOnClickListener(this);
@@ -62,11 +63,11 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 String rPassword = pwd.getText().toString();
                 String rEmail = email.getText().toString();
                 String rLocation = location.getText().toString();
-
+                String uphone = phone.getText().toString();
                 if(isConnected(this) == true){
                     Toast.makeText(getApplicationContext(), "You have connected to the Internet!", Toast.LENGTH_SHORT).show();
                 }
-                User user = new User(rUsername, rPassword, rEmail, rLocation, gender);
+                User user = new User(rUsername, rPassword, rEmail, rLocation, gender, uphone);
                 registerUser(user);
                 break;
         }

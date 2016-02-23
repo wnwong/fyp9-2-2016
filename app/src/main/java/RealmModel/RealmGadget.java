@@ -26,13 +26,32 @@ public class RealmGadget extends RealmObject {
     private String buyer_location;
     private String trade_date;
     private String trade_time;
+    private String seller_phone;
+    private String buyer_phone;
+
+    public String getSeller_phone() {
+        return seller_phone;
+    }
+
+    public void setSeller_phone(String seller_phone) {
+        this.seller_phone = seller_phone;
+    }
+
+    public String getBuyer_phone() {
+        return buyer_phone;
+    }
+
+    public void setBuyer_phone(String buyer_phone) {
+        this.buyer_phone = buyer_phone;
+    }
+
     private int rating;
 
     public RealmGadget(){
         //default constructor
     }
 
-    public RealmGadget(int product_id, String buyer, String buyer_location, String trade_date, String trade_time, int rating, String availability) {
+    public RealmGadget(int product_id, String buyer, String buyer_location, String trade_date, String trade_time, int rating, String availability, String seller_phone, String buyer_phone) {
         this.product_id = product_id;
         this.buyer = buyer;
         this.buyer_location = buyer_location;
@@ -40,6 +59,8 @@ public class RealmGadget extends RealmObject {
         this.trade_time = trade_time;
         this.rating = rating;
         this.availability = availability;
+        this.seller_phone = seller_phone;
+        this.buyer_phone = buyer_phone;
     }
 
     public int getRating() {

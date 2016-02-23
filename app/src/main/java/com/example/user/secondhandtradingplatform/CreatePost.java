@@ -231,7 +231,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                                successMessage();
                                finish();
                            }
-                       });
+                       }, userLocalStore.getLoggedInUser().getPhone());
                 return true;
 
             default:

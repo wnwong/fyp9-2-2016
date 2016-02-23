@@ -17,6 +17,7 @@ import java.util.List;
 
 import RealmModel.RealmGadget;
 import RealmQuery.QueryCamera;
+import adapter.ProcessingTradeAdapter;
 import adapter.TradeHistoryAdapter;
 
 /**
@@ -46,7 +47,7 @@ public class TradeHistoryFragment extends Fragment {
         rv.setLayoutManager(llm);
         QueryCamera queryCamera = new QueryCamera(getContext());
         realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
-        TradeHistoryAdapter adapter = new TradeHistoryAdapter(realmGadgets, getContext());
+       TradeHistoryAdapter adapter = new TradeHistoryAdapter(realmGadgets, getContext());
         rv.setAdapter(adapter);
     }
 
