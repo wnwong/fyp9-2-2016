@@ -65,6 +65,16 @@
                 android:layout_toRightOf="@+id/place"
                 android:text="觀塘綫" />
 
+            <TextView
+                android:id="@+id/availability"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="16dp"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="16sp"
+                android:textStyle="bold|italic" />
+
             <Button
                 android:id="@+id/tradeBtn"
                 style="?android:attr/borderlessButtonStyle"

@@ -74,5 +74,15 @@
         android:textColor="@color/icons"
         android:textSize="20sp" />
 
+    <Button
+        android:id="@+id/register"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="還未有帳號？立刻按此註冊！"
+        android:textColor="@color/icons" />
+
 
 </LinearLayout>

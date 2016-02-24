@@ -23,7 +23,7 @@ import user.UserLocalStore;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
-    Button login;
+    Button login, register;
     EditText uname, pwd;
     UserLocalStore userLocalStore;
 
@@ -47,8 +47,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         uname = (EditText) findViewById(R.id.input_uname);
         pwd = (EditText) findViewById(R.id.input_pwd);
         login = (Button) findViewById(R.id.login_Button);
+        register = (Button) findViewById(R.id.register);
 
         login.setOnClickListener(this);
+        register.setOnClickListener(this);
 
         userLocalStore = new UserLocalStore(this);
     }
@@ -77,6 +79,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 // Check if username and password are correct
                 authenticate(user);
             //    Snackbar.make(v, "You are now logged in !", Snackbar.LENGTH_SHORT).show();
+                break;
+            case R.id.register:
+                startActivity(new Intent(this, Register.class));
+                finish();
+                break;
         }
     }
 

@@ -154,9 +154,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/availability"
                     android:padding="8dp"
-                    android:text=" 確認交易"
+                    android:text="按此確認交易"
+                    android:textSize="16sp"
                     android:foreground="?android:selectableItemBackground"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/cardPrice"
                     android:textStyle="bold" />
 
             </RelativeLayout>

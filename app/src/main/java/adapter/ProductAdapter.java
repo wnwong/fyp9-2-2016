@@ -91,17 +91,31 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 pHolder.sellerName.setText(gadget.getSeller());
                 pHolder.sellingPrice.setText("HK$" + gadget.getPrice());
                 pHolder.tradePlace.setText(gadget.getSeller_location());
+                pHolder.availability.setText(gadget.getAvailability());
+
+                if (gadget.getAvailability().equals("放售中")){
+                    pHolder.availability.setTextColor(Color.parseColor("#FFE4DA23"));
+                }else if(gadget.getAvailability().equals("已被預訂")){
+                    pHolder.availability.setTextColor(Color.parseColor("#FF16E42E"));
+                    //Hide Trade Button
+                    pHolder.tradeBtn.setVisibility(View.GONE);
+                    pHolder.tradePlace.setPadding(0,0,0,8);
+                }else{
+                    pHolder.tradeBtn.setVisibility(View.GONE);
+                    pHolder.tradePlace.setPadding(0,0,0,8);
+                }
+
                 Picasso.with(context).load(IMAGE_ADDRESS + gadget.getImage()).fit().into(pHolder.productPhoto);
                 pHolder.tradeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         userLocalStore = new UserLocalStore(context);
                         Message message = new Message();
-                        if(userLocalStore.getLoggedInUser()!=null){
+                        if (userLocalStore.getLoggedInUser() != null) {
                             message.obj = new Integer(gadget.getProduct_id());
                             message.what = 1;
                             ProductInfo.mHandler.sendMessage(message);
-                        }else{
+                        } else {
                             message.what = 2;
                             message.obj = null;
                             ProductInfo.mHandler.sendMessage(message);
@@ -139,7 +153,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public class PostViewHolder extends ProductViewHolder {
-        TextView sellerName, sellingPrice, tradePlace;
+        TextView sellerName, sellingPrice, tradePlace, availability;
         ImageView productPhoto;
         Button tradeBtn;
 
@@ -150,6 +164,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             sellingPrice = (TextView) itemView.findViewById(R.id.sellingPrice);
             tradePlace = (TextView) itemView.findViewById(R.id.tradePlace);
             tradeBtn = (Button) itemView.findViewById(R.id.tradeBtn);
+            availability = (TextView) itemView.findViewById(R.id.availability);
         }
     }
 
