@@ -14,6 +14,8 @@ import com.example.user.secondhandtradingplatform.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.os.Handler;
+import android.os.Message;
 
 import RealmModel.RealmGadget;
 import RealmQuery.QueryCamera;
@@ -28,6 +30,7 @@ public class TradeHistoryFragment extends Fragment {
     UserLocalStore userLocalStore;
     TextView tv;
     RecyclerView rv;
+    public static Handler mHandler;
 
     public TradeHistoryFragment() {
         // Required empty public constructor
@@ -45,10 +48,22 @@ public class TradeHistoryFragment extends Fragment {
         //use a linear layout manager
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
-        QueryCamera queryCamera = new QueryCamera(getContext());
-        realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
-       TradeHistoryAdapter adapter = new TradeHistoryAdapter(realmGadgets, getContext());
-        rv.setAdapter(adapter);
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch(msg.what){
+                    case 1:
+                        QueryCamera queryCamera = new QueryCamera(getContext());
+                        realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
+                        TradeHistoryAdapter adapter = new TradeHistoryAdapter(realmGadgets, getContext());
+                        rv.setAdapter(adapter);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+
     }
 
     @Override

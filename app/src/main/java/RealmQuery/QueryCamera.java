@@ -73,11 +73,11 @@ public class QueryCamera   {
         return realmCameras;
     }
     public RealmResults<RealmGadget> retrieveCompletedGadgetBySeller(String seller){
-        RealmResults<RealmGadget> realmGadgets = realm.where(RealmGadget.class).beginGroup().equalTo("seller", seller).equalTo("availability", "已出售").endGroup().findAll();
+        RealmResults<RealmGadget> realmGadgets = realm.where(RealmGadget.class).beginGroup().equalTo("seller", seller).or().equalTo("buyer", seller).endGroup().equalTo("availability", "已出售").findAll();
         return realmGadgets;
     }
     public RealmResults<RealmGadget> retrieveProcessingGadgetBySeller(String seller){
-        RealmResults<RealmGadget> realmGadgets = realm.where(RealmGadget.class).beginGroup().equalTo("seller", seller).equalTo("availability", "已被預訂").or().equalTo("availability", "放售中").endGroup().findAll();
+        RealmResults<RealmGadget> realmGadgets = realm.where(RealmGadget.class).beginGroup().equalTo("seller", seller).or().equalTo("buyer", seller).endGroup().beginGroup().equalTo("availability", "已被預訂").or().equalTo("availability", "放售中").endGroup().findAll();
         return realmGadgets;
     }
     public RealmResults<RealmProduct> retrieveProductsByType(String type)

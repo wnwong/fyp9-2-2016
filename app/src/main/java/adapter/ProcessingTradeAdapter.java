@@ -43,7 +43,12 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
         holder.product.setText(realmGadget.getBrand() + " " + realmGadget.getModel());
         holder.tradeDate.setText(realmGadget.getTrade_date());
         holder.sellingPrice.setText("HKS$" + realmGadget.getPrice());
-        holder.buyer.setText(realmGadget.getBuyer());
+        if(realmGadget.getSeller().equals(userLocalStore.getLoggedInUser().getUsername())){
+            holder.buyer.setText(realmGadget.getBuyer());
+        }else{
+            holder.buyer.setText(realmGadget.getSeller());
+        }
+
         holder.tradeDate.setText(realmGadget.getTrade_date());
         Picasso.with(context).load(IMAGE_ADDRESS + realmGadget.getImage()).fit().into(holder.productPhoto);
        holder.tradeLocation.setText(realmGadget.getBuyer_location());
@@ -55,6 +60,14 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
         holder.availability.setText(realmGadget.getAvailability());
         if(realmGadget.getAvailability().equals("放售中")){
             holder.availability.setTextColor(Color.parseColor("#FFE4DA23"));
+            holder.place.setVisibility(View.INVISIBLE);
+            holder.date.setVisibility(View.INVISIBLE);
+            holder.person.setVisibility(View.INVISIBLE);
+            holder.phone.setVisibility(View.INVISIBLE);
+            holder.tradeDate.setVisibility(View.INVISIBLE);
+            holder.tradeLocation.setVisibility(View.INVISIBLE);
+            holder.sellerPhone.setVisibility(View.INVISIBLE);
+            holder.buyer.setVisibility(View.INVISIBLE);
         }else{
             holder.availability.setTextColor(Color.parseColor("#FF16E42E"));
         }
@@ -67,7 +80,7 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
 
     public static class ProcessingTradeViewHolder extends RecyclerView.ViewHolder {
         TextView sellingPrice, product, tradeDate, buyer, tradeLocation, sellerPhone, availability;
-        ImageView productPhoto;
+        ImageView productPhoto, place, date, person, phone;
         ProcessingTradeViewHolder(View itemView) {
             super(itemView);
             productPhoto = (ImageView) itemView.findViewById(R.id.product_photo);
@@ -78,6 +91,10 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
             tradeLocation = (TextView) itemView.findViewById(R.id.tradeLocation);
             sellerPhone = (TextView) itemView.findViewById(R.id.sellerPhone);
             availability = (TextView) itemView.findViewById(R.id.availability);
+            place = (ImageView) itemView.findViewById(R.id.place);
+            date = (ImageView) itemView.findViewById(R.id.date);
+            person = (ImageView) itemView.findViewById(R.id.person);
+            phone = (ImageView) itemView.findViewById(R.id.phone);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.user.secondhandtradingplatform;
 
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import RealmModel.RealmGadget;
+import adapter.TradeHistoryAdapter;
 import io.realm.Realm;
 import server.GetTradeCallback;
 import server.ServerRequests;
@@ -70,7 +72,12 @@ public class UserProfile extends AppCompatActivity {
                     toEdit.setBuyer_phone(currentGadget.getBuyer_phone());
                     realm.commitTransaction();
                 }
-
+                Message message = new Message();
+                message.what = 1;
+                Message message1 = new Message();
+                message1.what = 1;
+                TradeHistoryFragment.mHandler.sendMessage(message);
+                ProcessingTradeFragment.mHandler.sendMessage(message1);
             }
         });
 
@@ -148,17 +155,18 @@ public class UserProfile extends AppCompatActivity {
         public Fragment getItem(int position) {
             if (position == 0) {
                 return new TradeHistoryFragment();
-            } else if (position == 1) {
-                return new ProcessingTradeFragment();
             } else {
-                return new PersonalDetailsFragment();
+                return new ProcessingTradeFragment();
             }
+            /*else {
+                return new PersonalDetailsFragment();
+            }*/
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
@@ -168,8 +176,8 @@ public class UserProfile extends AppCompatActivity {
                     return getString(R.string.title_fragment_trade_history);
                 case 1:
                     return getString(R.string.title_fragment_processing_trade);
-                case 2:
-                    return getString(R.string.title_fragment_personal_detail);
+              /*  case 2:
+                    return getString(R.string.title_fragment_personal_detail);*/
             }
             return null;
         }

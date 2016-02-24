@@ -2,6 +2,8 @@ package user;
 
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +29,7 @@ public class ProcessingTradeFragment extends Fragment {
     UserLocalStore userLocalStore;
     TextView tv;
     RecyclerView rv;
+    public static Handler mHandler;
 
     public ProcessingTradeFragment() {
         // Required empty public constructor
@@ -44,10 +47,23 @@ public class ProcessingTradeFragment extends Fragment {
         //use a linear layout manager
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
-        QueryCamera queryCamera = new QueryCamera(getContext());
-        realmGadgets = queryCamera.retrieveProcessingGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
-        ProcessingTradeAdapter adapter = new ProcessingTradeAdapter(realmGadgets, getContext());
-        rv.setAdapter(adapter);
+
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+               switch (msg.what){
+                   case 1:
+                       QueryCamera queryCamera = new QueryCamera(getContext());
+                       realmGadgets = queryCamera.retrieveProcessingGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
+                       ProcessingTradeAdapter adapter = new ProcessingTradeAdapter(realmGadgets, getContext());
+                       rv.setAdapter(adapter);
+                       break;
+                   default:
+                       break;
+               }
+            }
+        };
+
     }
 
     @Override
