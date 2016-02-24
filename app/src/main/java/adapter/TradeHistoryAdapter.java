@@ -42,6 +42,7 @@ public class TradeHistoryAdapter extends RecyclerView.Adapter<TradeHistoryAdapte
         holder.buyer.setText(realmGadget.getBuyer());
         Picasso.with(context).load(IMAGE_ADDRESS + realmGadget.getImage()).fit().into(holder.productPhoto);
         holder.rating.setRating(realmGadget.getRating());
+        holder.availability.setText(realmGadget.getAvailability());
     }
 
     @Override
@@ -50,7 +51,7 @@ public class TradeHistoryAdapter extends RecyclerView.Adapter<TradeHistoryAdapte
     }
 
     public static class TradeHistoryViewHolder extends RecyclerView.ViewHolder {
-        TextView sellingPrice, product, tradeDate, buyer;
+        TextView sellingPrice, product, tradeDate, buyer, availability;
         ImageView productPhoto;
         RatingBar rating;
         TradeHistoryViewHolder(View itemView) {
@@ -61,6 +62,7 @@ public class TradeHistoryAdapter extends RecyclerView.Adapter<TradeHistoryAdapte
             tradeDate = (TextView) itemView.findViewById(R.id.tradeDate);
             buyer = (TextView) itemView.findViewById(R.id.buyer);
             rating = (RatingBar) itemView.findViewById(R.id.rating);
+            availability = (TextView) itemView.findViewById(R.id.availability);
         }
     }
 }

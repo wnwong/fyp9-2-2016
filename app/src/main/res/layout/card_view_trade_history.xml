@@ -12,18 +12,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:dividerPadding="8dp"
             android:divider="?android:dividerVertical"
-            android:orientation="horizontal">
+            android:dividerPadding="8dp"
+            android:orientation="horizontal"
+            android:showDividers="middle">
 
             <ImageView
                 android:id="@+id/product_photo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="center_vertical"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_gravity="center_vertical"
                 android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="10dp"
@@ -31,9 +31,9 @@
                 android:scaleType="centerCrop" />
 
             <RelativeLayout
-                android:padding="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/product"
@@ -64,15 +64,17 @@
                     android:layout_below="@+id/sellingPrice"
                     android:src="@mipmap/ic_schedule"
                     android:tint="@color/secondaryText" />
+
                 <ImageView
                     android:id="@+id/person"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:paddingTop="2dp"
                     android:layout_alignLeft="@+id/place"
                     android:layout_below="@+id/place"
+                    android:paddingTop="2dp"
                     android:src="@mipmap/ic_person"
                     android:tint="@color/secondaryText" />
+
                 <TextView
                     android:id="@+id/tradeDate"
                     android:layout_width="wrap_content"
@@ -81,30 +83,33 @@
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@+id/place"
                     android:text="2016/2/24" />
+
                 <TextView
                     android:id="@+id/buyer"
-                    android:text="Man"
-                    android:layout_below="@+id/tradeDate"
-                    android:layout_alignLeft="@+id/tradeDate"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tradeDate"
+                    android:layout_below="@+id/tradeDate"
+                    android:text="Man" />
+
                 <RatingBar
                     android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/place"
                     android:layout_below="@+id/place"
-                    android:paddingTop="24dp"
                     android:isIndicator="true"
-                    android:layout_alignLeft="@+id/place"/>
+                    android:paddingTop="24dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:textStyle="bold|italic"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/holo_red_dark"
                     android:layout_alignParentRight="true"
-                    android:text="已出售"/>
+                    android:padding="16dp"
+                    android:id="@+id/availability"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold|italic" />
 
             </RelativeLayout>
 

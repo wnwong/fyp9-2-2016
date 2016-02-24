@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class TradeHistoryFragment extends Fragment {
     TextView tv;
     RecyclerView rv;
     public static Handler mHandler;
+    public static String TAG = "TradeHistoryFragment";
 
     public TradeHistoryFragment() {
         // Required empty public constructor
@@ -55,6 +57,10 @@ public class TradeHistoryFragment extends Fragment {
                     case 1:
                         QueryCamera queryCamera = new QueryCamera(getContext());
                         realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
+                      for(int i=0; i<realmGadgets.size(); i++){
+                          Log.i(TAG, "QueryResult:" +realmGadgets.get(i).getSeller() + realmGadgets.get(i).getBuyer()
+                                  + realmGadgets.get(i).getBuyer_location() + realmGadgets.get(i).getAvailability());
+                      }
                         TradeHistoryAdapter adapter = new TradeHistoryAdapter(realmGadgets, getContext());
                         rv.setAdapter(adapter);
                         break;
