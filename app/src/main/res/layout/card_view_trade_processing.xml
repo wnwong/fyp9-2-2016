@@ -104,6 +104,12 @@
                     android:src="@mipmap/ic_phone"
                     android:tint="@color/secondaryText" />
 
+                <RatingBar
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/phone" />
+
                 <TextView
                     android:id="@+id/sellerPhone"
                     android:layout_width="wrap_content"
@@ -139,6 +145,19 @@
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="16sp"
                     android:textStyle="bold|italic" />
+
+                <Button
+                    android:id="@+id/confirmBtn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/availability"
+                    android:padding="8dp"
+                    android:text=" 確認交易"
+                    android:foreground="?android:selectableItemBackground"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 

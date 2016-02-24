@@ -9,12 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.user.secondhandtradingplatform.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.os.Handler;
 import android.os.Message;
 
@@ -31,6 +33,7 @@ public class TradeHistoryFragment extends Fragment {
     UserLocalStore userLocalStore;
     TextView tv;
     RecyclerView rv;
+    ProgressBar progressBar;
     public static Handler mHandler;
     public static String TAG = "TradeHistoryFragment";
 
@@ -50,19 +53,16 @@ public class TradeHistoryFragment extends Fragment {
         //use a linear layout manager
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch(msg.what){
+                switch (msg.what) {
                     case 1:
                         QueryCamera queryCamera = new QueryCamera(getContext());
                         realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
-                      for(int i=0; i<realmGadgets.size(); i++){
-                          Log.i(TAG, "QueryResult:" +realmGadgets.get(i).getSeller() + realmGadgets.get(i).getBuyer()
-                                  + realmGadgets.get(i).getBuyer_location() + realmGadgets.get(i).getAvailability());
-                      }
                         TradeHistoryAdapter adapter = new TradeHistoryAdapter(realmGadgets, getContext());
                         rv.setAdapter(adapter);
+
                         break;
                     default:
                         break;

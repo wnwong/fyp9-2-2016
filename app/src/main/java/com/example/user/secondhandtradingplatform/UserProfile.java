@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -34,6 +35,7 @@ import user.TradeHistoryFragment;
 public class UserProfile extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    ProgressBar progressBar;
     ServerRequests serverRequests;
 
     @Override
@@ -50,10 +52,12 @@ public class UserProfile extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-         serverRequests = new ServerRequests(this);
+
+        serverRequests = new ServerRequests(this);
         serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
             @Override
             public void done(List<RealmGadget> realmGadgets) {
@@ -155,18 +159,17 @@ public class UserProfile extends AppCompatActivity {
         public Fragment getItem(int position) {
             if (position == 0) {
                 return new TradeHistoryFragment();
-            } else {
+            } else if (position == 1) {
                 return new ProcessingTradeFragment();
-            }
-            /*else {
+            } else {
                 return new PersonalDetailsFragment();
-            }*/
+            }
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -176,8 +179,8 @@ public class UserProfile extends AppCompatActivity {
                     return getString(R.string.title_fragment_trade_history);
                 case 1:
                     return getString(R.string.title_fragment_processing_trade);
-              /*  case 2:
-                    return getString(R.string.title_fragment_personal_detail);*/
+                case 2:
+                    return getString(R.string.title_fragment_personal_detail);
             }
             return null;
         }

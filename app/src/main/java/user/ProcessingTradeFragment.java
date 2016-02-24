@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.user.secondhandtradingplatform.R;
@@ -53,10 +54,14 @@ public class ProcessingTradeFragment extends Fragment {
             public void handleMessage(Message msg) {
                switch (msg.what){
                    case 1:
+
                        QueryCamera queryCamera = new QueryCamera(getContext());
                        realmGadgets = queryCamera.retrieveProcessingGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
                        ProcessingTradeAdapter adapter = new ProcessingTradeAdapter(realmGadgets, getContext());
                        rv.setAdapter(adapter);
+                       break;
+                   case 2:
+                       float rating = (float)msg.obj;
                        break;
                    default:
                        break;
