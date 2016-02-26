@@ -11,7 +11,7 @@
     <string name="drawer_close">Close</string>
 
     <!--Navigation Drawer Label -->
-    <string name="nav_item_camera">數碼相機</string>
+    <string name="nav_item_camera">相機鏡頭</string>
     <string name="nav_item_tablet">平板電腦</string>
     <string name="nav_item_smartphone">智能手機</string>
     <string name="nav_item_vgame">電子遊戲機</string>

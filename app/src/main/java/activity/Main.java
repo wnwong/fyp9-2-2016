@@ -271,8 +271,9 @@ public class Main extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
-            getSupportActionBar().setTitle(getString(R.string.nav_item_camera));
+            CameraFragment.productType = getString(R.string.nav_item_camera);
+            fragment = new CameraFragment();
+            title = getString(R.string.nav_item_camera);
         } else if (id == R.id.nav_tablet) {
             CameraFragment.productType = getString(R.string.nav_item_tablet);
             fragment = new CameraFragment();
@@ -281,6 +282,10 @@ public class Main extends AppCompatActivity
             CameraFragment.productType = getString(R.string.nav_item_smartphone);
             fragment = new CameraFragment();
             title = getString(R.string.nav_item_smartphone);
+        } else if (id == R.id.nav_earphone){
+            CameraFragment.productType = getString(R.string.nav_item_earphone);
+            fragment = new CameraFragment();
+            title = (getString(R.string.nav_item_earphone));
         } else if (id == R.id.nav_games) {
             CameraFragment.productType = getString(R.string.nav_item_vgame);
             fragment = new CameraFragment();
@@ -431,7 +436,7 @@ public class Main extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
-
+            switchDefaultFragment();
         }
     }
     public class getGameConsole extends AsyncTask<Void, Void, Void> {
@@ -480,6 +485,72 @@ public class Main extends AppCompatActivity
             realm = Realm.getInstance(getApplicationContext());
             //    clearDB(realm);
             String JSONResponse = getResponseFromServer("getTablet", null);
+            Log.i(TAG, JSONResponse);
+            try {
+                JSONObject jObject = new JSONObject(JSONResponse);
+                String product = jObject.getString("products");
+                JSONArray productArray = new JSONArray(product);
+                for (int i = 0; i < productArray.length(); i++) {
+                    JSONObject obj = productArray.getJSONObject(i);
+                    System.out.println("obj array" + obj);
+
+                    String brand = obj.getString("brand");
+                    String model = obj.getString("model");
+                    String type = obj.getString("type");
+                    String price = obj.getString("price");
+                    String os = obj.getString("os");
+                    String monitor = obj.getString("monitor");
+                    String camera = obj.getString("camera");
+                    String path = obj.getString("image_name");
+                    //    Log.i(TAG, "Image_Name = " + path);
+                    createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+    public class getCamera extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            realm = Realm.getInstance(getApplicationContext());
+            //    clearDB(realm);
+            String JSONResponse = getResponseFromServer("getCamera", null);
+            Log.i(TAG, JSONResponse);
+            try {
+                JSONObject jObject = new JSONObject(JSONResponse);
+                String product = jObject.getString("products");
+                JSONArray productArray = new JSONArray(product);
+                for (int i = 0; i < productArray.length(); i++) {
+                    JSONObject obj = productArray.getJSONObject(i);
+                    System.out.println("obj array" + obj);
+
+                    String brand = obj.getString("brand");
+                    String model = obj.getString("model");
+                    String type = obj.getString("type");
+                    String price = obj.getString("price");
+                    String os = obj.getString("os");
+                    String monitor = obj.getString("monitor");
+                    String camera = obj.getString("camera");
+                    String path = obj.getString("image_name");
+                    //    Log.i(TAG, "Image_Name = " + path);
+                    createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+    public class getEarphone extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            realm = Realm.getInstance(getApplicationContext());
+            //    clearDB(realm);
+            String JSONResponse = getResponseFromServer("getEarphone", null);
             Log.i(TAG, JSONResponse);
             try {
                 JSONObject jObject = new JSONObject(JSONResponse);
@@ -600,6 +671,8 @@ public class Main extends AppCompatActivity
         new loadAllProducts().execute();
         new getGameConsole().execute();
         new getTablet().execute();
+        new getCamera().execute();
+        new getEarphone().execute();
         new getProductList().execute();
         refreshLocalStore.setRefreshStatus(false);
     }

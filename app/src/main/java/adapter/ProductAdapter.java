@@ -43,17 +43,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private static final int TYPE_POST = 2;
     private static final String TAG = "ProductAdapter";
     List<RealmGadget> gadgets = new ArrayList<>();
-    String os, mon, camera, pName, price, image;
+    String os, mon, camera, pName, price, image, type;
     Context context;
     UserLocalStore userLocalStore;
 
-    public ProductAdapter(List<RealmGadget> gadgets, String pName, String price, String os, String mon, String camera, String image, Context context) {
+    public ProductAdapter(List<RealmGadget> gadgets, String pName, String price, String os, String mon, String camera, String image, String type, Context context) {
         this.gadgets = gadgets;
         this.pName = pName;
         this.price = price;
         this.os = os;
         this.mon = mon;
         this.camera = camera;
+        this.type = type;
         this.image = image;
         this.context = context;
     }
@@ -83,10 +84,32 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             InfoViewHolder iHolder = (InfoViewHolder) holder;
             Picasso.with(context).load(IMAGE_ADDRESS + image).into(iHolder.image);
             iHolder.pName.setText(pName);
-            iHolder.mon.setText(mon + "吋");
+            if(type.equals("相機鏡頭")){
+                iHolder.tvmon.setText("尺寸");
+                iHolder.mon.setText(mon);
+            }else{
+                iHolder.tvmon.setText("顯示屏");
+                iHolder.mon.setText(mon + "吋");
+            }
+
+            //Weight or OS
+            if(type.equals("相機鏡頭") | type.equals("電子遊戲機")){
+                iHolder.tvos.setText("重量");
+            }else{
+                iHolder.tvos.setText("作業系統");
+            }
             iHolder.os.setText(os);
             iHolder.price.setText("HK$" + price);
-            iHolder.camera.setText(camera + "萬像素");
+
+            //Camera
+            if(type.equals("相機鏡頭")){
+                iHolder.camera.setText(camera);
+                iHolder.tvcamera.setText("種類");
+            }else{
+                iHolder.camera.setText(camera + "萬像素");
+                iHolder.tvcamera.setText("鏡頭");
+            }
+
             iHolder.graphBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -150,7 +173,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public class InfoViewHolder extends ProductViewHolder {
-        TextView pName, price, os, mon, camera;
+        TextView pName, price, os, mon, camera, tvos, tvcamera, tvmon;
         ImageView image;
         Button graphBtn;
 
@@ -163,6 +186,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             mon = (TextView) itemView.findViewById(R.id.etMon);
             camera = (TextView) itemView.findViewById(R.id.etCam);
             graphBtn = (Button) itemView.findViewById(R.id.graphBtn);
+            tvos = (TextView) itemView.findViewById(R.id.os);
+            tvcamera = (TextView) itemView.findViewById(R.id.camera);
+            tvmon = (TextView) itemView.findViewById(R.id.mon);
         }
     }
 

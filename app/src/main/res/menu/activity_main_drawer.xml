@@ -2,13 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_smartphone" android:icon="@android:drawable/ic_menu_camera"
+        <item android:id="@+id/nav_smartphone" android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/nav_item_smartphone" />
         <item android:id="@+id/nav_tablet" android:icon="@android:drawable/ic_menu_gallery"
             android:title="@string/nav_item_tablet" />
-        <item android:id="@+id/nav_camera" android:icon="@android:drawable/ic_menu_slideshow"
+        <item android:id="@+id/nav_earphone" android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/nav_item_earphone" />
+        <item android:id="@+id/nav_camera" android:icon="@android:drawable/ic_menu_camera"
             android:title="@string/nav_item_camera" />
-        <item android:id="@+id/nav_games" android:icon="@android:drawable/ic_menu_manage"
+        <item android:id="@+id/nav_games" android:icon="@android:drawable/ic_menu_camera"
             android:title="@string/nav_item_vgame" />
     </group>
 

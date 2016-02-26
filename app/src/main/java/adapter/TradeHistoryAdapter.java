@@ -38,7 +38,7 @@ public class TradeHistoryAdapter extends RecyclerView.Adapter<TradeHistoryAdapte
         RealmGadget realmGadget = realmGadgets.get(position);
         holder.product.setText(realmGadget.getBrand() + " " + realmGadget.getModel());
         holder.tradeDate.setText(realmGadget.getTrade_date());
-        holder.sellingPrice.setText("HKS$" + realmGadget.getPrice());
+        holder.sellingPrice.setText("HK$" + realmGadget.getPrice());
         holder.buyer.setText(realmGadget.getBuyer());
         Picasso.with(context).load(IMAGE_ADDRESS + realmGadget.getImage()).fit().into(holder.productPhoto);
         holder.rating.setRating(realmGadget.getRating());

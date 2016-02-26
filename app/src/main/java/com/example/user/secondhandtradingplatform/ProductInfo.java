@@ -72,7 +72,7 @@ public class ProductInfo extends AppCompatActivity{
         }
 
         ProductAdapter adapter =
-                new ProductAdapter(gadgets, realmProduct.getBrand() + " " + realmProduct.getModel(), realmProduct.getPrice(), realmProduct.getOs(), realmProduct.getMonitor(), realmProduct.getCamera(), realmProduct.getPath(), this);
+                new ProductAdapter(gadgets, realmProduct.getBrand() + " " + realmProduct.getModel(), realmProduct.getPrice(), realmProduct.getOs(), realmProduct.getMonitor(), realmProduct.getCamera(), realmProduct.getPath(), realmProduct.getType(), this);
         rv.setAdapter(adapter);
 
         mHandler = new Handler() {
