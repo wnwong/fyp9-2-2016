@@ -272,13 +272,19 @@ public class Main extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            getSupportActionBar().setTitle(getString(R.string.nav_item_camera));
         } else if (id == R.id.nav_tablet) {
-            title = getString(R.string.title_Tablet);
+            CameraFragment.productType = getString(R.string.nav_item_tablet);
+            fragment = new CameraFragment();
+            title = getString(R.string.nav_item_tablet);
         } else if (id == R.id.nav_smartphone) {
+            CameraFragment.productType = getString(R.string.nav_item_smartphone);
             fragment = new CameraFragment();
             title = getString(R.string.nav_item_smartphone);
         } else if (id == R.id.nav_games) {
-
+            CameraFragment.productType = getString(R.string.nav_item_vgame);
+            fragment = new CameraFragment();
+            title = (getString(R.string.nav_item_vgame));
         } else if (id == R.id.nav_login) {
             if (authenticate() == true) {
                 logoutMessage();
@@ -301,13 +307,13 @@ public class Main extends AppCompatActivity
             startActivity(myIntent);
             finish();
         }
-        if (fragment != null) {
+        if (fragment != null) {//Perform Fragment Transaction
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-
+            Log.i(TAG, "Fragment Transact");
             // set the toolbar title
             getSupportActionBar().setTitle(title);
         }
@@ -412,7 +418,7 @@ public class Main extends AppCompatActivity
                     String monitor = obj.getString("monitor");
                     String camera = obj.getString("camera");
                     String path = obj.getString("image_name");
-                    Log.i(TAG, "Image_Name = " + path);
+                //    Log.i(TAG, "Image_Name = " + path);
                     createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
                 }
             } catch (Exception e) {
@@ -425,7 +431,79 @@ public class Main extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
-            switchDefaultFragment();
+
+        }
+    }
+    public class getGameConsole extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            realm = Realm.getInstance(getApplicationContext());
+            //    clearDB(realm);
+            String JSONResponse = getResponseFromServer("getGameConsole", null);
+            Log.i(TAG, JSONResponse);
+            try {
+                JSONObject jObject = new JSONObject(JSONResponse);
+                String product = jObject.getString("products");
+                JSONArray productArray = new JSONArray(product);
+                for (int i = 0; i < productArray.length(); i++) {
+                    JSONObject obj = productArray.getJSONObject(i);
+                    System.out.println("obj array" + obj);
+
+                    String brand = obj.getString("brand");
+                    String model = obj.getString("model");
+                    String type = obj.getString("type");
+                    String price = obj.getString("price");
+                    String os = obj.getString("os");
+                    String monitor = obj.getString("monitor");
+                    String camera = obj.getString("camera");
+                    String path = obj.getString("image_name");
+                    //    Log.i(TAG, "Image_Name = " + path);
+                    createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+        }
+    }
+    public class getTablet extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            realm = Realm.getInstance(getApplicationContext());
+            //    clearDB(realm);
+            String JSONResponse = getResponseFromServer("getTablet", null);
+            Log.i(TAG, JSONResponse);
+            try {
+                JSONObject jObject = new JSONObject(JSONResponse);
+                String product = jObject.getString("products");
+                JSONArray productArray = new JSONArray(product);
+                for (int i = 0; i < productArray.length(); i++) {
+                    JSONObject obj = productArray.getJSONObject(i);
+                    System.out.println("obj array" + obj);
+
+                    String brand = obj.getString("brand");
+                    String model = obj.getString("model");
+                    String type = obj.getString("type");
+                    String price = obj.getString("price");
+                    String os = obj.getString("os");
+                    String monitor = obj.getString("monitor");
+                    String camera = obj.getString("camera");
+                    String path = obj.getString("image_name");
+                    //    Log.i(TAG, "Image_Name = " + path);
+                    createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 
@@ -434,6 +512,7 @@ public class Main extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_body, frag);
+        CameraFragment.productType = getString(R.string.nav_item_smartphone);
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(getString(R.string.nav_item_smartphone));
     }
@@ -465,6 +544,7 @@ public class Main extends AppCompatActivity
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
+                Log.i(TAG, line);
             }
             json = sb.toString();
         } catch (Exception e) {
@@ -484,11 +564,10 @@ public class Main extends AppCompatActivity
         rp.setType(type);
         rp.setOs(os);
         rp.setPath(path);
-        System.out.println("rp.getOs()" + rp.getOs());
 
 //        rp.setBuyer(buyer);
 //        rp.setSeller(seller);
-        System.out.println("rp.getSller()" + rp.getSeller());
+
         realm.commitTransaction();
 //        Log.i(TAG, "The inserted Products:");
 //        Log.i(TAG, rp.getBrand() + " " + rp.getModel());
@@ -519,6 +598,8 @@ public class Main extends AppCompatActivity
 
     private void refreshDB() {
         new loadAllProducts().execute();
+        new getGameConsole().execute();
+        new getTablet().execute();
         new getProductList().execute();
         refreshLocalStore.setRefreshStatus(false);
     }

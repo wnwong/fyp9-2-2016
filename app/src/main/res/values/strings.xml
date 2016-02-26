@@ -14,7 +14,7 @@
     <string name="nav_item_camera">數碼相機</string>
     <string name="nav_item_tablet">平板電腦</string>
     <string name="nav_item_smartphone">智能手機</string>
-    <string name="nav_item_vgame">電子遊戲</string>
+    <string name="nav_item_vgame">電子遊戲機</string>
     <string name="nav_item_earphone">耳機</string>
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_camera</item>

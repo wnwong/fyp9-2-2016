@@ -160,6 +160,7 @@ public class ProductInfo extends AppCompatActivity{
                                                           getMonthString(month4), getMonthString(month5), getMonthString(month6)});
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
 
+        graph.setTitleColor(Color.GRAY);
         //Set appearance of the graph
         graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.GRAY);
         graph.getGridLabelRenderer().setVerticalLabelsColor(Color.GRAY);

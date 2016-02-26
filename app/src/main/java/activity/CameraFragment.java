@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,8 +37,9 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
 
     public static Context context;
     public static Handler mHandler;
-    public static boolean refresh = true;
+    public static String productType;
     List<RealmProduct> products = new ArrayList<>();
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -45,13 +47,13 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
         RecyclerView rv;
         rv = (RecyclerView) v.findViewById(R.id.rview);
         rv.setHasFixedSize(true);
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(productType);
         //use a linear layout manager
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
 
         context = getContext();
-        System.out.println("run to here");
+        System.out.println(productType);
 
         mHandler = new Handler() {
             @Override
@@ -74,18 +76,15 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
 
         QueryCamera queryCamera = new QueryCamera(getContext());
 
-        RealmResults<RealmProduct> result = queryCamera.retrieveProductsByType("智能手機");
-        Log.i("Refresh","result.size");
-        Log.i("Refresh",""+result.size());
+        RealmResults<RealmProduct> result = queryCamera.retrieveProductsByType(productType);
 
         for (int i = 0; i < result.size(); i++) {
             products.add(result.get(i));
         }
-        if(refresh == true){
-            RVAdapter adapter = new RVAdapter(products, R.layout.cardview, getContext());
-            Log.i("Refresh", "" + products.size());
-            rv.setAdapter(adapter);
-        }
+        RVAdapter adapter = new RVAdapter(products, R.layout.cardview, getContext());
+        Log.i("Refresh", "" + products.size());
+        rv.setAdapter(adapter);
+
 
     }
 

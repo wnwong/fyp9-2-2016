@@ -22,7 +22,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:paddingRight="10dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitCenter" />
 
             <TextView
                 android:id="@+id/product_name"
