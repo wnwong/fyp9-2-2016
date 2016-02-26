@@ -102,6 +102,14 @@
                     android:layout_below="@+id/etMon"
                     android:text="1200 萬像素"
                     android:textColor="@color/primaryText" />
+                <Button
+                    android:id="@+id/graphBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:borderlessButtonStyle"
+                    android:foreground="?android:selectableItemBackground"
+                    android:text="Graphs"
+                    android:layout_alignParentRight="true"/>
 
             </RelativeLayout>
 

@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import java.util.List;
 import RealmModel.RealmCamera;
 import RealmModel.RealmGadget;
 import activity.CameraFragment;
+import product.Product;
 import user.UserLocalStore;
 
 import static android.support.v4.app.ActivityCompat.startActivity;
@@ -39,6 +41,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     private static final int TYPE_INFO = 1;
     private static final int TYPE_POST = 2;
+    private static final String TAG = "ProductAdapter";
     List<RealmGadget> gadgets = new ArrayList<>();
     String os, mon, camera, pName, price, image;
     Context context;
@@ -84,6 +87,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             iHolder.os.setText(os);
             iHolder.price.setText("HK$" + price);
             iHolder.camera.setText(camera + "萬像素");
+            iHolder.graphBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Call the graph dialog
+                    Log.i(TAG, "Graph buton clicked!");
+                    Message message = new Message();
+                    message.what = 3;
+                    ProductInfo.mHandler.sendMessage(message);
+                }
+            });
         } else {
             PostViewHolder pHolder = (PostViewHolder) holder;
             if (gadgets != null) {
@@ -120,7 +133,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             message.obj = null;
                             ProductInfo.mHandler.sendMessage(message);
                         }
-
                     }
                 });
             }
@@ -140,6 +152,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public class InfoViewHolder extends ProductViewHolder {
         TextView pName, price, os, mon, camera;
         ImageView image;
+        Button graphBtn;
 
         public InfoViewHolder(View itemView) {
             super(itemView);
@@ -149,6 +162,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             os = (TextView) itemView.findViewById(R.id.etOS);
             mon = (TextView) itemView.findViewById(R.id.etMon);
             camera = (TextView) itemView.findViewById(R.id.etCam);
+            graphBtn = (Button) itemView.findViewById(R.id.graphBtn);
         }
     }
 
