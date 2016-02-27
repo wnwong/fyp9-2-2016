@@ -22,18 +22,24 @@ import java.util.List;
 
 import RealmModel.RealmProduct;
 import activity.CameraFragment;
+import activity.EarphoneFragment;
+import activity.GameConsoleFragment;
+import activity.SmartphoneFragment;
+import activity.TabletFragment;
 
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CameraViewHolder> {
     public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     private List<RealmProduct> products = new ArrayList<>();
     private int rowLayout;
+    private String type;
     Context context;
 
-    public RVAdapter(List<RealmProduct> cam, int rowLayout, Context context) {
+    public RVAdapter(List<RealmProduct> cam, int rowLayout, Context context, String type) {
         this.products = cam;
         this.rowLayout = rowLayout;
         this.context = context;
+        this.type = type;
     }
 
     public static class CameraViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +75,18 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CameraViewHolder> 
                 Message message = new Message();
                 message.obj = new Integer(position);
                 message.what = 1;
-                CameraFragment.mHandler.sendMessage(message);
+                if(type.equals("平板電腦")){
+                    TabletFragment.mHandler.sendMessage(message);
+                }else if(type.equals("相機鏡頭")){
+                    CameraFragment.mHandler.sendMessage(message);
+                }else if(type.equals("智能手機")){
+                    SmartphoneFragment.mHandler.sendMessage(message);
+                }else if(type.equals("電子遊戲機")){
+                    GameConsoleFragment.mHandler.sendMessage(message);
+                }else if(type.equals("耳機")){
+                    EarphoneFragment.mHandler.sendMessage(message);
+                }
+
             }
         });
     }

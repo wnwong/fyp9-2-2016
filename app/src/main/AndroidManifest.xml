@@ -84,7 +84,7 @@
         <activity
             android:name=".ProductInfo"
             android:label="@string/title_activity_product_info"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SearchResultActivity"
             android:label="@string/title_activity_search_result"
@@ -134,7 +134,7 @@
         <activity
             android:name=".UserProfile"
             android:label="@string/title_activity_user_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

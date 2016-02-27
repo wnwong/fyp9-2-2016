@@ -49,13 +49,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import RealmModel.RealmCamera;
 import RealmModel.RealmGadget;
 import RealmModel.RealmProduct;
 import RealmQuery.QueryCamera;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import product.earphone;
 import server.GetTradeCallback;
 import server.ServerRequests;
 import user.RefreshLocalStore;
@@ -83,7 +81,9 @@ public class Main extends AppCompatActivity
         Pushbots.sharedInstance().setCustomHandler(customHandler.class);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        //Switch to Tablet Fragment when launched
+        switchToDefaultFragment();
+
         userLocalStore = new UserLocalStore(this);
         refreshLocalStore = new RefreshLocalStore(this);
         if (refreshLocalStore.getRefreshStatus() == true) {
@@ -183,10 +183,10 @@ public class Main extends AppCompatActivity
             TextView email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
             username.setText(userLocalStore.getLoggedInUser().getUsername().toString());
             email.setText(userLocalStore.getLoggedInUser().getEmail().toString());
-        }else{
+        } else {
             profilePic.setVisibility(View.INVISIBLE);
         }
-        switchDefaultFragment();
+        //switchDefaultFragment();
         if (sv != null) {
             sv.setIconified(true);
         }
@@ -271,25 +271,23 @@ public class Main extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            CameraFragment.productType = getString(R.string.nav_item_camera);
+//            CameraFragment.productType = getString(R.string.nav_item_camera);
             fragment = new CameraFragment();
             title = getString(R.string.nav_item_camera);
         } else if (id == R.id.nav_tablet) {
-            CameraFragment.productType = getString(R.string.nav_item_tablet);
-            fragment = new CameraFragment();
+            fragment = new TabletFragment();
             title = getString(R.string.nav_item_tablet);
         } else if (id == R.id.nav_smartphone) {
-            CameraFragment.productType = getString(R.string.nav_item_smartphone);
-            fragment = new CameraFragment();
+//            CameraFragment.productType = getString(R.string.nav_item_smartphone);
+            fragment = new SmartphoneFragment();
             title = getString(R.string.nav_item_smartphone);
-        } else if (id == R.id.nav_earphone){
-            CameraFragment.productType = getString(R.string.nav_item_earphone);
-            fragment = new CameraFragment();
-            title = (getString(R.string.nav_item_earphone));
+        } else if (id == R.id.nav_earphone) {
+ //           CameraFragment.productType = getString(R.string.nav_item_earphone);
+            fragment = new EarphoneFragment();
+            title = getString(R.string.nav_item_earphone);
         } else if (id == R.id.nav_games) {
-            CameraFragment.productType = getString(R.string.nav_item_vgame);
-            fragment = new CameraFragment();
-            title = (getString(R.string.nav_item_vgame));
+//            CameraFragment.productType = getString(R.string.nav_item_vgame);
+            fragment = new GameConsoleFragment();
         } else if (id == R.id.nav_login) {
             if (authenticate() == true) {
                 logoutMessage();
@@ -320,7 +318,7 @@ public class Main extends AppCompatActivity
             fragmentTransaction.commit();
             Log.i(TAG, "Fragment Transact");
             // set the toolbar title
-            getSupportActionBar().setTitle(title);
+            //  getSupportActionBar().setTitle(title);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -423,7 +421,7 @@ public class Main extends AppCompatActivity
                     String monitor = obj.getString("monitor");
                     String camera = obj.getString("camera");
                     String path = obj.getString("image_name");
-                //    Log.i(TAG, "Image_Name = " + path);
+                    //    Log.i(TAG, "Image_Name = " + path);
                     createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
                 }
             } catch (Exception e) {
@@ -436,9 +434,10 @@ public class Main extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
-            switchDefaultFragment();
+            //switchDefaultFragment();
         }
     }
+
     public class getGameConsole extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -478,6 +477,7 @@ public class Main extends AppCompatActivity
 
         }
     }
+
     public class getTablet extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -511,6 +511,7 @@ public class Main extends AppCompatActivity
             return null;
         }
     }
+
     public class getCamera extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -544,6 +545,7 @@ public class Main extends AppCompatActivity
             return null;
         }
     }
+
     public class getEarphone extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -578,14 +580,17 @@ public class Main extends AppCompatActivity
         }
     }
 
-    private void switchDefaultFragment() {
-        Fragment frag = new CameraFragment();
+    private void switchToDefaultFragment() {
+        Fragment fragment = null;
+        Class fragmentClass = null;
+        fragmentClass = SmartphoneFragment.class;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_body, frag);
-        CameraFragment.productType = getString(R.string.nav_item_smartphone);
-        fragmentTransaction.commit();
-        getSupportActionBar().setTitle(getString(R.string.nav_item_smartphone));
+        fragmentManager.beginTransaction().replace(R.id.container_body, fragment).commit();
     }
 
     private void showProgress() {
@@ -635,13 +640,8 @@ public class Main extends AppCompatActivity
         rp.setType(type);
         rp.setOs(os);
         rp.setPath(path);
-
-//        rp.setBuyer(buyer);
-//        rp.setSeller(seller);
-
         realm.commitTransaction();
-//        Log.i(TAG, "The inserted Products:");
-//        Log.i(TAG, rp.getBrand() + " " + rp.getModel());
+
     }
 
     private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image,
@@ -679,10 +679,8 @@ public class Main extends AppCompatActivity
 
     private void clearDB(Realm realm) {
         realm.beginTransaction();
-        //       realm.allObjects(earphone.class).clear();
         realm.allObjects(RealmProduct.class).clear();
         realm.allObjects(RealmGadget.class).clear();
-        //       realm.allObjects(RealmProduct.class).clear();
         realm.commitTransaction();
     }
 }

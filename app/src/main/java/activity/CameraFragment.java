@@ -33,11 +33,11 @@ import product.Camera;
 import adapter.RVAdapter;
 
 
-public class CameraFragment extends Fragment implements passToDetailPageListener {
+public class CameraFragment extends Fragment{
 
     public static Context context;
     public static Handler mHandler;
-    public static String productType;
+    final String productType = "相機鏡頭";
     List<RealmProduct> products = new ArrayList<>();
 
     @Override
@@ -60,8 +60,6 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
-                        //處理少量資訊或UI
-                        System.out.println("Form past page");
                         Integer position = (Integer) msg.obj;
                         RealmProduct obj = products.get(position);
                         ProductInfo.realmProduct = obj;
@@ -72,7 +70,7 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
                         break;
                 }
             }
-        };  // pass the object date to detailPage
+        };
 
         QueryCamera queryCamera = new QueryCamera(getContext());
 
@@ -81,11 +79,9 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
         for (int i = 0; i < result.size(); i++) {
             products.add(result.get(i));
         }
-        RVAdapter adapter = new RVAdapter(products, R.layout.cardview, getContext());
+        RVAdapter adapter = new RVAdapter(products, R.layout.cardview, getContext(), productType);
         Log.i("Refresh", "" + products.size());
         rv.setAdapter(adapter);
-
-
     }
 
     @Override
@@ -108,16 +104,4 @@ public class CameraFragment extends Fragment implements passToDetailPageListener
     public void onDetach() {
         super.onDetach();
     }
-
-
-    @Override
-    public void passToDetail() {
-        System.out.println("tseting to listener");
-//        Message message = new Message();
-//        message.what = 1;
-//        mHandler.sendMessage(message);
-
-    }
-
-
 }
