@@ -1,6 +1,5 @@
 package activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,21 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.user.secondhandtradingplatform.DetailPageActivity;
 import com.example.user.secondhandtradingplatform.ProductInfo;
 import com.example.user.secondhandtradingplatform.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import RealmModel.RealmCamera;
 import RealmModel.RealmProduct;
 import RealmQuery.QueryCamera;
-import RealmQuery.callBackFinishInsert;
-import adapter.passToDetailPageListener;
 import io.realm.RealmResults;
-import product.Camera;
 import adapter.RVAdapter;
 
 

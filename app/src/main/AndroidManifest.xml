@@ -80,7 +80,6 @@
             android:name=".addGadget"
             android:label="@string/title_activity_add__gadget_"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DetailPageActivity" />
         <activity
             android:name=".ProductInfo"
             android:label="@string/title_activity_product_info"
@@ -94,10 +93,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="activity.Main" />
         </activity>
-        <activity
-            android:name="activity.tragePage"
-            android:label="@string/title_activity_trage_page"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Trade_Activity"
             android:label="@string/title_activity_trade_"
