@@ -53,14 +53,15 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     UserLocalStore userLocalStore;
     Bitmap image1, image2;
     String timeSelectFrom, type, brand, model, warranty, color, scratch, price, timeStart,
-            timeEnd, seller_location, datePattern, seller;
+            timeEnd, seller_location, datePattern, seller, line;
     ImageButton addCameraBtn, addGalleryBtn, addCameraBtn2, addGalleryBtn2;
     CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday;
-    Spinner productBrand, productModel, productType, locationSpinner, scratchSpinner, colorSpinner;
+    Spinner productBrand, productModel, productType, locationSpinner, scratchSpinner, colorSpinner, locationSpecificSpinner;
     EditText gPrice;
     RadioGroup rgroup;
     RadioButton yesBtn, noBtn;
     Button mTimeStartButton, mTimeEndButton, mTimeStartButtonNew, mTimeEndButtonNew, addViewBtn;
+    ArrayAdapter<String> spinnerArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
         colorSpinner = (Spinner) findViewById(R.id.colorSpinner);
         scratchSpinner = (Spinner) findViewById(R.id.scratchSpinner);
+        locationSpecificSpinner = (Spinner) findViewById(R.id.locationSpecificSpinner);
         gPrice = (EditText) findViewById(R.id.gPrice);
         rgroup = (RadioGroup) findViewById(R.id.rgroup);
         yesBtn = (RadioButton) findViewById(R.id.yesButton);
@@ -114,6 +116,11 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         locationSpinner.setOnItemSelectedListener(this);
         colorSpinner.setOnItemSelectedListener(this);
         scratchSpinner.setOnItemSelectedListener(this);
+        locationSpecificSpinner.setOnItemSelectedListener(this);
+        line = locationSpinner.getSelectedItem().toString();
+        spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getLocationArray(line)); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationSpecificSpinner.setAdapter(spinnerArrayAdapter);
     }
 
     @Override
@@ -223,15 +230,15 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 //              Toast.makeText(getApplicationContext(), "Confirm Button Clicked", Toast.LENGTH_SHORT).show();
                 datePattern = getCheckBoxValue();
                 price = gPrice.getText().toString();
-               ServerRequests serverRequests = new ServerRequests(this);
-               serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
-                       timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {
-                           @Override
-                           public void done() {
-                               successMessage();
-                               finish();
-                           }
-                       }, userLocalStore.getLoggedInUser().getPhone());
+                ServerRequests serverRequests = new ServerRequests(this);
+                serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
+                        timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {
+                            @Override
+                            public void done() {
+                                successMessage();
+                                finish();
+                            }
+                        }, userLocalStore.getLoggedInUser().getPhone());
                 return true;
 
             default:
@@ -241,21 +248,36 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
 
         }
     }
-    private String getCheckBoxValue(){
+
+    private String getCheckBoxValue() {
         String dates = null;
-        if(Monday.isChecked()){dates = (dates == null) ? getString(R.string.MON) : (dates + ", " + getString(R.string.MON));}
-        if(Tuesday.isChecked()){dates = (dates == null) ? getString(R.string.TUE) : (dates + ", " + getString(R.string.TUE));}
-        if(Wednesday.isChecked()){dates = (dates == null) ? getString(R.string.WED) : (dates + ", " + getString(R.string.WED));}
-        if(Thursday.isChecked()){dates = (dates == null) ? getString(R.string.THU) : (dates + ", " + getString(R.string.THU));}
-        if(Friday.isChecked()){dates = (dates == null) ? getString(R.string.FRI) : (dates + ", " + getString(R.string.FRI));}
-        if(Saturday.isChecked()){dates = (dates == null) ? getString(R.string.SAT) : (dates + ", " + getString(R.string.SAT));}
-        if(Sunday.isChecked()){dates = (dates == null) ? getString(R.string.SUN) : (dates + ", " + getString(R.string.SUN));}
+        if (Monday.isChecked()) {
+            dates = (dates == null) ? getString(R.string.MON) : (dates + ", " + getString(R.string.MON));
+        }
+        if (Tuesday.isChecked()) {
+            dates = (dates == null) ? getString(R.string.TUE) : (dates + ", " + getString(R.string.TUE));
+        }
+        if (Wednesday.isChecked()) {
+            dates = (dates == null) ? getString(R.string.WED) : (dates + ", " + getString(R.string.WED));
+        }
+        if (Thursday.isChecked()) {
+            dates = (dates == null) ? getString(R.string.THU) : (dates + ", " + getString(R.string.THU));
+        }
+        if (Friday.isChecked()) {
+            dates = (dates == null) ? getString(R.string.FRI) : (dates + ", " + getString(R.string.FRI));
+        }
+        if (Saturday.isChecked()) {
+            dates = (dates == null) ? getString(R.string.SAT) : (dates + ", " + getString(R.string.SAT));
+        }
+        if (Sunday.isChecked()) {
+            dates = (dates == null) ? getString(R.string.SUN) : (dates + ", " + getString(R.string.SUN));
+        }
         return dates;
     }
 
-    private void addDatePatternOption(){
+    private void addDatePatternOption() {
         // Handle dynamically added views
-        if(canAddCheckBoxes){
+        if (canAddCheckBoxes) {
             LayoutInflater layoutInflater =
                     (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View addView = layoutInflater.inflate(R.layout.check_box_rows, null);
@@ -283,60 +305,68 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
             Log.i(TAG, newLayout.getChildCount() + "");
         }
     }
+
     @Override
     public void OnTimePicked(String msg) {
-       switch(timeSelectFrom){
-           case "start":
-               mTimeStartButton.setText(msg);
-               try {
-                   simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
-                   Date time = simpleDateFormat.parse(msg);
-                   simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
-                   timeStart = simpleDateFormat.format(time);
-               } catch (Exception e) {
-                   e.printStackTrace();
-               }
-               break;
-           case "end":
-               mTimeEndButton.setText(msg);
-               try {
-                   simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
-                   Date time = simpleDateFormat.parse(msg);
-                   simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
-                   timeEnd = simpleDateFormat.format(time);
-               } catch (Exception e) {
-                   e.printStackTrace();
-               }
-               break;
-           case "newStart":
-               if(mTimeStartButtonNew!=null)
-               {mTimeStartButtonNew.setText(msg);}
-               break;
-           case "newEnd":
-               if(mTimeEndButtonNew!=null)
-               {mTimeEndButtonNew.setText(msg);}
-               break;
-       }
+        switch (timeSelectFrom) {
+            case "start":
+                mTimeStartButton.setText(msg);
+                try {
+                    simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+                    Date time = simpleDateFormat.parse(msg);
+                    simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+                    timeStart = simpleDateFormat.format(time);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "end":
+                mTimeEndButton.setText(msg);
+                try {
+                    simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+                    Date time = simpleDateFormat.parse(msg);
+                    simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+                    timeEnd = simpleDateFormat.format(time);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "newStart":
+                if (mTimeStartButtonNew != null) {
+                    mTimeStartButtonNew.setText(msg);
+                }
+                break;
+            case "newEnd":
+                if (mTimeEndButtonNew != null) {
+                    mTimeEndButtonNew.setText(msg);
+                }
+                break;
+        }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        ArrayAdapter<String> spinnerArrayAdapter;
-        switch(parent.getId()){
+
+        switch (parent.getId()) {
             case R.id.locationSpinner:
-                seller_location = parent.getItemAtPosition(position).toString();
+ //               seller_location = parent.getItemAtPosition(position).toString();
+                line = locationSpinner.getSelectedItem().toString();
+                Log.i(TAG, "line:" + line);
+                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getLocationArray(line)); //selected item will look like a spinner set from XML
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                locationSpecificSpinner.setAdapter(spinnerArrayAdapter);
                 Log.i(TAG, "seller_location:" + seller_location);
                 break;
             case R.id.productBrand:
                 brand = parent.getItemAtPosition(position).toString();
-                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,  getSpinnerArray(brand)); //selected item will look like a spinner set from XML
+                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getSpinnerArray(brand)); //selected item will look like a spinner set from XML
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 productModel.setAdapter(spinnerArrayAdapter);
                 Log.i(TAG, "brand:" + brand);
                 break;
             case R.id.productType:
                 type = parent.getItemAtPosition(position).toString();
-                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,  getSpinnerArray(type)); //selected item will look like a spinner set from XML
+                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getSpinnerArray(type)); //selected item will look like a spinner set from XML
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 productBrand.setAdapter(spinnerArrayAdapter);
                 Log.i(TAG, "type:" + type);
@@ -353,6 +383,16 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 scratch = parent.getItemAtPosition(position).toString();
                 Log.i(TAG, "scratch:" + scratch);
                 break;
+            case R.id.locationSpecificSpinner:
+
+
+                if(locationSpecificSpinner.getSelectedItem().toString().equals("全線")){
+                    seller_location = locationSpinner.getSelectedItem().toString();
+                }else{
+                    seller_location = locationSpecificSpinner.getSelectedItem().toString();
+                }
+                Log.i(TAG, "seller_location from specific:" + seller_location);
+                break;
         }
 
     }
@@ -361,15 +401,16 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
     private void successMessage() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setMessage("資料已被確認");
         dialogBuilder.show();
     }
 
-    private String[] getSpinnerArray(String value){
+    private String[] getSpinnerArray(String value) {
         String[] result = null;
-        switch(value){
+        switch (value) {
             // Set Brand From Type
             case "智能手機":
                 result = getResources().getStringArray(R.array.smartphoneBrand);
@@ -394,10 +435,9 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 result = getResources().getStringArray(R.array.LGPhone);
                 break;
             case "Sony":
-                if(type.equals("智能手機")){
+                if (type.equals("智能手機")) {
                     result = getResources().getStringArray(R.array.sonyPhone);
-                }
-                else{
+                } else {
                     result = getResources().getStringArray(R.array.sonyGame);
                 }
                 break;
@@ -408,8 +448,49 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 result = getResources().getStringArray(R.array.SamsungPhone);
                 break;
             default:
-                result = getResources().getStringArray(R.array.SamsungPhone);;
+                result = getResources().getStringArray(R.array.SamsungPhone);
+                ;
                 break;
+        }
+        return result;
+    }
+
+    private String[] getLocationArray(String value) {
+        String[] result = null;
+        switch (value) {
+            // Set Brand From Type
+            case "觀塘綫":
+                result = getResources().getStringArray(R.array.ktl);
+                break;
+            case "荃灣綫":
+                result = getResources().getStringArray(R.array.twl);
+                break;
+            case "港島綫":
+                result = getResources().getStringArray(R.array.isl);
+                break;
+            case "將軍澳綫":
+                result = getResources().getStringArray(R.array.tkl);
+                break;
+            case "機場快綫":
+                result = getResources().getStringArray(R.array.ael);
+                break;
+            // Set Model From Brand
+            case "東涌綫":
+                result = getResources().getStringArray(R.array.tcl);
+                break;
+            case "迪士尼綫":
+                result = getResources().getStringArray(R.array.drl);
+                break;
+            case "東鐵綫":
+                result = getResources().getStringArray(R.array.erl);
+                break;
+            case "馬鞍山綫":
+                result = getResources().getStringArray(R.array.mol);
+                break;
+            case "西鐵綫":
+                result = getResources().getStringArray(R.array.wrl);
+                break;
+
         }
         return result;
     }

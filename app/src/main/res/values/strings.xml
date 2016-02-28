@@ -139,6 +139,7 @@
         <item>"西鐵綫"</item>
     </string-array>
     <string-array name="ktl">
+        <item>全線</item>
         <item>"調景嶺"</item>
         <item>"油塘"</item>
         <item>"藍田"</item>
@@ -156,6 +157,7 @@
         <item>"油麻地"</item>
     </string-array>
     <string-array name="twl">
+        <item>全線</item>
         <item>"荃灣"</item>
         <item>"大窩口"</item>
         <item>"葵興"</item>
@@ -174,6 +176,7 @@
         <item>"中環"</item>
     </string-array>
     <string-array name="isl">
+        <item>全線</item>
         <item>"柴灣"</item>
         <item>"杏花邨"</item>
         <item>"筲箕灣"</item>
@@ -193,6 +196,7 @@
         <item>"堅尼地城"</item>
     </string-array>
     <string-array name="tcl">
+        <item>全線</item>
         <item>"東涌"</item>
         <item>"欣澳"</item>
         <item>"青衣"</item>
@@ -203,6 +207,7 @@
         <item>"香港"</item>
     </string-array>
     <string-array name="ael">
+        <item>全線</item>
         <item>"博覽館"</item>
         <item>"機場"</item>
         <item>"青衣"</item>
@@ -210,6 +215,7 @@
         <item>"香港"</item>
     </string-array>
     <string-array name="tkl">
+        <item>全線</item>
         <item>"北角"</item>
         <item>"鰂魚涌"</item>
         <item>"油塘"</item>
@@ -220,10 +226,12 @@
         <item>"康城"</item>
     </string-array>
     <string-array name="drl">
+        <item>全線</item>
         <item>"欣澳"</item>
         <item>"迪士尼"</item>
     </string-array>
     <string-array name="erl">
+        <item>全線</item>
         <item>"紅磡"</item>
         <item>"旺角東"</item>
         <item>"九龍塘"</item>
@@ -240,6 +248,7 @@
         <item>"落馬洲"</item>
     </string-array>
     <string-array name="wrl">
+        <item>全線</item>
         <item>"紅磡"</item>
         <item>"尖東"</item>
         <item>"柯士甸"</item>
@@ -254,6 +263,7 @@
         <item>"屯門"</item>
     </string-array>
     <string-array name="mol">
+        <item>全線</item>
         <item>"烏溪沙"</item>
         <item>"馬鞍山"</item>
         <item>"恆安"</item>

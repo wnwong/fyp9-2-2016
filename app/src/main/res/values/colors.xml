@@ -8,4 +8,5 @@
     <color name="icons">#FFFFFF</color>
     <color name="tabsScrollColor">#8a140e</color>
     <color name="cardPrice">#af0875</color>
+    <color name="progressBar">#fada09</color>
 </resources>

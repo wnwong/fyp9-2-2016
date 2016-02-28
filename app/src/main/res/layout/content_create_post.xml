@@ -457,19 +457,39 @@
             android:paddingTop="16dp"
             android:text="@string/choose_location"
             android:textColor="#c2c1c1" />
-
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/locationSpinner"
-            style="@style/Widget.AppCompat.Spinner.Underlined"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/mtr"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="16dp">
+            android:orientation="vertical"
+            android:id="@+id/locationLinearLayout"
+            android:layout_height="wrap_content">
 
-        </android.support.v7.widget.AppCompatSpinner>
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/locationSpinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/mtr"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/locationSpecificSpinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="24dp">
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/addViewBtn"

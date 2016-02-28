@@ -49,7 +49,6 @@ public class TradeHistoryFragment extends Fragment {
         rv.setHasFixedSize(true);
         tv = (TextView) v.findViewById(R.id.tv);
         userLocalStore = new UserLocalStore(getContext());
-
         //use a linear layout manager
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
@@ -62,7 +61,6 @@ public class TradeHistoryFragment extends Fragment {
                         realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
                         TradeHistoryAdapter adapter = new TradeHistoryAdapter(realmGadgets, getContext());
                         rv.setAdapter(adapter);
-
                         break;
                     default:
                         break;

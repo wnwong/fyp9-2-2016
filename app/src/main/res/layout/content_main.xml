@@ -10,5 +10,11 @@
     tools:context=".Main"
     android:orientation="vertical"
     android:id="@+id/container_body">
-
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_spinner"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone"/>
 </FrameLayout>
