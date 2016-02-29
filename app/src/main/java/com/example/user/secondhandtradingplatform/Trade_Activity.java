@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -182,8 +183,43 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
                 finish();
             }
         });
+        if(!gadget.getSeller_location_2().equals("")){
+            addView();
+        }
     }
 
+    private void addView(){
+        LayoutInflater layoutInflater =  (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View addView = layoutInflater.inflate(R.layout.seller_trade_info, null);
+        final LinearLayout ll = (LinearLayout) findViewById(R.id.sellerLinearLayout);
+        ll.addView(addView);
+        TextView datetv = (TextView) ll.findViewById(R.id.tvDateAdd);
+        TextView time = (TextView) ll.findViewById(R.id.tvTimeAdd);
+        TextView location = (TextView) ll.findViewById(R.id.tvLocationAdd);
+        location.setText(gadget.getSeller_location_2());
+        try { //Format the date and time obtained from the database
+            //Set seller date 2
+            datetv.setText(gadget.getSeller_date_2());
+
+            //Convert from SQL time start format to time format
+            simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+            Date time2 = simpleDateFormat.parse(gadget.getSeller_time_start_2());
+            simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+            String timeStringStart = simpleDateFormat.format(time2);
+
+            //Convert from SQL time end format to time format
+            simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+            Date timeEnd = simpleDateFormat.parse(gadget.getSeller_time_end_2());
+            simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+            String timeStringEnd = simpleDateFormat.format(timeEnd);
+
+            //Set seller time
+            time.setText(timeStringStart + " - " + timeStringEnd);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     @Override
     public void OnDatePicked(String msg) {
         mDateButton.setText(msg);
@@ -253,34 +289,34 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         String[] returnLocationList = null;
         switch (seller_location) {
             case "觀塘綫":
-                returnLocationList = getResources().getStringArray(R.array.ktl);
+                returnLocationList = getResources().getStringArray(R.array.ktlt);
                 break;
             case "荃灣綫":
-                returnLocationList = getResources().getStringArray(R.array.twl);
+                returnLocationList = getResources().getStringArray(R.array.twlt);
                 break;
             case "港島綫":
-                returnLocationList = getResources().getStringArray(R.array.isl);
+                returnLocationList = getResources().getStringArray(R.array.islt);
                 break;
             case "將軍澳綫":
-                returnLocationList = getResources().getStringArray(R.array.tkl);
+                returnLocationList = getResources().getStringArray(R.array.tklt);
                 break;
             case "機場快綫":
-                returnLocationList = getResources().getStringArray(R.array.ael);
+                returnLocationList = getResources().getStringArray(R.array.aelt);
                 break;
             case "東涌綫":
-                returnLocationList = getResources().getStringArray(R.array.tcl);
+                returnLocationList = getResources().getStringArray(R.array.tclt);
                 break;
             case "迪士尼綫":
-                returnLocationList = getResources().getStringArray(R.array.drl);
+                returnLocationList = getResources().getStringArray(R.array.drlt);
                 break;
             case "馬鞍山綫":
-                returnLocationList = getResources().getStringArray(R.array.mol);
+                returnLocationList = getResources().getStringArray(R.array.molt);
                 break;
             case "西鐵綫":
-                returnLocationList = getResources().getStringArray(R.array.wrl);
+                returnLocationList = getResources().getStringArray(R.array.wrlt);
                 break;
             case "東鐵綫":
-                returnLocationList = getResources().getStringArray(R.array.erl);
+                returnLocationList = getResources().getStringArray(R.array.erlt);
                 break;
             default:
                 returnLocationList = new String[]{seller_location};

@@ -51,6 +51,7 @@ public class IntroActivity extends Activity {
             showProgress();
             refreshDB();
         }else{
+            waitTV.setVisibility(View.GONE);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -95,8 +96,12 @@ public class IntroActivity extends Activity {
                     String image = obj.getString("path");
                     String image1 = obj.getString("path1");
                     String availability = obj.getString("availability");
-                    //                  Log.i(TAG, brand + " " + model + " " + seller_location);
-                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time_start, seller_time_end, availability);
+                    String seller_date_2 = obj.getString("seller_date_2");
+                    String seller_location_2 = obj.getString("seller_location_2");
+                    String seller_time_start_2 = obj.getString("seller_time_start_2");
+                    String seller_time_end_2 = obj.getString("seller_time_end_2");
+                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time_start,
+                            seller_time_end, availability, seller_date_2, seller_location_2, seller_time_start_2, seller_time_end_2);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -351,7 +356,8 @@ public class IntroActivity extends Activity {
     }
 
     private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image,
-                                  String image1, String seller_date, String seller_time_start, String seller_time_end, String availability) {
+                                  String image1, String seller_date, String seller_time_start, String seller_time_end, String availability, String seller_date_2,
+                                  String seller_location_2,  String seller_time_start_2, String seller_time_end_2) {
         realm.beginTransaction();
         RealmGadget rc = realm.createObject(RealmGadget.class);
         rc.setProduct_id(pid);
@@ -370,6 +376,10 @@ public class IntroActivity extends Activity {
         rc.setSeller_time_start(seller_time_start);
         rc.setSeller_time_end(seller_time_end);
         rc.setAvailability(availability);
+        rc.setSeller_date_2(seller_date_2);
+        rc.setSeller_location_2(seller_location_2);
+        rc.setSeller_time_start_2(seller_time_start_2);
+        rc.setSeller_time_end_2(seller_time_end_2);
         realm.commitTransaction();
     }
 

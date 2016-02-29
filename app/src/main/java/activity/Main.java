@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -57,7 +58,9 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import server.GetTradeCallback;
 import server.ServerRequests;
+import user.ProcessingTradeFragment;
 import user.RefreshLocalStore;
+import user.TradeHistoryFragment;
 import user.UserLocalStore;
 
 public class Main extends AppCompatActivity
@@ -73,6 +76,7 @@ public class Main extends AppCompatActivity
     public static final String TAG = "getProductList";
     public static final String SERVER_ADDRESS = "http://php-etrading.rhcloud.com/";
     ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -124,16 +128,24 @@ public class Main extends AppCompatActivity
                         for (int i = 0; i < realmGadgets.size(); i++) {
                             RealmGadget currentGadget = realmGadgets.get(i);
                             RealmGadget toEdit = realm.where(RealmGadget.class).equalTo("product_id", currentGadget.getProduct_id()).findFirst();
-                            realm.beginTransaction();
-                            toEdit.setAvailability(currentGadget.getAvailability());
-                            toEdit.setBuyer(currentGadget.getBuyer());
-                            toEdit.setBuyer_location(currentGadget.getBuyer_location());
-                            toEdit.setTrade_date(currentGadget.getTrade_date());
-                            toEdit.setTrade_time(currentGadget.getTrade_time());
-                            toEdit.setRating(currentGadget.getRating());
-                            realm.commitTransaction();
-                        }
+                            if (toEdit != null) {
+                                realm.beginTransaction();
+                                toEdit.setAvailability(currentGadget.getAvailability());
+                                toEdit.setBuyer(currentGadget.getBuyer());
+                                toEdit.setBuyer_location(currentGadget.getBuyer_location());
+                                toEdit.setTrade_date(currentGadget.getTrade_date());
+                                toEdit.setTrade_time(currentGadget.getTrade_time());
+                                toEdit.setRating(currentGadget.getRating());
+                                realm.commitTransaction();
+                            }
 
+                        }
+                        Message message = new Message();
+                        message.what = 1;
+                        Message message1 = new Message();
+                        message1.what = 1;
+                        TradeHistoryFragment.mHandler.sendMessage(message);
+                        ProcessingTradeFragment.mHandler.sendMessage(message1);
                     }
                 });
 
@@ -171,7 +183,7 @@ public class Main extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-    //    switchToDefaultFragment();
+        //    switchToDefaultFragment();
         // After User login change the login button into logout button
         if (authenticate() == true) {
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -250,7 +262,7 @@ public class Main extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
             refreshLocalStore.setRefreshStatus(true);
-             showProgress();
+            showProgress();
             realm = Realm.getInstance(this);
             clearDB(realm);
             refreshDB();
@@ -364,12 +376,15 @@ public class Main extends AppCompatActivity
                     String seller = obj.getString("seller");
                     String scratch = obj.getString("scratch");
                     String color = obj.getString("color");
-                    //Base64 encoded gadget image
                     String image = obj.getString("path");
                     String image1 = obj.getString("path1");
                     String availability = obj.getString("availability");
-                    //                  Log.i(TAG, brand + " " + model + " " + seller_location);
-                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time_start, seller_time_end, availability);
+                    String seller_date_2 = obj.getString("seller_date_2");
+                    String seller_location_2 = obj.getString("seller_location_2");
+                    String seller_time_start_2 = obj.getString("seller_time_start_2");
+                    String seller_time_end_2 = obj.getString("seller_time_end_2");
+                    createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time_start,
+                           seller_time_end, availability, seller_date_2, seller_location_2, seller_time_start_2, seller_time_end_2);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -643,7 +658,8 @@ public class Main extends AppCompatActivity
     }
 
     private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image,
-                                  String image1, String seller_date, String seller_time_start, String seller_time_end, String availability) {
+                                  String image1, String seller_date, String seller_time_start, String seller_time_end, String availability, String seller_date_2,
+                                  String seller_location_2,  String seller_time_start_2, String seller_time_end_2) {
         realm.beginTransaction();
         RealmGadget rc = realm.createObject(RealmGadget.class);
         rc.setProduct_id(pid);
@@ -662,6 +678,10 @@ public class Main extends AppCompatActivity
         rc.setSeller_time_start(seller_time_start);
         rc.setSeller_time_end(seller_time_end);
         rc.setAvailability(availability);
+        rc.setSeller_date_2(seller_date_2);
+        rc.setSeller_location_2(seller_location_2);
+        rc.setSeller_time_start_2(seller_time_start_2);
+        rc.setSeller_time_end_2(seller_time_end_2);
         realm.commitTransaction();
     }
 

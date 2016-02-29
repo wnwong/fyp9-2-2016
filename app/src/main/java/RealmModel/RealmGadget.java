@@ -12,6 +12,7 @@ public class RealmGadget extends RealmObject {
     private String warranty;
     private String price;
     private String seller_location;
+    private String seller_location_2;
     private String seller;
     private String scratch;
     private String color;
@@ -19,8 +20,11 @@ public class RealmGadget extends RealmObject {
     private String type;
     private String image1;
     private String seller_date;
+    private String seller_date_2;
     private String seller_time_start;
+    private String seller_time_start_2;
     private String seller_time_end;
+    private String seller_time_end_2;
     private String availability;
     private String buyer;
     private String buyer_location;
@@ -28,26 +32,9 @@ public class RealmGadget extends RealmObject {
     private String trade_time;
     private String seller_phone;
     private String buyer_phone;
-
-    public String getSeller_phone() {
-        return seller_phone;
-    }
-
-    public void setSeller_phone(String seller_phone) {
-        this.seller_phone = seller_phone;
-    }
-
-    public String getBuyer_phone() {
-        return buyer_phone;
-    }
-
-    public void setBuyer_phone(String buyer_phone) {
-        this.buyer_phone = buyer_phone;
-    }
-
     private int rating;
 
-    public RealmGadget(){
+    public RealmGadget() {
         //default constructor
     }
 
@@ -230,5 +217,53 @@ public class RealmGadget extends RealmObject {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSeller_phone() {
+        return seller_phone;
+    }
+
+    public void setSeller_phone(String seller_phone) {
+        this.seller_phone = seller_phone;
+    }
+
+    public String getBuyer_phone() {
+        return buyer_phone;
+    }
+
+    public void setBuyer_phone(String buyer_phone) {
+        this.buyer_phone = buyer_phone;
+    }
+
+    public String getSeller_location_2() {
+        return seller_location_2;
+    }
+
+    public void setSeller_location_2(String seller_location_2) {
+        this.seller_location_2 = seller_location_2;
+    }
+
+    public String getSeller_date_2() {
+        return seller_date_2;
+    }
+
+    public void setSeller_date_2(String seller_date_2) {
+        this.seller_date_2 = seller_date_2;
+    }
+
+    public String getSeller_time_start_2() {
+        return seller_time_start_2;
+    }
+
+    public void setSeller_time_start_2(String seller_time_start_2) {
+        this.seller_time_start_2 = seller_time_start_2;
+    }
+
+    public String getSeller_time_end_2() {
+        return seller_time_end_2;
+    }
+
+    public void setSeller_time_end_2(String seller_time_end_2) {
+        this.seller_time_end_2 = seller_time_end_2;
     }
 }

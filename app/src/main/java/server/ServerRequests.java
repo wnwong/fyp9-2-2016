@@ -55,20 +55,22 @@ public class ServerRequests {
     }
 
     public void storeTradeDataInBackground(String type, String brand, String model, String warranty, String color, String scratch, String price, String timeStart,
-                                           String timeEnd, Bitmap image1, Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback, String seller_phone) {
+                                           String timeEnd, Bitmap image1, Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback, String seller_phone,
+                                           String timeStartNew, String timeEndNew, String seller_location2, String datePattern2) {
         progressDialog.show();
         new storeTradeDataAsyncTask(type, brand, model, warranty, color, scratch, price, timeStart,
-                timeEnd, image1, image2, seller_location, datePattern, seller, getPostCallback, seller_phone).execute();
+                timeEnd, image1, image2, seller_location, datePattern, seller, getPostCallback, seller_phone, timeStartNew, timeEndNew, seller_location2, datePattern2).execute();
     }
 
     public class storeTradeDataAsyncTask extends AsyncTask<Void, Void, Void> {
         private String type, brand, model, warranty, price, color, scratch, timeStart,
-                timeEnd, seller_location, datePattern, seller, seller_phone;
+                timeEnd, seller_location, datePattern, seller, seller_phone, timeStartNew, timeEndNew, seller_location2, datePattern2;
         private Bitmap image1, image2;
         GetPostCallback getPostCallback;
 
         public storeTradeDataAsyncTask(String type, String brand, String model, String warranty, String color, String scratch, String price, String timeStart, String timeEnd, Bitmap image1,
-                                       Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback, String seller_phone) {
+                                       Bitmap image2, String seller_location, String datePattern, String seller, GetPostCallback getPostCallback, String seller_phone, String timeStartNew, String timeEndNew,
+                                       String seller_location2, String datePattern2) {
             this.type = type;
             this.brand = brand;
             this.model = model;
@@ -85,20 +87,31 @@ public class ServerRequests {
             this.seller = seller;
             this.getPostCallback = getPostCallback;
             this.seller_phone = seller_phone;
+            this.timeStartNew = timeStartNew;
+            this.timeEndNew = timeEndNew;
+            this.seller_location2 = seller_location2;
+            this.datePattern2 = datePattern2;
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             Log.i(TAG, "Sending to Server");
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            image1.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
-            byte[] array = byteArrayOutputStream.toByteArray();
-            String encodeImage = Base64.encodeToString(array, Base64.DEFAULT);
+            String encodeImage = null;
+            String encodeImage2 = null;
+            if (image1 != null) {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                image1.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+                byte[] array = byteArrayOutputStream.toByteArray();
+                encodeImage = Base64.encodeToString(array, Base64.DEFAULT);
+            }
             Log.i(TAG, "encodeImage: " + encodeImage);
-            ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
-            image2.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream2);
-            byte[] array2 = byteArrayOutputStream2.toByteArray();
-            String encodeImage2 = Base64.encodeToString(array2, Base64.DEFAULT);
+
+            if (image2 != null) {
+                ByteArrayOutputStream byteArrayOutputStream2 = new ByteArrayOutputStream();
+                image2.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream2);
+                byte[] array2 = byteArrayOutputStream2.toByteArray();
+                encodeImage2 = Base64.encodeToString(array2, Base64.DEFAULT);
+            }
             Log.i(TAG, "encodeImage2: " + encodeImage2);
             Uri.Builder builder = new Uri.Builder()
                     .appendQueryParameter("type", type)
@@ -116,6 +129,10 @@ public class ServerRequests {
                     .appendQueryParameter("seller", seller)
                     .appendQueryParameter("seller_location", seller_location)
                     .appendQueryParameter("seller_phone", seller_phone)
+                    .appendQueryParameter("timeStartNew", timeStartNew)
+                    .appendQueryParameter("timeEndNew", timeEndNew)
+                    .appendQueryParameter("seller_location2", seller_location2)
+                    .appendQueryParameter("datePattern2", datePattern2)
                     .appendQueryParameter("availability", "放售中");
             String query = builder.build().getEncodedQuery();
             Log.i(TAG, "query:" + query);
@@ -138,7 +155,7 @@ public class ServerRequests {
 
     public class fetchTradeDataAsyncTask extends AsyncTask<Void, Void, List<RealmGadget>> {
         int pid, rating;
-        String buyer, buyer_location, trade_date, trade_time, availability,seller_phone, buyer_phone;
+        String buyer, buyer_location, trade_date, trade_time, availability, seller_phone, buyer_phone;
         GetTradeCallback getTradeCallback;
         List<RealmGadget> gadgets = new ArrayList<>();
 

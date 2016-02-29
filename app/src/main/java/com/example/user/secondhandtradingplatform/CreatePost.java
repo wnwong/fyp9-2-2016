@@ -231,7 +231,10 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 //              Toast.makeText(getApplicationContext(), "Confirm Button Clicked", Toast.LENGTH_SHORT).show();
                 datePattern = getCheckBoxValue();
                 Log.i(TAG, "datePattern: "+datePattern);
-                datePattern2 = getCheckBoxValueNew();
+                if(canAddCheckBoxes==false){
+                    datePattern2 = getCheckBoxValueNew();
+                }
+                Log.i(TAG, "datePattern2: "+datePattern2);
                 price = gPrice.getText().toString();
                 ServerRequests serverRequests = new ServerRequests(this);
                 serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
@@ -241,7 +244,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                                 successMessage();
                                 finish();
                             }
-                        }, userLocalStore.getLoggedInUser().getPhone());
+                        }, userLocalStore.getLoggedInUser().getPhone(), timeStart2, timeEnd2, seller_location2, datePattern2);
                 return true;
 
             default:
@@ -450,8 +453,8 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 }
                 Log.i(TAG, "seller_location from specific:" + seller_location);
                 break;
-            case R.id.locationSpinnerNew:;
-                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getLocationArray(locationSpinner.getSelectedItem().toString()));
+            case R.id.locationSpinnerNew:
+                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getLocationArray(locationSpinnerNew.getSelectedItem().toString()));
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 locationSpecificSpinnerNew.setAdapter(spinnerArrayAdapter);
                 Log.i(TAG, "seller_location2:" + seller_location2);
