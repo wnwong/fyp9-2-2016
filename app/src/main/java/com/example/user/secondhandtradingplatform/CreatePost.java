@@ -52,11 +52,12 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     boolean canAddCheckBoxes = true;
     UserLocalStore userLocalStore;
     Bitmap image1, image2;
-    String timeSelectFrom, type, brand, model, warranty, color, scratch, price, timeStart,
-            timeEnd, seller_location, datePattern, seller, line;
+    String timeSelectFrom, type, brand, model, warranty, color, scratch, price, timeStart, timeStart2,
+            timeEnd, timeEnd2, seller_location, seller_location2, datePattern, datePattern2, seller, line;
     ImageButton addCameraBtn, addGalleryBtn, addCameraBtn2, addGalleryBtn2;
-    CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday;
-    Spinner productBrand, productModel, productType, locationSpinner, scratchSpinner, colorSpinner, locationSpecificSpinner;
+    CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+            , MondayNew, TuesdayNew, WednesdayNew, ThursdayNew, FridayNew, SaturdayNew, SundayNew;
+    Spinner productBrand, productModel, productType, locationSpinner, scratchSpinner, colorSpinner, locationSpecificSpinner, locationSpinnerNew, locationSpecificSpinnerNew;
     EditText gPrice;
     RadioGroup rgroup;
     RadioButton yesBtn, noBtn;
@@ -229,6 +230,8 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 // User chose the "Confirm" item, show the app settings UI...
                 //              Toast.makeText(getApplicationContext(), "Confirm Button Clicked", Toast.LENGTH_SHORT).show();
                 datePattern = getCheckBoxValue();
+                Log.i(TAG, "datePattern: "+datePattern);
+                datePattern2 = getCheckBoxValueNew();
                 price = gPrice.getText().toString();
                 ServerRequests serverRequests = new ServerRequests(this);
                 serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
@@ -274,6 +277,31 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         }
         return dates;
     }
+    private String getCheckBoxValueNew() {
+        String dates = null;
+        if (MondayNew.isChecked()) {
+            dates = (dates == null) ? getString(R.string.MON) : (dates + ", " + getString(R.string.MON));
+        }
+        if (TuesdayNew.isChecked()) {
+            dates = (dates == null) ? getString(R.string.TUE) : (dates + ", " + getString(R.string.TUE));
+        }
+        if (WednesdayNew.isChecked()) {
+            dates = (dates == null) ? getString(R.string.WED) : (dates + ", " + getString(R.string.WED));
+        }
+        if (ThursdayNew.isChecked()) {
+            dates = (dates == null) ? getString(R.string.THU) : (dates + ", " + getString(R.string.THU));
+        }
+        if (FridayNew.isChecked()) {
+            dates = (dates == null) ? getString(R.string.FRI) : (dates + ", " + getString(R.string.FRI));
+        }
+        if (SaturdayNew.isChecked()) {
+            dates = (dates == null) ? getString(R.string.SAT) : (dates + ", " + getString(R.string.SAT));
+        }
+        if (SundayNew.isChecked()) {
+            dates = (dates == null) ? getString(R.string.SUN) : (dates + ", " + getString(R.string.SUN));
+        }
+        return dates;
+    }
 
     private void addDatePatternOption() {
         // Handle dynamically added views
@@ -293,16 +321,31 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
             final Button delBtn = (Button) findViewById(R.id.delViewBtn);
             delBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v) {//Collapse the added view
                     ll.removeView(addView);
                     delBtn.setVisibility(View.GONE);
                     addViewBtn.setVisibility(View.VISIBLE);
                     canAddCheckBoxes = true;
                 }
             });
-            Spinner spinner = (Spinner) newLayout.getChildAt(7);
-            spinner.setOnItemSelectedListener(this);
-            Log.i(TAG, newLayout.getChildCount() + "");
+            //Get the Location Spinner
+            locationSpinnerNew = (Spinner) newLayout.getChildAt(7);
+            locationSpinnerNew.setOnItemSelectedListener(this);
+            //Get the Specific Location Spinner
+            locationSpecificSpinnerNew = (Spinner) newLayout.getChildAt(8);
+            locationSpecificSpinnerNew.setOnItemSelectedListener(this);
+
+            spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getLocationArray(locationSpinnerNew.getSelectedItem().toString()));
+            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            locationSpecificSpinnerNew.setAdapter(spinnerArrayAdapter);
+
+            MondayNew = (CheckBox) newLayout.findViewById(R.id.MondayNew);
+            TuesdayNew = (CheckBox) newLayout.findViewById(R.id.TuesdayNew);
+            WednesdayNew = (CheckBox) newLayout.findViewById(R.id.WednesdayNew);
+            ThursdayNew = (CheckBox) newLayout.findViewById(R.id.ThursdayNew);
+            FridayNew = (CheckBox) newLayout.findViewById(R.id.FridayNew);
+            SaturdayNew = (CheckBox) newLayout.findViewById(R.id.SaturdayNew);
+            SundayNew = (CheckBox) newLayout.findViewById(R.id.SundayNew);
         }
     }
 
@@ -332,14 +375,30 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 }
                 break;
             case "newStart":
-                if (mTimeStartButtonNew != null) {
-                    mTimeStartButtonNew.setText(msg);
+                mTimeStartButtonNew.setText(msg);
+                try {
+                    simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+                    Date time = simpleDateFormat.parse(msg);
+                    simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+                    timeStart2 = simpleDateFormat.format(time);
+                    Log.i(TAG,"timeStart2: "+ timeStart2);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 break;
             case "newEnd":
-                if (mTimeEndButtonNew != null) {
-                    mTimeEndButtonNew.setText(msg);
+                mTimeEndButtonNew.setText(msg);
+                try {
+                    simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+                    Date time = simpleDateFormat.parse(msg);
+                    simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+                    timeEnd2 = simpleDateFormat.format(time);
+                    Log.i(TAG,"timeEnd2: "+ timeEnd2);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
                 break;
         }
     }
@@ -349,7 +408,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
 
         switch (parent.getId()) {
             case R.id.locationSpinner:
- //               seller_location = parent.getItemAtPosition(position).toString();
+                //               seller_location = parent.getItemAtPosition(position).toString();
                 line = locationSpinner.getSelectedItem().toString();
                 Log.i(TAG, "line:" + line);
                 spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getLocationArray(line)); //selected item will look like a spinner set from XML
@@ -384,14 +443,27 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 Log.i(TAG, "scratch:" + scratch);
                 break;
             case R.id.locationSpecificSpinner:
-
-
-                if(locationSpecificSpinner.getSelectedItem().toString().equals("全線")){
+                if (locationSpecificSpinner.getSelectedItem().toString().equals("全線")) {
                     seller_location = locationSpinner.getSelectedItem().toString();
-                }else{
+                } else {
                     seller_location = locationSpecificSpinner.getSelectedItem().toString();
                 }
                 Log.i(TAG, "seller_location from specific:" + seller_location);
+                break;
+            case R.id.locationSpinnerNew:;
+                spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getLocationArray(locationSpinner.getSelectedItem().toString()));
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                locationSpecificSpinnerNew.setAdapter(spinnerArrayAdapter);
+                Log.i(TAG, "seller_location2:" + seller_location2);
+                break;
+            case R.id.locationSpecificSpinnerNew:
+                if (locationSpecificSpinnerNew.getSelectedItem().toString().equals("全線")) {
+                    seller_location2 = locationSpinnerNew.getSelectedItem().toString();
+                } else {
+                    seller_location2 = locationSpecificSpinnerNew.getSelectedItem().toString();
+                }
+                Log.i(TAG, "seller_location2 from specificNew:" + seller_location2);
+
                 break;
         }
 
