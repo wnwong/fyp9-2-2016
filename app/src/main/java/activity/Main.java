@@ -70,6 +70,8 @@ public class Main extends AppCompatActivity
     ProgressDialog progressDialog;
     ImageButton profilePic;
     ServerRequests serverRequests;
+    NavigationView navigationView;
+    Menu menu;
     private Realm realm;
     private SearchView sv;
     private boolean switchFragment = true;
@@ -114,56 +116,16 @@ public class Main extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
         profilePic = (ImageButton) navigationView.getHeaderView(0).findViewById(R.id.imageView);
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-         /*       serverRequests = new ServerRequests(getApplicationContext());
-                serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
-                    @Override
-                    public void done(List<RealmGadget> realmGadgets) {
-                        Realm realm = Realm.getInstance(getApplicationContext());
-                        for (int i = 0; i < realmGadgets.size(); i++) {
-                            RealmGadget currentGadget = realmGadgets.get(i);
-                            RealmGadget toEdit = realm.where(RealmGadget.class).equalTo("product_id", currentGadget.getProduct_id()).findFirst();
-                            if (toEdit != null) {
-                                realm.beginTransaction();
-                                toEdit.setAvailability(currentGadget.getAvailability());
-                                toEdit.setBuyer(currentGadget.getBuyer());
-                                toEdit.setBuyer_location(currentGadget.getBuyer_location());
-                                toEdit.setTrade_date(currentGadget.getTrade_date());
-                                toEdit.setTrade_time(currentGadget.getTrade_time());
-                                toEdit.setRating(currentGadget.getRating());
-                                realm.commitTransaction();
-                            }
-
-                        }
-                        Message message = new Message();
-                        message.what = 1;
-                        Message message1 = new Message();
-                        message1.what = 1;
-                        TradeHistoryFragment.mHandler.sendMessage(message);
-                        ProcessingTradeFragment.mHandler.sendMessage(message1);
-                    }
-                });
-*/
                 startActivity(new Intent(getApplicationContext(), UserProfile.class));
             }
         });
-        PackageManager m = getPackageManager();
-        String s = getPackageName();
-        PackageInfo p = null;
-        try {
-            p = m.getPackageInfo(s, 0);
-            System.out.println("s" + s);
-            System.out.println("package by package" + p);
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        s = p.applicationInfo.dataDir;
     }
 
 
@@ -173,7 +135,7 @@ public class Main extends AppCompatActivity
         authenticate();
     }
 
-    private boolean authenticate() {
+    private boolean authenticate() { //Check whether the user is logged in
         if (userLocalStore.getLoggedInUser() == null) {
             return false;
         }
@@ -183,12 +145,10 @@ public class Main extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        //    switchToDefaultFragment();
         // After User login change the login button into logout button
         if (authenticate() == true) {
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            Menu menu = navigationView.getMenu();
             menu.findItem(R.id.nav_login).setTitle(getString(R.string.logout));
+            menu.findItem(R.id.nav_login).setIcon(R.mipmap.ic_logout);
             menu.findItem(R.id.nav_register).setVisible(false);
             //Update nav_header
             profilePic.setVisibility(View.VISIBLE);
@@ -197,7 +157,7 @@ public class Main extends AppCompatActivity
             username.setText(userLocalStore.getLoggedInUser().getUsername().toString());
             email.setText(userLocalStore.getLoggedInUser().getEmail().toString());
         } else {
-            profilePic.setVisibility(View.INVISIBLE);
+            profilePic.setVisibility(View.GONE);
         }
         //switchDefaultFragment();
         if (sv != null) {
@@ -294,15 +254,7 @@ public class Main extends AppCompatActivity
         } else if (id == R.id.nav_login) {
             if (authenticate() == true) {
                 logoutMessage();
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                Menu menu = navigationView.getMenu();
-                menu.findItem(R.id.nav_login).setTitle(getString(R.string.title_activity_login));
-                menu.findItem(R.id.nav_register).setVisible(true);
-                //Update nav_header
-                TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv);
-                TextView email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
-                username.setText("");
-                email.setText("");
+
             } else {
                 Intent myIntent = new Intent(this, Login.class);
                 startActivity(myIntent);
@@ -335,6 +287,17 @@ public class Main extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 userLocalStore.clearUserData();
                 userLocalStore.setUserLoggedIn(false);
+
+                //Change the logout button back to login button, reset the navigation header
+                menu.findItem(R.id.nav_login).setTitle(getString(R.string.title_activity_login));
+                menu.findItem(R.id.nav_login).setIcon(R.mipmap.ic_login);
+                menu.findItem(R.id.nav_register).setVisible(true);
+                //Update nav_header
+                TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv);
+                TextView email = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
+                profilePic.setVisibility(View.GONE);
+                username.setText("");
+                email.setText("");
 
             }
         });
@@ -383,7 +346,7 @@ public class Main extends AppCompatActivity
                     String seller_time_start_2 = obj.getString("seller_time_start_2");
                     String seller_time_end_2 = obj.getString("seller_time_end_2");
                     createPostsEntry(realm, pid, brand, model, warranty, price, seller_location, type, seller, scratch, color, image, image1, seller_date, seller_time_start,
-                           seller_time_end, availability, seller_date_2, seller_location_2, seller_time_start_2, seller_time_end_2);
+                            seller_time_end, availability, seller_date_2, seller_location_2, seller_time_start_2, seller_time_end_2);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -658,7 +621,7 @@ public class Main extends AppCompatActivity
 
     private void createPostsEntry(Realm realm, int pid, String brand, String model, String warranty, String price, String seller_location, String type, String seller, String scratch, String color, String image,
                                   String image1, String seller_date, String seller_time_start, String seller_time_end, String availability, String seller_date_2,
-                                  String seller_location_2,  String seller_time_start_2, String seller_time_end_2) {
+                                  String seller_location_2, String seller_time_start_2, String seller_time_end_2) {
         realm.beginTransaction();
         RealmGadget rc = realm.createObject(RealmGadget.class);
         rc.setProduct_id(pid);
