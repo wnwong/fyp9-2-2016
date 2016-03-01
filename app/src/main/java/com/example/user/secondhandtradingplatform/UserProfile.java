@@ -56,7 +56,7 @@ public class UserProfile extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
- /*
+
         serverRequests = new ServerRequests(this);
         serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
             @Override
@@ -84,7 +84,7 @@ public class UserProfile extends AppCompatActivity {
                 ProcessingTradeFragment.mHandler.sendMessage(message1);
 
             }
-        });*/
+        });
 
     }
 

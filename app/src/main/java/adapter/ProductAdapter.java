@@ -131,6 +131,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
                 if (gadget.getAvailability().equals("放售中")){
                     pHolder.availability.setTextColor(Color.parseColor("#FFE4DA23"));
+                    pHolder.tradeBtn.setVisibility(View.VISIBLE);
                 }else if(gadget.getAvailability().equals("已被預訂")){
                     pHolder.availability.setTextColor(Color.parseColor("#FF16E42E"));
                     //Hide Trade Button

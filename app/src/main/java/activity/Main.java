@@ -120,7 +120,7 @@ public class Main extends AppCompatActivity
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                serverRequests = new ServerRequests(getApplicationContext());
+         /*       serverRequests = new ServerRequests(getApplicationContext());
                 serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
                     @Override
                     public void done(List<RealmGadget> realmGadgets) {
@@ -148,7 +148,7 @@ public class Main extends AppCompatActivity
                         ProcessingTradeFragment.mHandler.sendMessage(message1);
                     }
                 });
-
+*/
                 startActivity(new Intent(getApplicationContext(), UserProfile.class));
             }
         });
@@ -217,8 +217,7 @@ public class Main extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is pr
-        // esent.
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         //Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);

@@ -67,6 +67,7 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
             holder.sellerPhone.setText(realmGadget.getBuyer_phone());
         } else {
             holder.sellerPhone.setText(realmGadget.getSeller_phone());
+            Log.i(TAG, "Phone: "+ realmGadget.getSeller_phone());
         }
 
         if (realmGadget.getAvailability().equals("放售中")) {
@@ -85,6 +86,16 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
 
         } else {
             holder.availability.setTextColor(Color.parseColor("#FF16E42E"));
+            holder.place.setVisibility(View.VISIBLE);
+            holder.date.setVisibility(View.VISIBLE);
+            holder.person.setVisibility(View.VISIBLE);
+            holder.phone.setVisibility(View.VISIBLE);
+            holder.tradeDate.setVisibility(View.VISIBLE);
+            holder.tradeLocation.setVisibility(View.VISIBLE);
+            holder.sellerPhone.setVisibility(View.VISIBLE);
+            holder.buyer.setVisibility(View.VISIBLE);
+            holder.ratingBar.setVisibility(View.VISIBLE);
+            holder.confirmBtn.setVisibility(View.VISIBLE);
             holder.confirmBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
