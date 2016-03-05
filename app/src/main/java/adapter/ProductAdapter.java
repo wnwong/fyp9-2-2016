@@ -125,9 +125,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             if (gadgets != null) {
                 final RealmGadget gadget = gadgets.get(position - 1);
                 pHolder.sellerName.setText(gadget.getSeller());
+                pHolder.sellerName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
                 pHolder.sellingPrice.setText("HK$" + gadget.getPrice());
                 pHolder.tradePlace.setText(gadget.getSeller_location());
                 pHolder.availability.setText(gadget.getAvailability());
+                pHolder.color.setText(gadget.getColor());
+                pHolder.scratch.setText(gadget.getScratch()+"刮花");
+                if(!gadget.getWarranty().equals("0")){
+                    pHolder.warranty.setText(gadget.getWarranty()+"個月保養");
+                }else{
+                    pHolder.warranty.setText("保養期外");
+                }
 
                 if (gadget.getAvailability().equals("放售中")){
                     pHolder.availability.setTextColor(Color.parseColor("#FFE4DA23"));
@@ -194,7 +207,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public class PostViewHolder extends ProductViewHolder {
-        TextView sellerName, sellingPrice, tradePlace, availability;
+        TextView sellerName, sellingPrice, tradePlace, availability, color, scratch, warranty;
         ImageView productPhoto;
         Button tradeBtn;
 
@@ -206,6 +219,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tradePlace = (TextView) itemView.findViewById(R.id.tradePlace);
             tradeBtn = (Button) itemView.findViewById(R.id.tradeBtn);
             availability = (TextView) itemView.findViewById(R.id.availability);
+            color = (TextView) itemView.findViewById(R.id.color);
+            scratch = (TextView) itemView.findViewById(R.id.scratch);
+            warranty = (TextView) itemView.findViewById(R.id.warranty);
         }
     }
 

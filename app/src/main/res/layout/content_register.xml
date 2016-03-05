@@ -1,173 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_register"
-    tools:context="com.example.user.secondhandtradingplatform.Register">
+    tools:context="com.example.user.secondhandtradingplatform.Register"
+    tools:showIn="@layout/activity_register">
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/r_uname"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/uname"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="@string/username"
-        android:id="@+id/uname"
-        android:textSize="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_alignBaseline="@+id/r_uname"/>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pwd"
-        android:id="@+id/pwd"
-        android:textSize="20dp"
-        android:layout_alignBaseline="@+id/r_pwd"
-        android:layout_alignBottom="@+id/r_pwd"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/r_pwd"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/r_uname"
-        android:layout_alignLeft="@+id/r_uname"
-        android:layout_alignStart="@+id/r_uname"
-        android:password="true" />
+        <EditText
+            android:id="@+id/r_uname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:hint="@string/username"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/confirm"
-        android:id="@+id/confirm"
-        android:textSize="20sp"
-        android:layout_alignBaseline="@+id/r_confirm"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/pwd" />
+        android:layout_marginTop="16dp">
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/r_confirm"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/r_pwd"
-        android:layout_alignLeft="@+id/r_pwd"
-        android:layout_alignStart="@+id/r_pwd"
-        android:password="true"/>
+        <EditText
+            android:id="@+id/r_pwd"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:hint="@string/pwd"
+            android:password="true"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/email"
-        android:id="@+id/email"
-        android:textSize="20dp"
-        android:layout_alignBaseline="@+id/r_email"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/confirm"/>
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/r_email"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/r_confirm"
-        android:layout_alignLeft="@+id/r_confirm"
-        android:layout_alignStart="@+id/r_confirm" />
+        android:layout_marginTop="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Phone"
-        android:textSize="20dp"
-        android:layout_below="@+id/email"
-        android:layout_alignBaseline="@+id/r_phone"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:layout_width="fill_parent"
+        <EditText
+            android:id="@+id/r_confirm"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/confirm"
+            android:password="true"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/r_phone"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/r_email"
-        android:layout_alignLeft="@+id/r_confirm"
-        android:layout_alignStart="@+id/r_confirm" />
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/r_email"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/r_phone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="@string/phone"
+            android:inputType="phone"
+            android:maxLength="8"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/location"
-        android:id="@+id/location"
-        android:textSize="20dp"
-        android:layout_alignBaseline="@+id/r_location"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/email"
-        android:layout_marginTop="30dp"/>
-    <EditText
-        android:layout_width="fill_parent"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        android:text="@string/location" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/r_location"
-        android:layout_below="@+id/r_phone"
-        android:layout_marginTop="20dp"
-        android:layout_toRightOf="@+id/location"
-        android:layout_toEndOf="@+id/location" />
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/lineSpinner"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/mtr"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
+
+        </android.support.v7.widget.AppCompatSpinner>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/locationSpinner"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/mtr"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:visibility="gone"
+            android:paddingTop="16dp">
+
+        </android.support.v7.widget.AppCompatSpinner>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/regBtn"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/gender"
+            android:textSize="20sp" />
+
+        <RadioGroup
+            android:id="@+id/rgroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/r_location"
+            android:layout_below="@+id/r_location"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/mButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="@string/male"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/fButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="@string/female"
+                android:textSize="20sp" />
+
+        </RadioGroup>
+
+    </LinearLayout>
 
     <Button
+        android:id="@+id/regBtn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rgroup"
-        android:layout_marginTop="30dp"
-        android:text="@string/register"
+        android:layout_marginTop="16dp"
         android:background="@color/colorPrimaryDark"
-        android:textColor="@color/icons"
-        android:id="@+id/regBtn"
         android:clickable="true"
-        android:elevation="8dp"/>
+        android:elevation="8dp"
+        android:text="@string/register"
+        android:textColor="@color/icons" />
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rgroup"
-        android:orientation="horizontal"
-        android:layout_below="@+id/r_location"
-        android:layout_alignLeft="@+id/r_location">
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/male"
-            android:id="@+id/mButton"
-            android:textSize="20sp"
-            android:clickable="true" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/female"
-            android:id="@+id/fButton"
-            android:textSize="20sp"
-            android:clickable="true" />
-
-    </RadioGroup>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/gender"
-        android:id="@+id/gender"
-        android:layout_above="@+id/regBtn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20sp"/>
-
-</RelativeLayout>
+</LinearLayout>

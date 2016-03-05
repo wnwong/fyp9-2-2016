@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -41,6 +43,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -51,7 +54,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import RealmModel.RealmGadget;
 import RealmQuery.QueryCamera;
@@ -63,13 +68,26 @@ import user.userGadget;
 
 public class Trade_Activity extends AppCompatActivity implements DatePickerDialogFragment.OnDatePickedListener, TimePickerDialogFragment.OnTimePickedListener {
     Button mDateButton, mTimeButton, confirmBtn, cancelBtn;
+    Boolean Pattern1Check;
+    Boolean Pattern2Check = false;
+    Boolean TimePattern1Check = false;
+    Boolean TimePattern2Check = false;
+    Boolean havePattern2 = false;
     ViewPager mPager;
     PagerAdapter mPagerAdapter;
     RealmGadget gadget;
+    Date timeStart, timeEnd, timeStart2, timeEnd2, pickedTime;
+    Calendar calendar;
+    int DayOfWeek;
     List<String> images = new ArrayList<>();
+    HashMap<Integer, Date[]> DatePattern1List = new HashMap<>();
+    HashMap<Integer, Date[]> DatePattern2List = new HashMap<>();
     String image, image1, seller_location, buyer_time, buyer_date, buyer_location, time, date, seller, product;
     int product_id;
+    // First set of information
     TextView tvDate, tvTime, tvLocation, tvPrice;
+    //Second set of information
+    TextView datetv;
     Spinner locationSpinner;
     UserLocalStore userLocalStore;
     RefreshLocalStore refreshLocalStore;
@@ -80,6 +98,12 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     public static final String TIME_FORMAT = "HH:mm";
     public static final String SQL_TIME_FORMAT = "HH:mm:ss";
     public static final String TAG = "Trade_Activity";
+    private static final String DATE = "Date";
+    private static final String TIME = "Time";
+    private static final String DATE_ERROR = "DateError";
+    private static final String TIME_ERROR = "TimeError";
+    private static final String EMPTY_ERROR = "EmptyError";
+
     SimpleDateFormat simpleDateFormat;
 
     @Override
@@ -91,13 +115,16 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         product_id = getIntent().getIntExtra("id", 0);
         userLocalStore = new UserLocalStore(this);
         refreshLocalStore = new RefreshLocalStore(this);
+
+        //Get the product for trade by making a query using product_id
         QueryCamera query = new QueryCamera(this);
         gadget = query.retrieveGadgetById(product_id);
-        product = gadget.getBrand()+" "+gadget.getModel();
+        product = gadget.getBrand() + " " + gadget.getModel();
         seller = gadget.getSeller();
+
         if (gadget != null) {
             image = gadget.getImage();
-             image1 = gadget.getImage1();
+            image1 = gadget.getImage1();
         }
         if (image != null) {
             images.add(image);
@@ -131,17 +158,24 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         tvPrice.setText("HK$" + gadget.getPrice());
 
         try { //Format the date and time obtained from the database
+            //Display the seller date pattern
             tvDate = (TextView) findViewById(R.id.tvDate);
             tvDate.setText(gadget.getSeller_date());
+
+            // Parse the SQL Time format
             simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
-            Date time = simpleDateFormat.parse(gadget.getSeller_time_start());
+            timeStart = simpleDateFormat.parse(gadget.getSeller_time_start());
+            // Get the time format we want
             simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
-            String timeStringStart = simpleDateFormat.format(time);
-            tvTime = (TextView) findViewById(R.id.tvTime);
+            String timeStringStart = simpleDateFormat.format(timeStart);
+
+            // Parse the SQL Time format
             simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
-            Date timeEnd = simpleDateFormat.parse(gadget.getSeller_time_end());
+            timeEnd = simpleDateFormat.parse(gadget.getSeller_time_end());
+            // Get the time format we want
             simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
             String timeStringEnd = simpleDateFormat.format(timeEnd);
+            //Display the seller time
             tvTime = (TextView) findViewById(R.id.tvTime);
             tvTime.setText(timeStringStart + " - " + timeStringEnd);
         } catch (Exception e) {
@@ -172,7 +206,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
                 if (buyer_time != null && buyer_date != null) {
                     confirmSendMessage();
                 } else {
-                    showErrorMessage();
+                    showErrorMessage(EMPTY_ERROR);
                 }
             }
         });
@@ -183,17 +217,23 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
                 finish();
             }
         });
-        if(!gadget.getSeller_location_2().equals("")){
+        if (!gadget.getSeller_location_2().equals("")) {
             addView();
         }
+
+        //Convert the seller dates into a list of integer that will be used for comparison and checking later on
+        DatePattern1List = GetDatePatternList(gadget.getSeller_date(), 1);
+        Log.i(TAG, "DatePattern1List:" + DatePattern1List.toString());
+
     }
 
-    private void addView(){
-        LayoutInflater layoutInflater =  (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    private void addView() {
+        havePattern2 = true;
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View addView = layoutInflater.inflate(R.layout.seller_trade_info, null);
         final LinearLayout ll = (LinearLayout) findViewById(R.id.sellerLinearLayout);
         ll.addView(addView);
-        TextView datetv = (TextView) ll.findViewById(R.id.tvDateAdd);
+        datetv = (TextView) ll.findViewById(R.id.tvDateAdd);
         TextView time = (TextView) ll.findViewById(R.id.tvTimeAdd);
         TextView location = (TextView) ll.findViewById(R.id.tvLocationAdd);
         location.setText(gadget.getSeller_location_2());
@@ -203,23 +243,204 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
 
             //Convert from SQL time start format to time format
             simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
-            Date time2 = simpleDateFormat.parse(gadget.getSeller_time_start_2());
+            timeStart2 = simpleDateFormat.parse(gadget.getSeller_time_start_2());
             simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
-            String timeStringStart = simpleDateFormat.format(time2);
+            String timeStringStart = simpleDateFormat.format(timeStart2);
 
             //Convert from SQL time end format to time format
             simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
-            Date timeEnd = simpleDateFormat.parse(gadget.getSeller_time_end_2());
+            timeEnd2 = simpleDateFormat.parse(gadget.getSeller_time_end_2());
             simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
-            String timeStringEnd = simpleDateFormat.format(timeEnd);
+            String timeStringEnd = simpleDateFormat.format(timeEnd2);
 
             //Set seller time
             time.setText(timeStringStart + " - " + timeStringEnd);
+
+            DatePattern2List = GetDatePatternList(gadget.getSeller_date_2(), 2);
+            Log.i(TAG, "DatePattern2List:" + DatePattern2List.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private HashMap<Integer, Date[]> GetDatePatternList(String dates, int pattern) {
+        HashMap<Integer, Date[]> DateTimeMap = new HashMap<>();
+        switch (pattern) {
+            case 1:
+                Date[] sellerTimeArray = {timeStart, timeEnd};
+                if (dates.contains("一")) {
+                    DateTimeMap.put(2, sellerTimeArray);
+                }
+                if (dates.contains("二")) {
+                    DateTimeMap.put(3, sellerTimeArray);
+                }
+                if (dates.contains("三")) {
+                    DateTimeMap.put(4, sellerTimeArray);
+                }
+                if (dates.contains("四")) {
+                    DateTimeMap.put(5, sellerTimeArray);
+                }
+                if (dates.contains("五")) {
+                    DateTimeMap.put(6, sellerTimeArray);
+                }
+                if (dates.contains("六")) {
+                    DateTimeMap.put(7, sellerTimeArray);
+                }
+                if (dates.contains("日")) {
+                    DateTimeMap.put(1, sellerTimeArray);
+                }
+                break;
+            case 2:
+                Date[] sellerTimeArray2 = {timeStart2, timeEnd2};
+                Log.i(TAG, "timeStart2: " + timeStart2.toString());
+                Log.i(TAG, "timeEnd2: " + timeEnd2.toString());
+                if (dates.contains("一")) {
+                    DateTimeMap.put(2, sellerTimeArray2);
+                }
+                if (dates.contains("二")) {
+                    DateTimeMap.put(3, sellerTimeArray2);
+                }
+                if (dates.contains("三")) {
+                    DateTimeMap.put(4, sellerTimeArray2);
+                }
+                if (dates.contains("四")) {
+                    DateTimeMap.put(5, sellerTimeArray2);
+                }
+                if (dates.contains("五")) {
+                    DateTimeMap.put(6, sellerTimeArray2);
+                }
+                if (dates.contains("六")) {
+                    DateTimeMap.put(7, sellerTimeArray2);
+                }
+                if (dates.contains("日")) {
+                    DateTimeMap.put(1, sellerTimeArray2);
+                }
+                break;
+        }
+        return DateTimeMap;
+    }
+
+    private boolean DayOfWeekCheck(int day, HashMap<Integer, Date[]> datePatternList, Date pickedTime) {
+        if (datePatternList.get(day) != null) {
+            Log.i(TAG, "DayOfWeekCheckResult: True");
+            if (pickedTime != null) { //Check whether Time Picked lies in the Range
+                if(mTimeButton.getText().toString().equals("")){
+                    return true;
+                }
+                return TimeCheck(day, datePatternList, pickedTime);
+            } else { // When only Date is chosen
+                return true;
+            }
+        } else {
+
+            Log.i(TAG, "DayOfWeekCheckResult: False");
+            return false;
+        }
 
     }
+
+    private boolean TimeCheck(int day, HashMap<Integer, Date[]> datePatternList, Date pickedTime) {
+        if (datePatternList.get(day) != null) { //If date already chosen
+/*           Log.i(TAG, "TimeCheck-day: "+day);
+           Log.i(TAG, "TimeCheck-pickedTime: "+pickedTime.toString());
+           Log.i(TAG, "datePatternList: "+datePatternList.toString());
+           Log.i(TAG, "Date Array Content" + datePatternList.get(day).toString());
+           Log.i(TAG, "Date Array: "+datePatternList.get(day)[0].toString());
+           Log.i(TAG, "Date Array: " + datePatternList.get(day)[1].toString());*/
+            Date start = datePatternList.get(day)[0];
+            Date end = datePatternList.get(day)[1];
+            calendar = Calendar.getInstance();
+            calendar.setTime(start);
+            int startHour = calendar.get(Calendar.HOUR_OF_DAY);
+            int startMinute = calendar.get(Calendar.MINUTE);
+            calendar.setTime(end);
+            int endHour = calendar.get(Calendar.HOUR_OF_DAY);
+            int endMinute = calendar.get(Calendar.MINUTE);
+            calendar.setTime(pickedTime);
+            int pickedHour = calendar.get(Calendar.HOUR_OF_DAY);
+            int pickedMinute = calendar.get(Calendar.MINUTE);
+            //          Log.i(TAG, "Start: " + startHour + " "+"End: " + endHour + " "+"Picked: " + pickedHour);
+            //          Log.i(TAG, "Start: " + startMinute + " "+"End: " + endMinute + " "+"Picked: " + pickedMinute);
+            if (!(pickedHour < startHour) && !(pickedHour > endHour)) {// If the picked time lies between start and end, return true
+                if (startHour == pickedHour && startHour != endHour) {
+                    //                   Log.i(TAG, "Case startHour == pickedHour");
+                    if (pickedMinute >= startMinute) {
+                        return true;
+                    }
+                } else if (endHour == pickedHour && startHour != endHour) {
+//                    Log.i(TAG, "Case endHour == pickedHour");
+                    if (pickedMinute <= endMinute) {
+                        return true;
+                    }
+                } else if (startHour == endHour) {
+                    //                  Log.i(TAG, "Case startHour == endHour");
+                    if (pickedMinute >= startMinute && pickedMinute <= endMinute) {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            } else { //The picked time is out of range
+                return false;
+            }
+        } else { // Only Time is chosen
+            return false;
+        }
+        return false;
+    }
+
+    private void ValidateInfo(String checkType, Object data) {
+        if (checkType.equals(DATE)) {
+            Pattern1Check = DayOfWeekCheck((int) data, DatePattern1List, pickedTime);
+            Log.i(TAG, "Pattern1Check: " + Pattern1Check);
+            if (havePattern2) {   //Validate Date Picked against Pattern2 if exist
+                Pattern2Check = DayOfWeekCheck((int) data, DatePattern2List, pickedTime);
+                Log.i(TAG, "Pattern2Check: " + Pattern2Check);
+            }
+            if ((Pattern1Check == false) && (Pattern2Check == false)) { //User has selected a wrong time date combination
+                showErrorMessage(DATE_ERROR);
+                mDateButton.setText("");
+            }
+            changeLocation();
+
+        } else if (checkType.equals(TIME)) {
+            TimePattern1Check = TimeCheck(DayOfWeek, DatePattern1List, (Date) data);
+            Log.i(TAG, "TIME-Pattern1Check: " + Pattern1Check);
+            if (havePattern2) {
+                TimePattern2Check = TimeCheck(DayOfWeek, DatePattern2List, (Date) data);
+                Log.i(TAG, "TIME-Pattern2Check: " + Pattern2Check);
+            }
+            if ((TimePattern1Check == false) && (TimePattern2Check == false)) {
+                showErrorMessage(TIME_ERROR);
+                mTimeButton.setText("");
+            }ValidateInfo(DATE, DayOfWeek);
+            changeLocation();
+        }
+    }
+
+    private void changeLocation() {
+        if (Pattern1Check == true && Pattern2Check == false) {
+            Log.i(TAG, "Case P1 TRUE");
+            ArrayAdapter locationAdapter = new ArrayAdapter(this, R.layout.myspinner, getLocationList(gadget.getSeller_location()));
+            locationSpinner.setAdapter(locationAdapter);
+        } else if (Pattern1Check == false && Pattern2Check == true) {
+            Log.i(TAG, "Case P2 TRUE");
+            ArrayAdapter locationAdapter = new ArrayAdapter(this, R.layout.myspinner, getLocationList(gadget.getSeller_location_2()));
+            locationSpinner.setAdapter(locationAdapter);
+        } else if (Pattern1Check == true && Pattern2Check == true) {
+            Log.i(TAG, "Case P1 & P2 TRUE");
+            if (TimePattern1Check == true && TimePattern2Check == false) {
+                Log.i(TAG, "Case T1 TRUE");
+                ArrayAdapter locationAdapter = new ArrayAdapter(this, R.layout.myspinner, getLocationList(gadget.getSeller_location()));
+                locationSpinner.setAdapter(locationAdapter);
+            } else if (TimePattern2Check == true && TimePattern1Check == false) {
+                Log.i(TAG, "Case T2 TRUE");
+                ArrayAdapter locationAdapter = new ArrayAdapter(this, R.layout.myspinner, getLocationList(gadget.getSeller_location_2()));
+                locationSpinner.setAdapter(locationAdapter);
+            }
+        }
+    }
+
     @Override
     public void OnDatePicked(String msg) {
         mDateButton.setText(msg);
@@ -227,6 +448,14 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             date = msg;
             simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
             Date date = simpleDateFormat.parse(msg);
+            // Check the validity of Date Picked
+            calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            DayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            Log.i(TAG, "Day of Week 1: " + DayOfWeek);
+            //Validate the Date Picked by buyer
+            ValidateInfo(DATE, DayOfWeek);
+
             simpleDateFormat = new SimpleDateFormat(SQL_DATE_FORMAT);
             String dateString = simpleDateFormat.format(date);
             buyer_date = dateString;
@@ -241,7 +470,9 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         try {
             time = msg;
             simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
-            Date time = simpleDateFormat.parse(msg);
+            pickedTime = simpleDateFormat.parse(msg);
+            ValidateInfo(TIME, pickedTime);
+
             simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
             String timeString = simpleDateFormat.format(time);
             buyer_time = timeString;
@@ -343,9 +574,15 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         dialogBuilder.show();
     }
 
-    private void showErrorMessage() {
+    private void showErrorMessage(String type) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setMessage("請確認你已經選擇交易時間和日期");
+        if (type.equals(EMPTY_ERROR)) {
+            dialogBuilder.setMessage("請確認你已經選擇交易時間和日期");
+        } else if (type.equals(DATE_ERROR)) {
+            dialogBuilder.setMessage("這不是有效的交易日子");
+        } else if (type.equals(TIME_ERROR)) {
+            dialogBuilder.setMessage("這不是有效的交易時間");
+        }
         dialogBuilder.setPositiveButton("OK", null);
         dialogBuilder.show();
     }
@@ -357,7 +594,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     }
 
     @TargetApi(19)
-    private void setNotification(){
+    private void setNotification() {
         Date mDate = null;
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
@@ -365,22 +602,25 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         notificationIntent.putExtra("time", time);
         notificationIntent.putExtra("date", date);
         notificationIntent.putExtra("location", buyer_location);
-        notificationIntent.putExtra("product",product);
+        notificationIntent.putExtra("product", product);
 
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        try{
+        try {
             simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
-             mDate = simpleDateFormat.parse(date);
-        }catch(Exception e){ e.printStackTrace();}
+            mDate = simpleDateFormat.parse(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Calendar cal = Calendar.getInstance();
- //       cal.add(Calendar.SECOND, 30);
+        //       cal.add(Calendar.SECOND, 30);
         cal.setTime(mDate);
         Log.i(TAG, mDate.toString());
- //       cal.set(mDate.getYear(), mDate.getMonth(), mDate.getDay());
+        //       cal.set(mDate.getYear(), mDate.getMonth(), mDate.getDay());
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
     }
-    public class sendNotification extends AsyncTask<Void, Void, Void>{
+
+    public class sendNotification extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -397,6 +637,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             return null;
         }
     }
+
     public class sendTradeDetail extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {

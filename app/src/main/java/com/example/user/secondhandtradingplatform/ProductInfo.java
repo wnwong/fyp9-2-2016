@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +36,7 @@ import RealmQuery.QueryCamera;
 import activity.Main;
 import adapter.ProductAdapter;
 import io.realm.RealmResults;
+import user.PersonalDetailsFragment;
 
 public class ProductInfo extends AppCompatActivity{
     private static String TAG = "ProductInfo";

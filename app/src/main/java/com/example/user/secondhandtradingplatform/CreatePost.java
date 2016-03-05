@@ -58,7 +58,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
             , MondayNew, TuesdayNew, WednesdayNew, ThursdayNew, FridayNew, SaturdayNew, SundayNew;
     Spinner productBrand, productModel, productType, locationSpinner, scratchSpinner, colorSpinner, locationSpecificSpinner, locationSpinnerNew, locationSpecificSpinnerNew;
-    EditText gPrice;
+    EditText gPrice, gWarranty;
     RadioGroup rgroup;
     RadioButton yesBtn, noBtn;
     Button mTimeStartButton, mTimeEndButton, mTimeStartButtonNew, mTimeEndButtonNew, addViewBtn;
@@ -81,9 +81,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         scratchSpinner = (Spinner) findViewById(R.id.scratchSpinner);
         locationSpecificSpinner = (Spinner) findViewById(R.id.locationSpecificSpinner);
         gPrice = (EditText) findViewById(R.id.gPrice);
-        rgroup = (RadioGroup) findViewById(R.id.rgroup);
-        yesBtn = (RadioButton) findViewById(R.id.yesButton);
-        noBtn = (RadioButton) findViewById(R.id.noButton);
+        gWarranty = (EditText) findViewById(R.id.warranty);
         imageToUpload = (ImageView) findViewById(R.id.imageToUpload);
         imageToUpload2 = (ImageView) findViewById(R.id.imageToUpload2);
         mTimeStartButton = (Button) findViewById(R.id.mTimeStartButton);
@@ -107,9 +105,6 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         addGalleryBtn2.setOnClickListener(this);
         mTimeStartButton.setOnClickListener(this);
         mTimeEndButton.setOnClickListener(this);
-        rgroup.setOnCheckedChangeListener(listener);
-        yesBtn.setOnClickListener(this);
-        noBtn.setOnClickListener(this);
         addViewBtn.setOnClickListener(this);
         productType.setOnItemSelectedListener(this);
         productBrand.setOnItemSelectedListener(this);
@@ -201,22 +196,6 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    private RadioGroup.OnCheckedChangeListener listener = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId) {
-                case R.id.yesButton:
-                    warranty = getString(R.string.yes);
-                    Log.i(TAG, warranty);
-                    break;
-                case R.id.noButton:
-                    warranty = getString(R.string.no);
-                    Log.i(TAG, warranty);
-                    break;
-            }
-        }
-    };
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add, menu);
@@ -236,6 +215,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 }
                 Log.i(TAG, "datePattern2: "+datePattern2);
                 price = gPrice.getText().toString();
+                warranty = gWarranty.getText().toString();
                 ServerRequests serverRequests = new ServerRequests(this);
                 serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
                         timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {

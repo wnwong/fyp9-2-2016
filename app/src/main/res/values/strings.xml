@@ -27,6 +27,7 @@
     <string name="username">帳户名稱</string>
     <string name="pwd">密碼</string>
     <string name="email">電郵地址</string>
+    <string name="phone">電話號碼</string>
     <string name="location">最方便交易地點</string>
     <string name="register">註冊</string>
     <string name="confirm">確認密碼</string>
@@ -56,7 +57,7 @@
         <item>下方</item>
         <item>沒有</item>
     </string-array>
-    <string name="gadget_warranty">保養期內:</string>
+    <string name="gadget_warranty">保養期(以月份計算)</string>
     <string name="gadget_type">物品類型</string>
     <string name="yes">是</string>
     <string name="no">否</string>

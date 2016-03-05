@@ -9,84 +9,138 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/product_photo"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:paddingBottom="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="10dp"
-                android:paddingTop="16dp"
-                android:scaleType="fitXY" />
-
-            <TextView
-                android:id="@+id/sellername"
-                android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="?android:dividerHorizontal"
+            android:dividerPadding="8dp"
+            android:orientation="vertical"
+            android:showDividers="middle">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/product_photo"
-                android:paddingTop="24dp"
-                android:text="Peter"
-                android:textColor="@color/primaryText"
-                android:textSize="14sp" />
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-            <TextView
-                android:id="@+id/sellingPrice"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@mipmap/ic_person"
+                    android:tint="@color/secondaryText" />
+
+                <TextView
+                    android:id="@+id/sellername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="Peter"
+                    android:textColor="@color/primaryText"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/place"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@mipmap/ic_place"
+                    android:tint="@color/secondaryText" />
+
+                <TextView
+                    android:id="@+id/tradePlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="觀塘綫" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@mipmap/ic_color"
+                    android:tint="@color/secondaryText"/>
+                <TextView
+                    android:id="@+id/color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="白色" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/sellername"
-                android:layout_below="@+id/sellername"
-                android:paddingTop="8dp"
-                android:text="HK$4500"
-                android:textColor="@color/colorAccent"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:divider="?android:dividerVertical"
+                android:dividerPadding="8dp"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+                <ImageView
+                    android:id="@+id/product_photo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="16dp"
+                    android:scaleType="fitXY" />
 
-            <ImageView
-                android:id="@+id/place"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_alignLeft="@+id/sellername"
-                android:layout_below="@+id/sellingPrice"
-                android:src="@mipmap/ic_place"
-                android:tint="@color/secondaryText" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
+                    <TextView
+                        android:id="@+id/sellingPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="HK$4500"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/scratch"
+                        android:text="沒有刮花"
+                        android:layout_below="@+id/sellingPrice"
+                        android:layout_marginLeft="8dp"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/scratch"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="16dp"
+                        android:id="@+id/warranty"
+                        android:text="保養期內"/>
 
-            <TextView
-                android:id="@+id/tradePlace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/sellingPrice"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/place"
-                android:text="觀塘綫" />
+                    <Button
+                        android:id="@+id/tradeBtn"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:layout_below="@+id/warranty"
+                        android:text=" 進行交易"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:padding="16dp"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold|italic" />
 
-            <TextView
-                android:id="@+id/availability"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:padding="16dp"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="16sp"
-                android:textStyle="bold|italic" />
+                </RelativeLayout>
 
-            <Button
-                android:id="@+id/tradeBtn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_photo"
-                android:padding="8dp"
-                android:text=" 進行交易"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
+            </LinearLayout>
 
 
-        </RelativeLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
