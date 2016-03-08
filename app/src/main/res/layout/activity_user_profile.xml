@@ -12,17 +12,26 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:layout_height="match_parent"
+            android:background="@drawable/back"
             app:popupTheme="@style/AppTheme.PopupOverlay">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/profile_pic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                   />
 
 
+            </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout

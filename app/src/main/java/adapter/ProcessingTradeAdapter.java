@@ -3,6 +3,7 @@ package adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,7 +46,7 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
     }
 
     @Override
-    public void onBindViewHolder(final ProcessingTradeViewHolder holder, int position) {
+    public void onBindViewHolder(final ProcessingTradeViewHolder holder, final int position) {
         RealmGadget realmGadget = realmGadgets.get(position);
         holder.product.setText(realmGadget.getBrand() + " " + realmGadget.getModel());
         holder.tradeDate.setText(realmGadget.getTrade_date());
@@ -102,6 +103,9 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
                     if (holder.ratingBar.getRating() != 0) {
                         Message message = new Message();
                         message.what = 2;
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("position", position);
+                        message.setData(bundle);
                         message.obj = holder.ratingBar.getRating();
                         ProcessingTradeFragment.mHandler.sendMessage(message);
                     } else {

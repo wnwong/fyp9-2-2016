@@ -28,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -37,8 +38,10 @@ import com.example.user.secondhandtradingplatform.R;
 import com.example.user.secondhandtradingplatform.Register;
 import com.example.user.secondhandtradingplatform.SearchResultActivity;
 import com.example.user.secondhandtradingplatform.UserProfile;
+import com.example.user.secondhandtradingplatform.Utils.CircleTransform;
 import com.example.user.secondhandtradingplatform.customHandler;
 import com.pushbots.push.Pushbots;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -68,7 +71,7 @@ public class Main extends AppCompatActivity
     RefreshLocalStore refreshLocalStore;
     UserLocalStore userLocalStore;
     ProgressDialog progressDialog;
-    ImageButton profilePic;
+    ImageView profilePic;
     ServerRequests serverRequests;
     NavigationView navigationView;
     Menu menu;
@@ -77,6 +80,7 @@ public class Main extends AppCompatActivity
     private boolean switchFragment = true;
     public static final String TAG = "getProductList";
     public static final String SERVER_ADDRESS = "http://php-etrading.rhcloud.com/";
+    public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     ProgressBar progressBar;
 
     @Override
@@ -119,7 +123,8 @@ public class Main extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
-        profilePic = (ImageButton) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        profilePic = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        Picasso.with(this).load(IMAGE_ADDRESS+"SE215.jpg").transform(new CircleTransform()).into(profilePic);
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

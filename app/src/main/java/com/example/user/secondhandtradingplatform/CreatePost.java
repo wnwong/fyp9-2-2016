@@ -224,6 +224,11 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                                 successMessage();
                                 finish();
                             }
+
+                            @Override
+                            public void done(String response) {
+
+                            }
                         }, userLocalStore.getLoggedInUser().getPhone(), timeStart2, timeEnd2, seller_location2, datePattern2);
                 return true;
 

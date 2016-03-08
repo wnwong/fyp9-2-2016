@@ -148,6 +148,43 @@ public class ServerRequests {
         }
     }
 
+    // This method is going to update rating given by buyer
+    // Called in Processing Trade Fragment
+    public void storeRatingInBackground(float rating, int pid, GetPostCallback getPostCallback) {
+        progressDialog.show();
+        new storeRatingAsyncTask(rating, pid, getPostCallback).execute();
+    }
+
+    private class storeRatingAsyncTask extends AsyncTask<Void, Void, String> {
+        private float rating;
+        private int pid;
+        private GetPostCallback getPostCallback;
+
+        public storeRatingAsyncTask(float rating, int pid, GetPostCallback getPostCallback) {
+            this.getPostCallback = getPostCallback;
+            this.rating = rating;
+            this.pid = pid;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Uri.Builder builder = new Uri.Builder()
+                    .appendQueryParameter("rating", String.valueOf(rating))
+                    .appendQueryParameter("availability", "已出售")
+                    .appendQueryParameter("pid", pid + "");
+            String query = builder.build().getEncodedQuery();
+            String response = getResponseFromServer("storeRating", query);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            getPostCallback.done(s);
+        }
+    }
+
     public void fetchTradeDataInBackground(GetTradeCallback getTradeCallback) {
 //        progressDialog.show();
         new fetchTradeDataAsyncTask(getTradeCallback).execute();
@@ -182,6 +219,7 @@ public class ServerRequests {
                     availability = obj.getString("availability");
                     seller_phone = obj.getString("seller_phone");
                     buyer_phone = obj.getString("buyer_phone");
+                    rating = obj.getInt("rating");
                     gadgets.add(new RealmGadget(pid, buyer, buyer_location, trade_date, trade_time, rating, availability, seller_phone, buyer_phone));
                 }
             } catch (Exception e) {
@@ -391,7 +429,7 @@ public class ServerRequests {
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
-                Log.i(TAG, "Response from server" + line);
+                Log.i(TAG, "Response from server: " + line);
             }
             json = sb.toString();
 

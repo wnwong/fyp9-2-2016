@@ -11,10 +11,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/imageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:scaleType="fitCenter"

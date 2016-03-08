@@ -32,7 +32,7 @@ public class RealmGadget extends RealmObject {
     private String trade_time;
     private String seller_phone;
     private String buyer_phone;
-    private int rating;
+    private float rating;
 
     public RealmGadget() {
         //default constructor
@@ -50,7 +50,7 @@ public class RealmGadget extends RealmObject {
         this.buyer_phone = buyer_phone;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
@@ -70,7 +70,7 @@ public class RealmGadget extends RealmObject {
         this.trade_time = trade_time;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
 
         this.rating = rating;
     }

@@ -21,16 +21,22 @@ import java.util.List;
 import RealmModel.RealmGadget;
 import RealmQuery.QueryCamera;
 import adapter.ProcessingTradeAdapter;
+import io.realm.Realm;
+import server.GetPostCallback;
+import server.ServerRequests;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProcessingTradeFragment extends Fragment {
-    List<RealmGadget> realmGadgets = new ArrayList<>();
+    private List<RealmGadget> realmGadgets = new ArrayList<>();
     UserLocalStore userLocalStore;
     TextView tv;
     RecyclerView rv;
+    private ServerRequests serverRequests;
     public static Handler mHandler;
+    private ProcessingTradeAdapter adapter;
+    private QueryCamera queryCamera;
 
     public ProcessingTradeFragment() {
         // Required empty public constructor
@@ -44,28 +50,48 @@ public class ProcessingTradeFragment extends Fragment {
         rv.setHasFixedSize(true);
         tv = (TextView) v.findViewById(R.id.tv);
         userLocalStore = new UserLocalStore(getContext());
+        queryCamera = new QueryCamera(getContext());
 
         //use a linear layout manager
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
 
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-               switch (msg.what){
-                   case 1:
+                switch (msg.what) {
+                    case 1:
+                        realmGadgets = queryCamera.retrieveProcessingGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
+                        adapter = new ProcessingTradeAdapter(realmGadgets, getContext());
+                        rv.setAdapter(adapter);
+                        break;
+                    case 2:
+                        final float rating = (float) msg.obj;
+                        int position = msg.getData().getInt("position");
+                        final int pid = realmGadgets.get(position).getProduct_id();
+                        serverRequests = new ServerRequests(getContext());
+                        serverRequests.storeRatingInBackground(rating, pid, new GetPostCallback() {
+                            @Override
+                            public void done() {
 
-                       QueryCamera queryCamera = new QueryCamera(getContext());
-                       realmGadgets = queryCamera.retrieveProcessingGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
-                       ProcessingTradeAdapter adapter = new ProcessingTradeAdapter(realmGadgets, getContext());
-                       rv.setAdapter(adapter);
-                       break;
-                   case 2:
-                       float rating = (float)msg.obj;
-                       break;
-                   default:
-                       break;
-               }
+                            }
+
+                            @Override
+                            public void done(String response) {
+                                if (response.equals("Success")) {
+                                    Realm realm = Realm.getInstance(getContext());
+                                    RealmGadget toEdit = realm.where(RealmGadget.class).equalTo("product_id", pid).findFirst();
+                                    realm.beginTransaction();
+                                    toEdit.setRating(Integer.parseInt(rating + ""));
+                                    toEdit.setAvailability("已出售");
+                                    realm.commitTransaction();
+                                }
+                            }
+                        });
+                        break;
+                    default:
+                        break;
+                }
             }
         };
 

@@ -18,8 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.example.user.secondhandtradingplatform.Utils.CircleTransform;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -33,9 +37,11 @@ import user.ProcessingTradeFragment;
 import user.TradeHistoryFragment;
 
 public class UserProfile extends AppCompatActivity {
+    public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     ProgressBar progressBar;
+    ImageView profile_pic;
     ServerRequests serverRequests;
 
     @Override
@@ -57,6 +63,10 @@ public class UserProfile extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        profile_pic = (ImageView) findViewById(R.id.profile_pic);
+
+        Picasso.with(this).load(IMAGE_ADDRESS+"SE215.jpg").transform(new CircleTransform()).into(profile_pic);
+
         serverRequests = new ServerRequests(this);
         serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
             @Override
@@ -74,6 +84,7 @@ public class UserProfile extends AppCompatActivity {
                     toEdit.setRating(currentGadget.getRating());
                     toEdit.setSeller_phone(currentGadget.getSeller_phone());
                     toEdit.setBuyer_phone(currentGadget.getBuyer_phone());
+                    toEdit.setRating(currentGadget.getRating());
                     realm.commitTransaction();
                 }
                 Message message = new Message();

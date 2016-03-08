@@ -5,4 +5,6 @@ package server;
  */
 public interface GetPostCallback {
     void done();
+    void done(String response);
 }
+
