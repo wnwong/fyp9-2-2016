@@ -81,7 +81,12 @@
         <activity
             android:name=".ProductInfo"
             android:label="@string/title_activity_product_info"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName="activity.Main"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="activity.Main" />
+        </activity>
         <activity
             android:name=".SearchResultActivity"
             android:label="@string/title_activity_search_result"

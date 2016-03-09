@@ -1,5 +1,6 @@
 package com.example.user.secondhandtradingplatform;
 
+import android.content.Intent;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -35,13 +36,15 @@ import server.ServerRequests;
 import user.PersonalDetailsFragment;
 import user.ProcessingTradeFragment;
 import user.TradeHistoryFragment;
+import user.UserLocalStore;
 
-public class UserProfile extends AppCompatActivity {
+public class UserProfile extends AppCompatActivity implements PersonalDetailsFragment.PersonalDetailsFragmentListener{
     public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     ProgressBar progressBar;
     ImageView profile_pic;
+    UserLocalStore userLocalStore;
     ServerRequests serverRequests;
 
     @Override
@@ -59,6 +62,8 @@ public class UserProfile extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
+
+        userLocalStore = new UserLocalStore(this);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -122,6 +127,13 @@ public class UserProfile extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void send() {
+        startActivity(new Intent(this, Login.class));
+        finish();
+        userLocalStore.clearUserData();
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -170,11 +182,11 @@ public class UserProfile extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new TradeHistoryFragment();
+                return new PersonalDetailsFragment();
             } else if (position == 1) {
                 return new ProcessingTradeFragment();
             } else {
-                return new PersonalDetailsFragment();
+                return new TradeHistoryFragment();
             }
         }
 
@@ -188,11 +200,11 @@ public class UserProfile extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.title_fragment_trade_history);
+                    return getString(R.string.title_fragment_personal_detail);
                 case 1:
                     return getString(R.string.title_fragment_processing_trade);
                 case 2:
-                    return getString(R.string.title_fragment_personal_detail);
+                    return getString(R.string.title_fragment_trade_history);
             }
             return null;
         }

@@ -392,6 +392,41 @@ public class ServerRequests {
         }
     }
 
+    // Changing the user password
+    public void ChangePassword(String password, int user_id, GetPostCallback getPostCallback) {
+        progressDialog.show();
+        new ChangePasswordAsyncTask(getPostCallback, password, user_id).execute();
+    }
+
+    private class ChangePasswordAsyncTask extends AsyncTask<Void, Void, String> {
+        GetPostCallback getPostCallback;
+        String password;
+        int user_id;
+
+        public ChangePasswordAsyncTask(GetPostCallback getPostCallback, String password, int user_id) {
+            this.getPostCallback = getPostCallback;
+            this.password = password;
+            this.user_id = user_id;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            getPostCallback.done(s);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Uri.Builder builder = new Uri.Builder()
+                    .appendQueryParameter("user_id",String.valueOf(user_id))
+                    .appendQueryParameter("password", password);
+            String query = builder.build().getEncodedQuery();
+            String response = getResponseFromServer("changePassword", query);
+            return response;
+        }
+    }
+
     private String getEncodedData(Map<String, String> data) {
         StringBuilder sb = new StringBuilder();
         for (String key : data.keySet()) {
