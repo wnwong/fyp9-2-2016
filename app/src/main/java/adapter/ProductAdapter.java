@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.example.user.secondhandtradingplatform.ProductInfo;
 import com.example.user.secondhandtradingplatform.R;
 import com.example.user.secondhandtradingplatform.SearchResultActivity;
+import com.example.user.secondhandtradingplatform.UserProfile;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -121,14 +123,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 }
             });
         } else {
-            PostViewHolder pHolder = (PostViewHolder) holder;
+            final PostViewHolder pHolder = (PostViewHolder) holder;
             if (gadgets != null) {
                 final RealmGadget gadget = gadgets.get(position - 1);
                 pHolder.sellerName.setText(gadget.getSeller());
                 pHolder.sellerName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Message message = new Message();
+                        message.what = 4;
+                        message.obj = (String) pHolder.sellerName.getText().toString();
+                        ProductInfo.mHandler.sendMessage(message);
                     }
                 });
                 pHolder.sellingPrice.setText("HK$" + gadget.getPrice());
@@ -162,7 +167,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         userLocalStore = new UserLocalStore(context);
                         Message message = new Message();
                         if (userLocalStore.getLoggedInUser() != null) {
-                            message.obj = new Integer(gadget.getProduct_id());
+                            List<Integer> data = new ArrayList<Integer>();
+                            data.add(gadget.getProduct_id());
+                            data.add(position);
+                            message.obj = data;
                             message.what = 1;
                             ProductInfo.mHandler.sendMessage(message);
                         } else {
@@ -174,6 +182,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 });
             }
         }
+    }
+
+    @Override
+    public void onBindViewHolder(ProductViewHolder holder, int position, List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+        Log.i(TAG, "payload: "+payloads.toString());
+    /*    if (holder.getItemViewType() == TYPE_POST){
+            Log.i(TAG, "Inside TYPE_POST");
+            PostViewHolder pHolder = (PostViewHolder) holder;
+            pHolder.availability.setText("已被預訂");
+            pHolder.availability.setTextColor(Color.parseColor("#FF16E42E"));
+            pHolder.tradeBtn.setVisibility(View.GONE);
+            pHolder.tradePlace.setPadding(0,0,0,8);
+        }*/
     }
 
     @Override

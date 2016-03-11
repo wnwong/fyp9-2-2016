@@ -16,6 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.user.secondhandtradingplatform.R;
+import com.example.user.secondhandtradingplatform.UserProfile;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -96,6 +97,14 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
             holder.sellerPhone.setVisibility(View.VISIBLE);
             holder.buyer.setVisibility(View.VISIBLE);
             holder.ratingBar.setVisibility(View.VISIBLE);
+            holder.tradeDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Message message = new Message();
+                    message.what = 1;
+                    UserProfile.mHandler.sendMessage(message);
+                }
+            });
             holder.confirmBtn.setVisibility(View.VISIBLE);
             holder.confirmBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

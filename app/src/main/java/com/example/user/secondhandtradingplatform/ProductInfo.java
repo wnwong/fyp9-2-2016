@@ -40,7 +40,7 @@ import adapter.ProductAdapter;
 import io.realm.RealmResults;
 import user.PersonalDetailsFragment;
 
-public class ProductInfo extends AppCompatActivity{
+public class ProductInfo extends AppCompatActivity {
     private static String TAG = "ProductInfo";
     List<RealmGadget> gadgets = new ArrayList<>();
     public static RealmProduct realmProduct;
@@ -49,10 +49,13 @@ public class ProductInfo extends AppCompatActivity{
     private PopupWindow popupWindow;
     private RelativeLayout relativeLayout;
     private ViewGroup container;
+    RecyclerView rv;
+    QueryCamera queryCamera;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
@@ -70,13 +73,12 @@ public class ProductInfo extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         relativeLayout = (RelativeLayout) findViewById(R.id.container_body);
-        RecyclerView rv;
         rv = (RecyclerView) findViewById(R.id.rview);
         rv.setHasFixedSize(true);
         //use a linear layout manager
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-        QueryCamera queryCamera = new QueryCamera(this);
+        queryCamera = new QueryCamera(this);
         // Retrieve posts of specific gadget
         RealmResults<RealmGadget> result = queryCamera.retrieveProductsByModel(realmProduct.getModel());
         for (int i = 0; i < result.size(); i++) {
@@ -93,9 +95,10 @@ public class ProductInfo extends AppCompatActivity{
                 switch (msg.what) {
                     case 1:
                         System.out.println("get from info page");
-                        Integer id = (Integer) msg.obj;
+                        List<Integer> data = (List<Integer>) msg.obj;
                         Intent intent = new Intent(getApplicationContext(), Trade_Activity.class);
-                        intent.putExtra("id", id);
+                        intent.putExtra("id", data.get(0));
+                        intent.putExtra("position", data.get(1));
                         startActivity(intent);
                         break;
                     case 2:
@@ -113,7 +116,7 @@ public class ProductInfo extends AppCompatActivity{
                         popupWindow.setFocusable(true);
                         popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
                         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                        popupWindow.showAtLocation(relativeLayout, Gravity.CENTER_HORIZONTAL,200,0);
+                        popupWindow.showAtLocation(relativeLayout, Gravity.CENTER_HORIZONTAL, 200, 0);
 
                         container.setOnTouchListener(new View.OnTouchListener() {
                             @Override
@@ -123,18 +126,24 @@ public class ProductInfo extends AppCompatActivity{
                             }
                         });
                         break;
+                    case 4:
+                        Intent mIntent = new Intent(getApplicationContext(), UserProfile.class);
+                        String name = (String) msg.obj;
+                        mIntent.putExtra("name", name);
+                        startActivity(mIntent);
+                        break;
                 }
             }
         };
     }
 
- /*   @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(getApplicationContext(), Main.class));
-    }
-*/
-    private Void plotGraph(){
+    /*   @Override
+       public void onBackPressed() {
+           super.onBackPressed();
+           startActivity(new Intent(getApplicationContext(), Main.class));
+       }
+   */
+    private Void plotGraph() {
 
         GraphView graph = (GraphView) container.findViewById(R.id.graph);
         graph.setFocusable(true);
@@ -143,18 +152,18 @@ public class ProductInfo extends AppCompatActivity{
         //Plotting the graph
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -5);
-        int month1 = calendar.get(Calendar.MONTH)+1;
+        int month1 = calendar.get(Calendar.MONTH) + 1;
         calendar.add(Calendar.MONTH, 1);
-        int month2 = calendar.get(Calendar.MONTH)+1;
+        int month2 = calendar.get(Calendar.MONTH) + 1;
         calendar.add(Calendar.MONTH, 1);
-        int month3 = calendar.get(Calendar.MONTH)+1;
+        int month3 = calendar.get(Calendar.MONTH) + 1;
         calendar.add(Calendar.MONTH, 1);
-        int month4 = calendar.get(Calendar.MONTH)+1;
+        int month4 = calendar.get(Calendar.MONTH) + 1;
         calendar.add(Calendar.MONTH, 1);
-        int month5 = calendar.get(Calendar.MONTH)+1;
+        int month5 = calendar.get(Calendar.MONTH) + 1;
         calendar.add(Calendar.MONTH, 1);
-        int month6 = calendar.get(Calendar.MONTH)+1;
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+        int month6 = calendar.get(Calendar.MONTH) + 1;
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
                 new DataPoint(0, 4000),
                 new DataPoint(1, 3800),
                 new DataPoint(2, 3000),
@@ -169,7 +178,7 @@ public class ProductInfo extends AppCompatActivity{
         //Customize Horizontal Axis Labels
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         staticLabelsFormatter.setHorizontalLabels(new String[]{getMonthString(month1), getMonthString(month2), getMonthString(month3),
-                                                          getMonthString(month4), getMonthString(month5), getMonthString(month6)});
+                getMonthString(month4), getMonthString(month5), getMonthString(month6)});
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
 
         graph.setTitleColor(Color.GRAY);
@@ -182,9 +191,9 @@ public class ProductInfo extends AppCompatActivity{
         return null;
     }
 
-    private String getMonthString(int month){
+    private String getMonthString(int month) {
         String MonthString = null;
-        switch (month){
+        switch (month) {
             case 1:
                 MonthString = "1月";
                 break;
@@ -224,5 +233,4 @@ public class ProductInfo extends AppCompatActivity{
         }
         return MonthString;
     }
-
 }

@@ -61,7 +61,9 @@ import java.util.Objects;
 import RealmModel.RealmGadget;
 import RealmQuery.QueryCamera;
 import activity.Main;
+import adapter.ProductAdapter;
 import io.realm.Realm;
+import product.Product;
 import user.RefreshLocalStore;
 import user.UserLocalStore;
 import user.userGadget;
@@ -83,7 +85,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     HashMap<Integer, Date[]> DatePattern1List = new HashMap<>();
     HashMap<Integer, Date[]> DatePattern2List = new HashMap<>();
     String image, image1, seller_location, buyer_time, buyer_date, buyer_location, time, date, seller, product;
-    int product_id;
+    int product_id, position;
     // First set of information
     TextView tvDate, tvTime, tvLocation, tvPrice;
     //Second set of information
@@ -106,6 +108,10 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
 
     SimpleDateFormat simpleDateFormat;
 
+    public interface OnDataChangedListener{
+        void update();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +119,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         product_id = getIntent().getIntExtra("id", 0);
+        position = getIntent().getIntExtra("position", 0);
         userLocalStore = new UserLocalStore(this);
         refreshLocalStore = new RefreshLocalStore(this);
 
@@ -203,6 +210,8 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "buyer_time OnClicked"+buyer_time);
+                Log.i(TAG, "buyer_date OnClicked"+buyer_date);
                 if (buyer_time != null && buyer_date != null) {
                     confirmSendMessage();
                 } else {
@@ -459,6 +468,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             simpleDateFormat = new SimpleDateFormat(SQL_DATE_FORMAT);
             String dateString = simpleDateFormat.format(date);
             buyer_date = dateString;
+            Log.i(TAG, "buyer_date OnPicked"+buyer_date);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -474,8 +484,9 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             ValidateInfo(TIME, pickedTime);
 
             simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
-            String timeString = simpleDateFormat.format(time);
+            String timeString = simpleDateFormat.format(pickedTime);
             buyer_time = timeString;
+            Log.i(TAG, "buyer_time OnPicked"+buyer_time);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -639,6 +650,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
     }
 
     public class sendTradeDetail extends AsyncTask<Void, Void, Void> {
+        String response;
         @Override
         protected Void doInBackground(Void... params) {
             Uri.Builder builder = new Uri.Builder()
@@ -650,7 +662,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
                     .appendQueryParameter("buyer_phone", userLocalStore.getLoggedInUser().getPhone())
                     .appendQueryParameter("buyer", (userLocalStore.getLoggedInUser().getUsername()));
             String query = builder.build().getEncodedQuery();
-            getResponseFromServer("tradeDetail", query);
+            response = getResponseFromServer("tradeDetail", query);
             return null;
         }
 
@@ -660,10 +672,26 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             successMessage();
 //            refreshLocalStore.setTradeDetail(new userGadget(gadget.getBrand() + " " + gadget.getModel(),gadget.getSeller(), buyer_time, buyer_date, buyer_location));
             new sendNotification().execute();
-            setNotification();
-            finish();
+            if(response.contains("Success"));{
+                updateLocalDB();
+                setNotification();
+                startActivity(new Intent(getApplicationContext(), Main.class));
+                finish();
+            }
         }
 
+    }
+    private void updateLocalDB(){
+        Realm realm = Realm.getInstance(this);
+        RealmGadget toEdit = realm.where(RealmGadget.class).equalTo("product_id", product_id).findFirst();
+        realm.beginTransaction();
+        toEdit.setAvailability("已被預訂");
+        toEdit.setBuyer(userLocalStore.getLoggedInUser().getUsername());
+        toEdit.setBuyer_phone(userLocalStore.getLoggedInUser().getPhone());
+        toEdit.setBuyer_location(buyer_location);
+        toEdit.setTrade_date(buyer_date);
+        toEdit.setTrade_time(buyer_time);
+        realm.commitTransaction();
     }
 
     private String getResponseFromServer(String php, String query) {

@@ -1,6 +1,7 @@
 package com.example.user.secondhandtradingplatform;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,10 +42,14 @@ import user.UserLocalStore;
 
 public class UserProfile extends AppCompatActivity implements PersonalDetailsFragment.PersonalDetailsFragmentListener{
     public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
+    public static final String TAG = "UserProfileActivity";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     ProgressBar progressBar;
     ImageView profile_pic;
+    String username = null;
+    Bundle bundle;
+    public static Handler mHandler;
     UserLocalStore userLocalStore;
     ServerRequests serverRequests;
 
@@ -72,6 +78,24 @@ public class UserProfile extends AppCompatActivity implements PersonalDetailsFra
 
         Picasso.with(this).load(IMAGE_ADDRESS+"SE215.jpg").transform(new CircleTransform()).into(profile_pic);
 
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case 1:
+                    /*    Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
+                        intent.setType("vnd.android.cursor.item/event");
+                        startActivity(intent);*/
+                        break;
+                }
+            }
+        };
+
+        username = getIntent().getStringExtra("name");
+        if(username!=null){
+            Log.i(TAG, "username: "+username);
+
+        }
         serverRequests = new ServerRequests(this);
         serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
             @Override
@@ -181,8 +205,13 @@ public class UserProfile extends AppCompatActivity implements PersonalDetailsFra
 
         @Override
         public Fragment getItem(int position) {
+            Fragment fragment = null;
             if (position == 0) {
-                return new PersonalDetailsFragment();
+                fragment = new PersonalDetailsFragment();
+                bundle = new Bundle();
+                bundle.putString("name", username);
+                fragment.setArguments(bundle);
+                return fragment;
             } else if (position == 1) {
                 return new ProcessingTradeFragment();
             } else {

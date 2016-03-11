@@ -1,5 +1,6 @@
 package com.example.user.secondhandtradingplatform;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import server.ServerRequests;
 import user.User;
 import user.UserLocalStore;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class Login extends Activity implements View.OnClickListener {
 
     Button login, register;
     EditText uname, pwd;
@@ -40,8 +41,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+ //       setSupportActionBar(toolbar);
+ //       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Initialize TextView and Button
         uname = (EditText) findViewById(R.id.input_uname);

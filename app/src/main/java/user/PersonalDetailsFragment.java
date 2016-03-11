@@ -60,6 +60,10 @@ public class PersonalDetailsFragment extends Fragment implements View.OnClickLis
         phone.setText(userLocalStore.getLoggedInUser().getPhone());
         email.setText(userLocalStore.getLoggedInUser().getEmail());
         location.setText(userLocalStore.getLoggedInUser().getLocation());
+
+        Bundle bundle = getArguments();
+        if(bundle!=null)
+        Log.i(TAG, "Obtained User name: "+bundle.getString("name"));
     }
 
     @Override
