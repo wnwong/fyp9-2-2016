@@ -185,20 +185,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     @Override
-    public void onBindViewHolder(ProductViewHolder holder, int position, List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
-        Log.i(TAG, "payload: "+payloads.toString());
-    /*    if (holder.getItemViewType() == TYPE_POST){
-            Log.i(TAG, "Inside TYPE_POST");
-            PostViewHolder pHolder = (PostViewHolder) holder;
-            pHolder.availability.setText("已被預訂");
-            pHolder.availability.setTextColor(Color.parseColor("#FF16E42E"));
-            pHolder.tradeBtn.setVisibility(View.GONE);
-            pHolder.tradePlace.setPadding(0,0,0,8);
-        }*/
-    }
-
-    @Override
     public int getItemCount() {
         if (gadgets != null) {
             return gadgets.size() + 1;

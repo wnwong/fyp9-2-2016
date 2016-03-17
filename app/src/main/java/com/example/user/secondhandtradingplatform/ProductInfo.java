@@ -37,6 +37,7 @@ import RealmModel.RealmProduct;
 import RealmQuery.QueryCamera;
 import activity.Main;
 import adapter.ProductAdapter;
+import io.realm.Realm;
 import io.realm.RealmResults;
 import user.PersonalDetailsFragment;
 
@@ -49,6 +50,7 @@ public class ProductInfo extends AppCompatActivity {
     private PopupWindow popupWindow;
     private RelativeLayout relativeLayout;
     private ViewGroup container;
+    ProductAdapter adapter;
     RecyclerView rv;
     QueryCamera queryCamera;
 
@@ -85,7 +87,7 @@ public class ProductInfo extends AppCompatActivity {
             gadgets.add(result.get(i));
         }
 
-        ProductAdapter adapter =
+         adapter =
                 new ProductAdapter(gadgets, realmProduct.getBrand() + " " + realmProduct.getModel(), realmProduct.getPrice(), realmProduct.getOs(), realmProduct.getMonitor(), realmProduct.getCamera(), realmProduct.getPath(), realmProduct.getType(), this);
         rv.setAdapter(adapter);
 
@@ -131,6 +133,16 @@ public class ProductInfo extends AppCompatActivity {
                         String name = (String) msg.obj;
                         mIntent.putExtra("name", name);
                         startActivity(mIntent);
+                        break;
+                    case 5:
+                        int position = (Integer) msg.obj;
+                        Realm realm = Realm.getInstance(getApplicationContext());
+                        RealmGadget toUpdate = realm.where(RealmGadget.class).equalTo("product_id", gadgets.get(position-1).getProduct_id()
+                        ).findFirst();
+                        realm.beginTransaction();
+                        toUpdate.setAvailability(getString(R.string.hold));
+                        realm.commitTransaction();
+                        adapter.notifyItemChanged(position);
                         break;
                 }
             }

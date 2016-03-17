@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.DialogFragment;
 
 import android.support.v4.content.res.TypedArrayUtils;
@@ -226,7 +227,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
                 finish();
             }
         });
-        if (!gadget.getSeller_location_2().equals("")) {
+        if (!gadget.getSeller_location_2().equals("null") && !gadget.getSeller_location_2().equals("")) {
             addView();
         }
 
@@ -675,7 +676,10 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             if(response.contains("Success"));{
                 updateLocalDB();
                 setNotification();
-                startActivity(new Intent(getApplicationContext(), Main.class));
+                Message message = new Message();
+                message.what = 5;
+                message.obj = position;
+                ProductInfo.mHandler.sendMessage(message);
                 finish();
             }
         }
