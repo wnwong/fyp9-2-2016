@@ -22,8 +22,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import DataModel.Event;
 import RealmModel.RealmGadget;
 import user.ProcessingTradeFragment;
+import user.User;
 import user.UserLocalStore;
 
 
@@ -48,7 +50,7 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
 
     @Override
     public void onBindViewHolder(final ProcessingTradeViewHolder holder, final int position) {
-        RealmGadget realmGadget = realmGadgets.get(position);
+        final RealmGadget realmGadget = realmGadgets.get(position);
         holder.product.setText(realmGadget.getBrand() + " " + realmGadget.getModel());
         holder.tradeDate.setText(realmGadget.getTrade_date());
         holder.sellingPrice.setText("HK$" + realmGadget.getPrice());
@@ -95,6 +97,7 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
             holder.tradeDate.setVisibility(View.VISIBLE);
             holder.tradeLocation.setVisibility(View.VISIBLE);
             holder.sellerPhone.setVisibility(View.VISIBLE);
+
             holder.buyer.setVisibility(View.VISIBLE);
             holder.ratingBar.setVisibility(View.VISIBLE);
             holder.tradeDate.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +105,9 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
                 public void onClick(View v) {
                     Message message = new Message();
                     message.what = 1;
+                    String person = holder.buyer.getText().toString();
+                    String title = "同 "+person+" 交易 "+ holder.product.getText().toString();
+                    message.obj=new Event(title, realmGadget.getTrade_date(), realmGadget.getTrade_time(), realmGadget.getBuyer_location());
                     UserProfile.mHandler.sendMessage(message);
                 }
             });
@@ -117,6 +123,7 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
                         message.setData(bundle);
                         message.obj = holder.ratingBar.getRating();
                         ProcessingTradeFragment.mHandler.sendMessage(message);
+                        holder.ratingBar.setRating(0);
                     } else {
                        showAlertMessage();
                     }

@@ -34,6 +34,8 @@ public class TradeHistoryFragment extends Fragment {
     TextView tv;
     RecyclerView rv;
     ProgressBar progressBar;
+    TradeHistoryAdapter adapter;
+    QueryCamera queryCamera;
     public static Handler mHandler;
     public static String TAG = "TradeHistoryFragment";
 
@@ -57,12 +59,15 @@ public class TradeHistoryFragment extends Fragment {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
-                        QueryCamera queryCamera = new QueryCamera(getContext());
+                        queryCamera = new QueryCamera(getContext());
                         realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
-                        TradeHistoryAdapter adapter = new TradeHistoryAdapter(realmGadgets, getContext());
+                        adapter = new TradeHistoryAdapter(realmGadgets, getContext());
                         rv.setAdapter(adapter);
                         break;
-                    default:
+                    case 2:
+                        realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
+                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemRangeChanged(0, realmGadgets.size());
                         break;
                 }
             }

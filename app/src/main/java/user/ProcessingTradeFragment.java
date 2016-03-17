@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.user.secondhandtradingplatform.R;
 
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ import server.ServerRequests;
  * A simple {@link Fragment} subclass.
  */
 public class ProcessingTradeFragment extends Fragment {
+    private static String TAG = "ProcessingTradeFragment";
     private List<RealmGadget> realmGadgets = new ArrayList<>();
     UserLocalStore userLocalStore;
     TextView tv;
@@ -58,7 +61,7 @@ public class ProcessingTradeFragment extends Fragment {
 
         mHandler = new Handler() {
             @Override
-            public void handleMessage(Message msg) {
+            public void handleMessage(final Message msg) {
                 switch (msg.what) {
                     case 1:
                         realmGadgets = queryCamera.retrieveProcessingGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
@@ -67,7 +70,7 @@ public class ProcessingTradeFragment extends Fragment {
                         break;
                     case 2:
                         final float rating = (float) msg.obj;
-                        int position = msg.getData().getInt("position");
+                        final int position = msg.getData().getInt("position");
                         final int pid = realmGadgets.get(position).getProduct_id();
                         serverRequests = new ServerRequests(getContext());
                         serverRequests.storeRatingInBackground(rating, pid, new GetPostCallback() {
@@ -78,14 +81,19 @@ public class ProcessingTradeFragment extends Fragment {
 
                             @Override
                             public void done(String response) {
-                                if (response.equals("Success")) {
+                                if (response.contains("Success")) {
+                                    Log.i(TAG, "Updating Loacal DB");
                                     Realm realm = Realm.getInstance(getContext());
                                     RealmGadget toEdit = realm.where(RealmGadget.class).equalTo("product_id", pid).findFirst();
                                     realm.beginTransaction();
-                                    toEdit.setRating(Integer.parseInt(rating + ""));
+                                    toEdit.setRating(Float.parseFloat(rating + ""));
                                     toEdit.setAvailability("已出售");
                                     realm.commitTransaction();
                                 }
+                                realmGadgets = queryCamera.retrieveProcessingGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
+                                adapter.notifyDataSetChanged();
+                                adapter.notifyItemRangeChanged(0, realmGadgets.size());
+                                updateConfirmedTrade();
                             }
                         });
                         break;
@@ -97,6 +105,11 @@ public class ProcessingTradeFragment extends Fragment {
 
     }
 
+    private void updateConfirmedTrade(){
+        Message message = new Message();
+        message.what = 2;
+        TradeHistoryFragment.mHandler.sendMessage(message);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

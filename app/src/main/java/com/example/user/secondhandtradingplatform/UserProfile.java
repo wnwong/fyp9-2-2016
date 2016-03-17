@@ -1,8 +1,11 @@
 package com.example.user.secondhandtradingplatform;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.CalendarContract;
+import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.provider.CalendarContract;
 
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,8 +32,13 @@ import android.widget.TextView;
 import com.example.user.secondhandtradingplatform.Utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import DataModel.Event;
 import RealmModel.RealmGadget;
 import adapter.TradeHistoryAdapter;
 import io.realm.Realm;
@@ -43,8 +52,14 @@ import user.UserLocalStore;
 public class UserProfile extends AppCompatActivity implements PersonalDetailsFragment.PersonalDetailsFragmentListener{
     public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
     public static final String TAG = "UserProfileActivity";
+    public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final String SQL_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String TIME_FORMAT = "HH:mm";
+    public static final String SQL_TIME_FORMAT = "HH:mm:ss";
+    public static final String FROMAT = "yyyy-MM-dd HH:mm:ss";
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    SimpleDateFormat simpleDateFormat;
     ProgressBar progressBar;
     ImageView profile_pic;
     String username = null;
@@ -83,9 +98,27 @@ public class UserProfile extends AppCompatActivity implements PersonalDetailsFra
             public void handleMessage(Message msg) {
                 switch (msg.what){
                     case 1:
-                    /*    Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
+                        Event tradeEvent = (Event) msg.obj;
+                        Date date = null;
+                        simpleDateFormat = new SimpleDateFormat(FROMAT);
+                        String dateString  = tradeEvent.getTradeDate()+" "+tradeEvent.getTradeTime();
+                        Log.i(TAG, dateString);
+                        try {
+                           date  = simpleDateFormat.parse(dateString);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(date);
+                        Intent intent = new Intent(Intent.ACTION_EDIT);
                         intent.setType("vnd.android.cursor.item/event");
-                        startActivity(intent);*/
+                        intent.putExtra(Intent.EXTRA_PHONE_NUMBER, true);
+                        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, calendar.getTimeInMillis());
+                        intent.putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+                        Log.i(TAG, tradeEvent.getTradeTime());
+                        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, tradeEvent.getVenue());
+                        intent.putExtra(CalendarContract.Events.TITLE, tradeEvent.getTitle());
+                        startActivity(intent);
                         break;
                 }
             }

@@ -461,6 +461,11 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             // Check the validity of Date Picked
             calendar = Calendar.getInstance();
             calendar.setTime(date);
+            Calendar current = Calendar.getInstance();
+            if(calendar.before(current)){
+                showErrorMessage(DATE_ERROR);
+                mDateButton.setText("");
+            }
             DayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             Log.i(TAG, "Day of Week 1: " + DayOfWeek);
             //Validate the Date Picked by buyer

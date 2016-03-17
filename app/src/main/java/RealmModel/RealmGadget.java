@@ -4,6 +4,7 @@ package RealmModel;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+
 public class RealmGadget extends RealmObject {
     @PrimaryKey
     private int product_id;

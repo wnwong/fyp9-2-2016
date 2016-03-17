@@ -115,7 +115,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/buyer"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_below="@+id/buyer"
+                    android:autoLink="phone"
+                    android:linksClickable="true"
                     android:text="94909321" />
 
                 <TextView
@@ -125,6 +129,9 @@
                     android:layout_below="@+id/sellingPrice"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@+id/date"
+                    android:linksClickable="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
                     android:text="2016/2/24" />
 
                 <TextView

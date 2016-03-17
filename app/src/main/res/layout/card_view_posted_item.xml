@@ -119,6 +119,7 @@
                             android:layout_toRightOf="@+id/IVperson"
                             android:text="Peter"
                             android:textStyle="bold"
+                            android:linksClickable="true"
                             android:textColor="@color/colorPrimaryDark" />
 
                         <TextView
