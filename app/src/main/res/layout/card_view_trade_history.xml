@@ -96,10 +96,12 @@
                     android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/place"
+                    android:layout_alignLeft="@+id/buyer"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_below="@+id/place"
                     android:isIndicator="true"
-                    android:paddingTop="24dp" />
+                    android:paddingTop="24dp"
+                    android:progressTint="#f5fd00" />
 
                 <TextView
                     android:layout_width="wrap_content"

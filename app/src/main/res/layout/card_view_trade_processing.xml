@@ -30,144 +30,169 @@
                 android:paddingTop="16dp"
                 android:scaleType="centerCrop" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp">
+                android:showDividers="middle"
+                android:divider="?android:dividerHorizontal"
+                android:dividerPadding="8dp"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/product"
+                    <TextView
+                        android:id="@+id/product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="24dp"
+                        android:text="Apple iphone 6 16GB"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/sellingPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/product"
+                        android:layout_below="@+id/product"
+                        android:paddingTop="8dp"
+                        android:text="HK$4500"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/date"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_alignLeft="@+id/product"
+                        android:layout_below="@+id/sellingPrice"
+                        android:src="@mipmap/ic_schedule"
+                        android:tint="@color/secondaryText" />
+
+                    <ImageView
+                        android:id="@+id/place"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_below="@+id/date"
+                        android:paddingTop="2dp"
+                        android:src="@mipmap/ic_place"
+                        android:tint="@color/secondaryText" />
+
+                    <TextView
+                        android:id="@+id/tradeLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/tradeDate"
+                        android:layout_alignStart="@+id/tradeDate"
+                        android:layout_below="@+id/tradeDate"
+                        android:text="MK" />
+
+
+                    <ImageView
+                        android:id="@+id/person"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_alignBottom="@+id/buyer"
+                        android:layout_alignLeft="@+id/date"
+                        android:layout_below="@+id/place"
+                        android:paddingTop="2dp"
+                        android:src="@mipmap/ic_person"
+                        android:tint="@color/secondaryText" />
+
+                    <ImageView
+                        android:id="@+id/phone"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_alignBottom="@+id/sellerPhone"
+                        android:layout_below="@+id/person"
+                        android:src="@mipmap/ic_phone"
+                        android:tint="@color/secondaryText" />
+
+                    <RatingBar
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:progressTint="#f5fd00"
+                        android:layout_below="@+id/phone" />
+
+                    <TextView
+                        android:id="@+id/sellerPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/buyer"
+                        android:layout_below="@+id/buyer"
+                        android:autoLink="phone"
+                        android:linksClickable="true"
+                        android:text="94909321"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tradeDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sellingPrice"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/date"
+                        android:linksClickable="true"
+                        android:text="2016/2/24"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="24dp"
-                    android:text="Apple iphone 6 16GB"
-                    android:textColor="@color/primaryText"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/sellingPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/product"
-                    android:layout_below="@+id/product"
-                    android:paddingTop="8dp"
-                    android:text="HK$4500"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/date"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_alignLeft="@+id/product"
-                    android:layout_below="@+id/sellingPrice"
-                    android:src="@mipmap/ic_schedule"
-                    android:tint="@color/secondaryText" />
-
-                <ImageView
-                    android:id="@+id/place"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_below="@+id/date"
-                    android:paddingTop="2dp"
-                    android:src="@mipmap/ic_place"
-                    android:tint="@color/secondaryText" />
-
-                <TextView
-                    android:id="@+id/tradeLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tradeDate"
-                    android:layout_alignStart="@+id/tradeDate"
-                    android:layout_below="@+id/tradeDate"
-                    android:text="MK" />
-
-
-                <ImageView
-                    android:id="@+id/person"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_alignBottom="@+id/buyer"
-                    android:layout_alignLeft="@+id/date"
-                    android:layout_below="@+id/place"
-                    android:paddingTop="2dp"
-                    android:src="@mipmap/ic_person"
-                    android:tint="@color/secondaryText" />
-
-                <ImageView
-                    android:id="@+id/phone"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_alignBottom="@+id/sellerPhone"
-                    android:layout_below="@+id/person"
-                    android:src="@mipmap/ic_phone"
-                    android:tint="@color/secondaryText" />
-
-                <RatingBar
-                    android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/phone" />
-
-                <TextView
-                    android:id="@+id/sellerPhone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/buyer"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:layout_below="@+id/buyer"
-                    android:autoLink="phone"
-                    android:linksClickable="true"
-                    android:text="94909321" />
-
-                <TextView
-                    android:id="@+id/tradeDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/sellingPrice"
+                    android:id="@+id/tradeTime"
+                    android:layout_toRightOf="@+id/tradeDate"
+                    android:layout_alignBaseline="@+id/tradeDate"
                     android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@+id/date"
-                    android:linksClickable="true"
                     android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:text="2016/2/24" />
 
-                <TextView
-                    android:id="@+id/buyer"
+                    android:text="21:30"/>
+
+                    <TextView
+                        android:id="@+id/buyer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/tradeDate"
+                        android:layout_below="@+id/tradeLocation"
+                        android:text="Man" />
+
+
+                    <TextView
+                        android:id="@+id/availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:padding="16dp"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="16sp"
+                        android:textStyle="bold|italic" />
+
+                </RelativeLayout>
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tradeDate"
-                    android:layout_below="@+id/tradeLocation"
-                    android:text="Man" />
+                    android:orientation="horizontal"
+                    android:layout_gravity="right"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/confirmBtn"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/availability"
+                        android:foreground="?android:selectableItemBackground"
+                        android:padding="8dp"
+                        android:text="按此確認交易"
+                        android:textColor="@color/cardPrice"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
 
 
-                <TextView
-                    android:id="@+id/availability"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:padding="16dp"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textSize="16sp"
-                    android:textStyle="bold|italic" />
-
-                <Button
-                    android:id="@+id/confirmBtn"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/availability"
-                    android:padding="8dp"
-                    android:text="按此確認交易"
-                    android:textSize="16sp"
-                    android:foreground="?android:selectableItemBackground"
-                    android:textColor="@color/cardPrice"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

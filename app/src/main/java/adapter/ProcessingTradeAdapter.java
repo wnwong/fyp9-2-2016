@@ -19,7 +19,10 @@ import com.example.user.secondhandtradingplatform.R;
 import com.example.user.secondhandtradingplatform.UserProfile;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import DataModel.Event;
@@ -31,8 +34,13 @@ import user.UserLocalStore;
 
 public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTradeAdapter.ProcessingTradeViewHolder> {
     public static final String IMAGE_ADDRESS = "http://php-etrading.rhcloud.com/pictures/";
+    public static final String TIME_FORMAT = "HH:mm";
+    public static final String SQL_TIME_FORMAT = "HH:mm:ss";
+    SimpleDateFormat simpleDateFormat;
     UserLocalStore userLocalStore;
     Context context;
+    Date time;
+    String timeString;
     List<RealmGadget> realmGadgets = new ArrayList<>();
     public static String TAG = "ProcessingTradeAdapter";
 
@@ -55,7 +63,15 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
         holder.tradeDate.setText(realmGadget.getTrade_date());
         holder.sellingPrice.setText("HK$" + realmGadget.getPrice());
         holder.availability.setText(realmGadget.getAvailability());
-        holder.tradeDate.setText(realmGadget.getTrade_date());
+        simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+        try {
+            time = simpleDateFormat.parse(realmGadget.getTrade_time());
+            simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
+            timeString = simpleDateFormat.format(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.tradeDate.setText(realmGadget.getTrade_date()+" "+timeString);
         Picasso.with(context).load(IMAGE_ADDRESS + realmGadget.getImage()).fit().into(holder.productPhoto);
         holder.tradeLocation.setText(realmGadget.getBuyer_location());
 
