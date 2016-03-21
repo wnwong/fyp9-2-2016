@@ -215,7 +215,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public class PostViewHolder extends ProductViewHolder {
-        TextView sellerName, sellingPrice, tradePlace, availability, color, scratch, warranty;
+        TextView sellerName, sellingPrice, tradePlace, availability, color, scratch, warranty, avgPrice;
         ImageView productPhoto;
         Button tradeBtn;
 
@@ -230,6 +230,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             color = (TextView) itemView.findViewById(R.id.color);
             scratch = (TextView) itemView.findViewById(R.id.scratch);
             warranty = (TextView) itemView.findViewById(R.id.warranty);
+            avgPrice = (TextView) itemView.findViewById(R.id.avgPrice);
         }
     }
 

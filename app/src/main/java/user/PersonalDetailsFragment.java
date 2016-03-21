@@ -105,19 +105,19 @@ public class PersonalDetailsFragment extends Fragment implements View.OnClickLis
                     // Check original password
                     pwdCheck = false;
                     Log.i(TAG, "pwdCheck: " + pwdCheck);
-                    oldPwd.getEditText().setError("Password not match!!");
+                    oldPwd.getEditText().setError("密碼不正確");
                 }
                 if(newPassword.equals("")){
                     // Check if new password empty
                     emptyCheck = false;
                     Log.i(TAG, "emptyCheck: " + emptyCheck);
-                    newPwd.getEditText().setError("This cannot be empty!!");
+                    newPwd.getEditText().setError("新密碼不能為空白");
                 }
                 if(newPassword.equals(oldPassword)){
                     // Check if new password equals old password
                     repeatCheck =false;
                     Log.i(TAG, "repeatCheck: " + repeatCheck);
-                    newPwd.getEditText().setError("You must set a new Password!!");
+                    newPwd.getEditText().setError("新密碼不可與舊密碼相同");
                 }
                 if(pwdCheck && emptyCheck && repeatCheck){
                     Log.i(TAG, "New Password: "+newPwd.getEditText().getText().toString());
@@ -140,7 +140,7 @@ public class PersonalDetailsFragment extends Fragment implements View.OnClickLis
                     Log.i(TAG, "REQUEST_SUCCESS");
                   mCallback.send();
                 }else{
-                    Toast.makeText(getContext(), "Password Change Failed!", Toast.LENGTH_SHORT);
+                    Toast.makeText(getContext(), "更改密碼失敗", Toast.LENGTH_SHORT);
                 }
             }
         });

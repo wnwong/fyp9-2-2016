@@ -529,20 +529,57 @@
         <item>Samsung</item>
         <item>Sony</item>
     </string-array>
-    <string-array name="game_consoleBrand">
-        <item>Sony</item>
-        <item>Microsoft</item>
-        <item>Ninetendo</item>
-    </string-array>
+
+    <!--******************************************************************Camera*************************************************************************** -->
     <string-array name="cameraBrand">
         <item>Canon</item>
         <item>Nikon</item>
+        <item>Sigma</item>
+        <item>Tamron</item>
+    </string-array>
+    <string-array name="Canon">
+        <item>EF-S 18-135mm f/3.5-5.6 IS USM</item>
+        <item>EF 24-105mm f4.0L IS USM</item>
+        <item>EF-S 17-55mm f2.8 IS USM</item>
+        <item>EF 24-70mm f2.8L II USM</item>
+    </string-array>
+    <string-array name="Sigma">
+        <item>17-50mm F2.8 EX DC OS HSM</item>
+    </string-array>
+    <string-array name="Tamron">
+        <item>SP AF 17-50 F/2.8 XR Di II LD Aspherical [IF] (A16)</item>
+    </string-array>
+    <string-array name="Nikon">
+        <item>AF-S NIKKOR 24-70mm f/2.8G ED</item>
+        <item>AF-S NIKKOR 24-120mm F4 G ED VR</item>
+    </string-array>
+    <!--******************************************************************Game Console*************************************************************************** -->
+    <string-array name="game_consoleBrand">
         <item>Sony</item>
+        <item>Microsoft</item>
+        <item>Nintendo</item>
     </string-array>
     <string-array name="sonyGame">
-        <item>PS3</item>
-        <item>PS4</item>
-        <item>PSV</item>
+        <item>PS VITA 1000</item>
+        <item>PS VITA 2000</item>
+        <item>PS3 500GB</item>
+        <item>PS3 12GB</item>
+        <item>PS3 250GB</item>
+        <item>PS3 120GB</item>
+        <item>PS3 320GB</item>
+        <item>PS3 160GB</item>
+        <item>PS4 500GB</item>
+        <item>PS4 1TB</item>
+    </string-array>
+    <string-array name="xbox">
+        <item>XBOX ONE 500GB</item>
+        <item>XBOX ONE 1TB</item>
+    </string-array>
+    <string-array name="nintendo">
+        <item>3DS XL</item>
+        <item>3DS</item>
+        <item>Wii</item>
+        <item>Wii U</item>
     </string-array>
     <string-array name="iPhone">
         <item>iPhone 5 16GB</item>

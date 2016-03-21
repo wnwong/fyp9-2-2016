@@ -40,8 +40,8 @@ public class ServerRequests {
     public ServerRequests(Context context) {
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
-        progressDialog.setTitle("Processing");
-        progressDialog.setMessage("Please wait...");
+        progressDialog.setTitle("處資料理中");
+        progressDialog.setMessage("請稍候...");
     }
 
     public void storeUserDataInBackground(User user, GetUserCallback userCallback) {

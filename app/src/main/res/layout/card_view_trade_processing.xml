@@ -138,6 +138,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@+id/date"
                         android:linksClickable="true"
+                        android:autoLink="all"
                         android:text="2016/2/24"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold" />

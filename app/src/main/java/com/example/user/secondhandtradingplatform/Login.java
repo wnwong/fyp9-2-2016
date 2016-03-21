@@ -116,7 +116,7 @@ public class Login extends Activity implements View.OnClickListener {
 
     private void showErrorMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Login.this);
-        dialogBuilder.setMessage("Incorrect user details");
+        dialogBuilder.setMessage("帳戶資料不正確");
         dialogBuilder.setPositiveButton("OK", null);
         dialogBuilder.show();
     }

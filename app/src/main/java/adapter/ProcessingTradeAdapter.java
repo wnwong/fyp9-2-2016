@@ -187,7 +187,7 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
 
     private void showAlertMessage(){
         AlertDialog.Builder alerDialog = new AlertDialog.Builder(context);
-        alerDialog.setMessage("Please Give a Rating!");
+        alerDialog.setMessage("請為交易評分");
         alerDialog.show();
     }
 }

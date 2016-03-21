@@ -478,10 +478,10 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
             case "平板電腦":
                 result = getResources().getStringArray(R.array.tabletBrand);
                 break;
-            case "數碼相機":
+            case "相機鏡頭":
                 result = getResources().getStringArray(R.array.cameraBrand);
                 break;
-            case "電子遊戲":
+            case "電子遊戲機":
                 result = getResources().getStringArray(R.array.game_consoleBrand);
                 break;
             case "耳機":
@@ -507,9 +507,26 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
             case "Samsung":
                 result = getResources().getStringArray(R.array.SamsungPhone);
                 break;
+            case "Nintendo":
+                result = getResources().getStringArray(R.array.nintendo);
+                break;
+            case "Microsoft":
+                result = getResources().getStringArray(R.array.xbox);
+                break;
+            case "Canon":
+                result = getResources().getStringArray(R.array.Canon);
+                break;
+            case "Nikon":
+                result = getResources().getStringArray(R.array.Nikon);
+                break;
+            case "Sigma":
+                result = getResources().getStringArray(R.array.Sigma);
+                break;
+            case "Tamron":
+                result = getResources().getStringArray(R.array.Tamron);
+                break;
             default:
                 result = getResources().getStringArray(R.array.SamsungPhone);
-                ;
                 break;
         }
         return result;
