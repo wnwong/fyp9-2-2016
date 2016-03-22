@@ -51,7 +51,8 @@ public class customHandler extends BroadcastReceiver {
 
             //Start lanuch Activity
             String packageName = context.getPackageName();
-            Intent resultIntent = new Intent(context.getPackageManager().getLaunchIntentForPackage(packageName));
+ //           Intent resultIntent = new Intent(context.getPackageManager().getLaunchIntentForPackage(packageName));
+            Intent resultIntent = new Intent(context, UserProfile.class);
             resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             resultIntent.putExtras(intent.getBundleExtra("pushData"));
