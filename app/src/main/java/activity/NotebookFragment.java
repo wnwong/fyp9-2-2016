@@ -26,10 +26,9 @@ import adapter.RVAdapter;
 import io.realm.RealmResults;
 
 
-public class SmartphoneFragment extends Fragment {
+public class NotebookFragment extends Fragment {
     public static Handler mHandler;
-    final String productType = "智能手機";
-    RVAdapter adapter;
+    final String productType = "手提電腦";
     List<RealmProduct> products = new ArrayList<>();
 
     @Override
@@ -37,7 +36,7 @@ public class SmartphoneFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View v = getView();
         RecyclerView rv;
-        rv = (RecyclerView) v.findViewById(R.id.phoneRview);
+        rv = (RecyclerView) v.findViewById(R.id.notebookRview);
         rv.setHasFixedSize(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(productType);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -54,9 +53,6 @@ public class SmartphoneFragment extends Fragment {
                         Intent intent = new Intent(getContext(), ProductInfo.class);
                         startActivity(intent);
                         break;
-                    case 99:
-
-                        break;
                 }
             }
         };
@@ -65,15 +61,15 @@ public class SmartphoneFragment extends Fragment {
         for (int i = 0; i < result.size(); i++) {
             products.add(result.get(i));
         }
-        adapter = new RVAdapter(products, R.layout.cardview, getContext(), productType);
+        RVAdapter adapter = new RVAdapter(products, R.layout.cardview, getContext(), productType);
         Log.i("Refresh", "" + products.size());
         rv.setAdapter(adapter);
     }
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_smartphone, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_notebook, container, false);
         return rootView;
     }
 }

@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.user.secondhandtradingplatform.Utils.CircleTransform;
+import com.example.user.secondhandtradingplatform.Utils.NetworkCheck;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -129,35 +130,38 @@ public class UserProfile extends AppCompatActivity implements PersonalDetailsFra
             Log.i(TAG, "username: "+username);
 
         }
-        serverRequests = new ServerRequests(this);
-        serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
-            @Override
-            public void done(List<RealmGadget> realmGadgets) {
-                Realm realm = Realm.getInstance(getApplicationContext());
-                for (int i = 0; i < realmGadgets.size(); i++) {
-                    RealmGadget currentGadget = realmGadgets.get(i);
-                    RealmGadget toEdit = realm.where(RealmGadget.class).equalTo("product_id", currentGadget.getProduct_id()).findFirst();
-                    realm.beginTransaction();
-                    toEdit.setAvailability(currentGadget.getAvailability());
-                    toEdit.setBuyer(currentGadget.getBuyer());
-                    toEdit.setBuyer_location(currentGadget.getBuyer_location());
-                    toEdit.setTrade_date(currentGadget.getTrade_date());
-                    toEdit.setTrade_time(currentGadget.getTrade_time());
-                    toEdit.setRating(currentGadget.getRating());
-                    toEdit.setSeller_phone(currentGadget.getSeller_phone());
-                    toEdit.setBuyer_phone(currentGadget.getBuyer_phone());
-                    toEdit.setRating(currentGadget.getRating());
-                    realm.commitTransaction();
-                }
-                Message message = new Message();
-                message.what = 1;
-                Message message1 = new Message();
-                message1.what = 1;
-                TradeHistoryFragment.mHandler.sendMessage(message);
-                ProcessingTradeFragment.mHandler.sendMessage(message1);
+        if(NetworkCheck.isConnected(this)==true){
+            serverRequests = new ServerRequests(this);
+            serverRequests.fetchTradeDataInBackground(new GetTradeCallback() {
+                @Override
+                public void done(List<RealmGadget> realmGadgets) {
+                    Realm realm = Realm.getInstance(getApplicationContext());
+                    for (int i = 0; i < realmGadgets.size(); i++) {
+                        RealmGadget currentGadget = realmGadgets.get(i);
+                        RealmGadget toEdit = realm.where(RealmGadget.class).equalTo("product_id", currentGadget.getProduct_id()).findFirst();
+                        realm.beginTransaction();
+                        toEdit.setAvailability(currentGadget.getAvailability());
+                        toEdit.setBuyer(currentGadget.getBuyer());
+                        toEdit.setBuyer_location(currentGadget.getBuyer_location());
+                        toEdit.setTrade_date(currentGadget.getTrade_date());
+                        toEdit.setTrade_time(currentGadget.getTrade_time());
+                        toEdit.setRating(currentGadget.getRating());
+                        toEdit.setSeller_phone(currentGadget.getSeller_phone());
+                        toEdit.setBuyer_phone(currentGadget.getBuyer_phone());
+                        toEdit.setRating(currentGadget.getRating());
+                        realm.commitTransaction();
+                    }
+                    Message message = new Message();
+                    message.what = 1;
+                    Message message1 = new Message();
+                    message1.what = 1;
+                    TradeHistoryFragment.mHandler.sendMessage(message);
+                    ProcessingTradeFragment.mHandler.sendMessage(message1);
 
-            }
-        });
+                }
+            });
+
+        }
 
     }
 

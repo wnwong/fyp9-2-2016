@@ -16,6 +16,7 @@
     <string name="nav_item_smartphone">智能手機</string>
     <string name="nav_item_vgame">電子遊戲機</string>
     <string name="nav_item_earphone">耳機</string>
+    <string name="nav_item_notebook">手提電腦</string>
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_camera</item>
         <item>@string/nav_item_tablet</item>
@@ -79,6 +80,7 @@
         <item>@string/nav_item_camera</item>
         <item>@string/nav_item_tablet</item>
         <item>@string/nav_item_vgame</item>
+        <item>@string/nav_item_notebook</item>
     </string-array>
     <string name="brand">品牌</string>
     <string name="model">型號</string>
@@ -514,21 +516,6 @@
     <string name="SUN">星期日</string>
 
     <!-- **************************************************All Product List******************************************************************-->
-    <string-array name="smartphoneBrand">
-        <item>Apple</item>
-        <item>Sony</item>
-        <item>LG</item>
-        <item>Samsung</item>
-        <item>HTC</item>
-        <item>Asus</item>
-        <item>Huawei</item>
-        <item>小米</item>
-    </string-array>
-    <string-array name="tabletBrand">
-        <item>Apple</item>
-        <item>Samsung</item>
-        <item>Sony</item>
-    </string-array>
 
     <!--******************************************************************Camera*************************************************************************** -->
     <string-array name="cameraBrand">
@@ -581,6 +568,13 @@
         <item>Wii</item>
         <item>Wii U</item>
     </string-array>
+    <!--******************************************************************Smartphone*************************************************************************** -->
+    <string-array name="smartphoneBrand">
+        <item>Apple</item>
+        <item>Sony</item>
+        <item>LG</item>
+        <item>Samsung</item>
+    </string-array>
     <string-array name="iPhone">
         <item>iPhone 5 16GB</item>
         <item>iPhone 5 32GB</item>
@@ -602,154 +596,203 @@
         <item>iPhone 6S Plus 128GB</item>
     </string-array>
     <string-array name="sonyPhone">
-        <item>Xperia™ Z5 Premium</item>
-        <item>Xperia™ Z5 Premium Dual</item>
-        <item>Xperia™ Z5 Dual</item>
-        <item>Xperia™ Z5</item>
-        <item>Xperia™ Z5 Compact</item>
-        <item>Xperia™ M5 Dual</item>
-        <item>Xperia™ M5</item>
-        <item>Xperia™ C5 Ultra</item>
-        <item>Xperia™ C5 Ultra Dual</item>
-        <item>Xperia™ M4 Aqua</item>
-        <item>Xperia™ Z3+</item>
-        <item>Xperia™ Z3+ Dual</item>
-        <item>Xperia™ C4</item>
-        <item>Xperia™ C4 Dual</item>
-        <item>Xperia™ M4 Aqua Dual</item>
-        <item>Xperia™ E4g</item>
-        <item>Xperia™ E4 Dual</item>
-        <item>Xperia™ Z3</item>
-        <item>Xperia™ Z3 Dual</item>
-        <item>Xperia™ Z3 Compact</item>
-        <item>Xperia™ E3</item>
-        <item>Xperia™ M2 Aqua</item>
-        <item>Xperia™ C3 Dual</item>
-        <item>Xperia™ C3</item>
-        <item>Xperia™ T3</item>
-        <item>Xperia™ M2 Dual</item>
-        <item>Xperia™ T2 Ultra</item>
-        <item>Xperia™ Z2</item>
-        <item>Xperia™ Z1 Compact</item>
-        <item>Xperia™ C</item>
-        <item>Xperia™ Z1</item>
-        <item>Xperia™ M</item>
-        <item>Xperia™ ZR</item>
-        <item>Xperia™ Z Ultra</item>
-        <item>Xperia™ L</item>
-        <item>Xperia™ SP</item>
-        <item>Xperia™ E</item>
-        <item>Xperia™ ZL</item>
-        <item>Xperia™ Z</item>
-        <item>Xperia™ tipo</item>
-        <item>Xperia™ go</item>
+        <item>Xperia Z</item>
+        <item>Xperia ZL</item>
+        <item>Xperia ZR</item>
+        <item>Xperia Z1</item>
+        <item>Xperia Z1 Compact</item>
+        <item>Xperia Z2</item>
+        <item>Xperia Z3</item>
+        <item>Xperia Z3 Compact</item>
+        <item>Xperia Z5 Compact</item>
     </string-array>
     <string-array name="LGPhone">
-        <item>NEXUS 5X</item>
-        <item> V10</item>
-        <item> G4 Beat</item>
-        <item> G4c</item>
-        <item> G4 Stylus</item>
-        <item> G4</item>
-        <item> G4 Dual-LTE</item>
-        <item> Spirit</item>
-        <item> AKA</item>
-        <item> G FLEX2</item>
-        <item> L Fino Dual </item>
-        <item> L Bello Dual</item>
-        <item> G3 Stylus</item>
-        <item> G3 Dual-LTE</item>
-        <item> G3 BEAT</item>
-        <item> G3</item>
-        <item>G2 Mini</item>
-        <item>L70</item>
-        <item>L90 Dual</item>
-        <item>G Pro 2</item>
-        <item>G Flex</item>
-        <item>G Pro Lite</item>
-        <item> G2</item>
-        <item>Nexus 5</item>
-        <item>Optimus G Pro</item>
-        <item> OPTIMUS F5</item>
-        <item>Optimus L3II Dual</item>
-        <item> Optimus L5 II</item>
-        <item> Optimus L7 II Dual</item>
-        <item>Optimus G</item>
-        <item>Nexus 4</item>
-        <item>Optimus L9</item>
-        <item> Optimus Vu</item>
-        <item>Optimus 4X HD</item>
-        <item>Optimus L3</item>
-        <item>Optimus L5</item>
-        <item>Optimus L7</item>
-        <item> Optimus 3D Max</item>
-        <item> Optimus True HD LTE</item>
-        <item> Optimus HUB (E510)</item>
+        <item>NEXUS 5-LG G2 D821</item>
+        <item>NEXUS 5X-H798</item>
+        <item>NEXUS 4-E960</item>
+        <item>G4 STYLUS</item>
+        <item>G4</item>
+        <item>G4</item>
+        <item>G4 BEAT-H735T</item>
+        <item>G4 DUAL-LTE</item>
+        <item>G3 DUAL-LTE</item>
+        <item>G3</item>
+        <item>G3 STYLUS</item>
+        <item>G2</item>
     </string-array>
     <string-array name="SamsungPhone">
-        <item>Galaxy S</item>
-        <item>Galaxy S II</item>
-        <item>Galaxy S III</item>
-        <item>Galaxy S III Mini</item>
-        <item>Galaxy S4</item>
-        <item>Galaxy S4 Active</item>
-        <item>Galaxy S4 Mini</item>
-        <item>Galaxy S4 Zoom</item>
-        <item>Galaxy S5</item>
-        <item>Galaxy S5 Active</item>
-        <item>Galaxy S5 Plus</item>
-        <item>Galaxy S5 Mini</item>
+        <item>GALAXY S4 LTE</item>
+        <item>GALAXY S III Neo</item>
+        <item>GALAXY S4 TD-LTE</item>
+        <item>GALAXY S4 zoom</item>
+        <item>GALAXY S4</item>
+        <item>GALAXY S5 LTE</item>
         <item>Galaxy S6</item>
-        <item>Galaxy S6 Edge</item>
-        <item>Galaxy S6 Active</item>
-        <item>Galaxy S6 Edge+</item>
-        <item>Galaxy Note</item>
-        <item>Galaxy Note II</item>
-        <item>Galaxy Note 3</item>
-        <item>Galaxy Note 3 Neo</item>
-        <item>Galaxy Note 4</item>
-        <item>Galaxy Note Edge</item>
-        <item>Galaxy Note 5</item>
-        <item>Galaxy A3</item>
-        <item>Galaxy A3</item>
-        <item>Galaxy A5</item>
-        <item>Galaxy A5</item>
-        <item>Galaxy A7</item>
-        <item>Galaxy A7</item>
-        <item>Galaxy A8</item>
-        <item>Galaxy A9</item>
+        <item>Galaxy S6 edge+</item>
+        <item>GALAXY Note4 (雙SIM)</item>
+        <item>GALAXY Note4 (32GB)</item>
+        <item>GALAXY Note3 TD-LTE</item>
+        <item>GALAXY Note3 LTE</item>
+        <item>GALAXY Note3</item>
+        <item>Galaxy Note5</item>
+        <item>GALAXY Note4 (32GB)</item>
+        <item>GALAXY S5 LTE</item>
     </string-array>
-    <string-array name="HTCPhone">
-        <item> One A9</item>
-        <item> One M9+</item>
-        <item> One E9 dual sim</item>
-        <item> One ME dual sim</item>
-        <item> One M9</item>
-        <item> One E9+ dual sim</item>
-        <item> One (M8)</item>
-        <item> One (E8)</item>
-        <item> One max</item>
-        <item> One mini </item>
-        <item> New HTC One</item>
-        <item> Butterfly 2</item>
-        <item> Butterfly s</item>
-        <item> Desire EYE</item>
-        <item> Desire 728 dual sim</item>
-        <item> Desire 826 dual sim</item>
-        <item> Desire 820 dual sim</item>
-        <item> Desire 820s dual sim</item>
-        <item> Desire 816G dual sim</item>
-        <item> Desire 816</item>
-        <item> Desire 620 dual sim</item>
-        <item> Desire 616</item>
-        <item> Desire 610</item>
-        <item> Desire 310 dual sim</item>
-        <item> Desire 700 dual sim</item>
-        <item> Desire 600 Dual Sim</item>
-        <item> One SV</item>
-        <item> Desire X</item>
+    <!--******************************************************************Notebook*************************************************************************** -->
+    <string-array name="notebookBrand">
+        <item>Apple</item>
     </string-array>
-    <string-array name="AsusPhone"></string-array>
-
+    <string-array name="macbooks">
+        <item>MacBook Pro (Retina, 13 英吋, 2015 年初)128GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋, 2015 年初)256GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋, 2015 年初)512GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2015 年初)256GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2015 年初)512GB SSD</item>
+        <item>MacBook (Retina, 12 英吋, 2015 年初)256GB SSD</item>
+        <item>MacBook (Retina, 12 英吋, 2015 年初)512GB SSD</item>
+        <item>MacBook Air (11 英吋, 2015 年初)128GB SSD</item>
+        <item>MacBook Air (11 英吋, 2015 年初)256GB SSD</item>
+        <item>MacBook Air (13 英吋, 2015 年初)128GB SSD</item>
+        <item>MacBook Air (13 英吋, 2015 年初)256GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋 , 2014 年中)128GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋 , 2014 年中)256GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋 , 2014 年中)512GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2014 年中)256GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2014 年中)512GB SSD</item>
+        <item>MacBook Air (13 英吋, 2014 年初)128GB SSD</item>
+        <item>MacBook Air (13 英吋, 2014 年初)256GB SSD</item>
+        <item>MacBook Air (11 英吋, 2014 年初)128GB SSD</item>
+        <item>MacBook Air (11 英吋, 2014 年初)256GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋, 2013 年中)128GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋, 2013 年中)256GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋, 2013 年中)512GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2013 年中)256GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2013 年中)512GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2013 年中)256GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2013 年中)512GB SSD</item>
+        <item>MacBook Air (13 英吋, 2013年中)128GB SSD</item>
+        <item>MacBook Air (13 英吋, 2013年中)256GB SSD</item>
+        <item>MacBook Air (11 英吋, 2013 年中)128GB SSD</item>
+        <item>MacBook Air (11 英吋, 2013 年中)256GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋, 2013 年初)128GB SSD</item>
+        <item>MacBook Pro (Retina, 13 英吋, 2013 年初)256GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2013 年初)256GB SSD</item>
+        <item>MacBook Pro (Retina, 15 英吋, 2013 年初)512GB SSD</item>
+    </string-array>
+    <!--******************************************************************Tablet*************************************************************************** -->
+    <string-array name="tabletBrand">
+        <item>Apple</item>
+        <item>Samsung</item>
+        <item>Sony</item>
+        <item>Lenovo</item>
+    </string-array>
+    <string-array name="ipads">
+        <item>iPad Pro 32GB Wi-Fi</item>
+        <item>iPad Pro 128GB Wi-Fi</item>
+        <item>iPad Pro 128GB Wi-Fi + Cellular</item>
+        <item>iPad Air 2 16GB Wi-Fi</item>
+        <item>iPad Air 2 64GB Wi-Fi</item>
+        <item>iPad Air 2 128GB Wi-Fi</item>
+        <item>iPad Air 2 16GB Wi-Fi + Cellular</item>
+        <item>iPad Air 2 64GB Wi-Fi + Cellular</item>
+        <item>iPad Air 2 128GB Wi-Fi + Cellular</item>
+        <item>iPad Air 16GB Wi-Fi</item>
+        <item>iPad Air 32GB Wi-Fi</item>
+        <item>iPad Air 16GB Wi-Fi + Cellular</item>
+        <item>iPad Air 32GB Wi-Fi + Cellular</item>
+        <item>iPad mini 4 16GB Wi-Fi</item>
+        <item>iPad mini 4 64GB Wi-Fi</item>
+        <item>iPad mini 4 128GB Wi-Fi</item>
+        <item>iPad mini 4 16GB Wi-Fi + Cellular</item>
+        <item>iPad mini 4 64GB Wi-Fi + Cellular</item>
+        <item>iPad mini 4 128GB Wi-Fi + Cellular</item>
+        <item>iPad mini 2 16GB Wi-Fi</item>
+        <item>iPad mini 2 32GB Wi-Fi</item>
+        <item>iPad mini 2 16GB Wi-Fi + Cellular</item>
+        <item>iPad mini 2 32GB Wi-Fi + Cellular</item>
+        <item>iPad mini 16GB Wi-Fi</item>
+        <item>iPad mini 32GB Wi-Fi</item>
+        <item>iPad mini 64GB Wi-Fi</item>
+        <item>iPad mini 16GB Wi-Fi + Cellular</item>
+        <item>iPad mini 32GB Wi-Fi + Cellular</item>
+        <item>iPad mini 64GB Wi-Fi + Cellular</item>
+        <item>iPad 16GB Wi-Fi</item>
+        <item>iPad 32GB Wi-Fi</item>
+        <item>iPad 64GB Wi-Fi</item>
+        <item>iPad 16GB Wi-Fi + 3G</item>
+        <item>iPad 32GB Wi-Fi + 3G</item>
+        <item>iPad 64GB Wi-Fi + 3G</item>
+        <item>iPad mini 3 16GB WLAN</item>
+        <item>iPad mini 3 64GB WLAN</item>
+        <item>iPad mini 3 128GB WLAN</item>
+        <item>iPad mini 3 16GB WLAN + Cellular</item>
+        <item>iPad mini 3 64GB WLAN + Cellular</item>
+        <item>iPad mini 3 128GB WLAN + Cellular</item>
+        <item>iPad 2  16GB Wi-Fi</item>
+        <item>iPad 2  32GB Wi-Fi</item>
+        <item>iPad 2  64GB Wi-Fi</item>
+        <item>iPad 2  16GB Wi-Fi + 3G</item>
+        <item>iPad 2  32GB Wi-Fi + 3G</item>
+        <item>iPad 2  64GB Wi-Fi + 3G</item>
+        <item>iPad 3  16GB Wi-Fi</item>
+        <item>iPad 3  32GB Wi-Fi</item>
+        <item>iPad 3  64GB Wi-Fi</item>
+        <item>iPad 3  16GB Wi-Fi + Cellular</item>
+        <item>iPad 3  32GB Wi-Fi + Cellular</item>
+        <item>iPad 3  64GB Wi-Fi + Cellular</item>
+        <item>iPad 4  16GB Wi-Fi</item>
+        <item>iPad 4  32GB Wi-Fi</item>
+        <item>iPad 4  64GB Wi-Fi</item>
+        <item>iPad 4  128GB Wi-Fi</item>
+        <item>iPad 4  16GB Wi-Fi + Cellular</item>
+        <item>iPad 4  32GB Wi-Fi + Cellular</item>
+        <item>iPad 4  64GB Wi-Fi + Cellular</item>
+        <item>iPad 4  128GB Wi-Fi + Cellular</item>
+    </string-array>
+    <string-array name="SonyTab">
+        <item>Xperia Z4</item>
+        <item>Xperia Z3 Tablet Compact</item>
+        <item>Xperia Z2(LTE)</item>
+        <item>Xperia Z</item>
+        <item>Xperia Z2(wifi)</item>
+    </string-array>
+    <string-array name="SamsungTab">
+        <item>GALAXY Tab S (8.4")</item>
+        <item>GALAXY Tab S (8.4") LTE</item>
+        <item>GALAXY Tab S (10.5</item>
+        <item>GALAXY Tab S2 (9.7</item>
+        <item>GALAXY Tab S2 (8.0</item>
+        <item>GALAXY Tab S2 (9.7</item>
+        <item>GALAXY Tab S2 (8.0</item>
+        <item>GALAXY Tab S2 (9.7</item>
+        <item>GALAXY Tab S2 (8.0</item>
+        <item>GALAXY Tab S2 (9.7 LTE)</item>
+        <item>GALAXY Tab A (8.0-wifi)</item>
+        <item>GALAXY Tab A (8.0-LTE)</item>
+        <item>GALAXY Tab A (9.7-wifi)</item>
+        <item>GALAXY Tab A (9.7")</item>
+    </string-array>
+    <string-array name="LenovoTab">
+        <item>ThinkPad Helix 2-in-1</item>
+        <item>Thinkpad Helix</item>
+        <item>Thinkpad 8</item>
+        <item>Le PadMiix 3 (8 吋)</item>
+        <item>Le Pad Miix 300 (10 吋)</item>
+        <item>IdeaPad Miix 700</item>
+        <item>A系列   TAB 2 A8</item>
+        <item>A系列 TAB 2 A7</item>
+        <item>Tab 2 A10-70 LTE</item>
+        <item>Tab 2 A10-70</item>
+        <item>Yoga Tablet 2 (8)</item>
+        <item>Yoga Tablet 2 (10)</item>
+        <item>YOGA Tablet 2 </item>
+        <item>Yoga Tablet 2 - AnyPen </item>
+        <item>Yoga Tablet 2 Pro</item>
+        <item>Lenovo Yoga Tab 3 (10-inch) LTE</item>
+        <item>Yoga Tab 3 (10-inch)</item>
+        <item>Yoga Tab 3 Pro</item>
+        <item>Tab3 Business</item>
+    </string-array>
+    <string name="title_activity_profile">Profile</string>
     <!-- **************************************************All Product List******************************************************************-->
 </resources>

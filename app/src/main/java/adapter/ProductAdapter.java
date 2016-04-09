@@ -89,9 +89,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             if(type.equals("相機鏡頭")){
                 iHolder.tvmon.setText("尺寸");
                 iHolder.mon.setText(mon);
+            }else if(type.equals("手提電腦")){
+                iHolder.tvmon.setText("CPU");
+                iHolder.mon.setText(mon);
             }else{
                 iHolder.tvmon.setText("顯示屏");
-                iHolder.mon.setText(mon + "吋");
+                iHolder.mon.setText(mon);
             }
 
             //Weight or OS
@@ -107,9 +110,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             if(type.equals("相機鏡頭")){
                 iHolder.camera.setText(camera);
                 iHolder.tvcamera.setText("種類");
+            }else if(type.equals("手提電腦")){
+                iHolder.camera.setText(camera);
+                iHolder.tvcamera.setText("硬碟");
             }else{
-                iHolder.camera.setText(camera + "萬像素");
                 iHolder.tvcamera.setText("鏡頭");
+                if(camera.equals("")){
+                    iHolder.camera.setText(camera);
+                }else{
+                    iHolder.camera.setText(camera + "萬像素");
+                }
             }
 
             iHolder.graphBtn.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +166,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     pHolder.tradeBtn.setVisibility(View.GONE);
                     pHolder.tradePlace.setPadding(0,0,0,8);
                 }else{
+                    pHolder.availability.setTextColor(Color.parseColor("#FFE51B1B"));
                     pHolder.tradeBtn.setVisibility(View.GONE);
                     pHolder.tradePlace.setPadding(0,0,0,8);
                 }

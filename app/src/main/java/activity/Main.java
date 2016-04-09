@@ -39,6 +39,7 @@ import com.example.user.secondhandtradingplatform.Register;
 import com.example.user.secondhandtradingplatform.SearchResultActivity;
 import com.example.user.secondhandtradingplatform.UserProfile;
 import com.example.user.secondhandtradingplatform.Utils.CircleTransform;
+import com.example.user.secondhandtradingplatform.Utils.NetworkCheck;
 import com.example.user.secondhandtradingplatform.customHandler;
 import com.pushbots.push.Pushbots;
 import com.squareup.picasso.Picasso;
@@ -124,7 +125,7 @@ public class Main extends AppCompatActivity
         menu = navigationView.getMenu();
         navigationView.setNavigationItemSelectedListener(this);
         profilePic = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
-        Picasso.with(this).load(IMAGE_ADDRESS+"SE215.jpg").transform(new CircleTransform()).into(profilePic);
+        Picasso.with(this).load(IMAGE_ADDRESS + "SE215.jpg").transform(new CircleTransform()).into(profilePic);
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,11 +226,27 @@ public class Main extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            refreshLocalStore.setRefreshStatus(true);
-            showProgress();
-            realm = Realm.getInstance(this);
-            clearDB(realm);
-            refreshDB();
+            if (NetworkCheck.isConnected(this) == true) {
+                refreshLocalStore.setRefreshStatus(true);
+                showProgress();
+                realm = Realm.getInstance(this);
+                clearDB(realm);
+                refreshDB();
+            } else {
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+                builder.setTitle("網絡連接錯誤");
+                builder.setMessage("沒有網絡連線");
+
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+            }
             return true;
         }
         if (id == R.id.action_search) {
@@ -256,6 +273,8 @@ public class Main extends AppCompatActivity
             fragment = new EarphoneFragment();
         } else if (id == R.id.nav_games) {
             fragment = new GameConsoleFragment();
+        } else if(id == R.id.nav_notebook){
+            fragment = new NotebookFragment();
         } else if (id == R.id.nav_login) {
             if (authenticate() == true) {
                 logoutMessage();
@@ -406,11 +425,8 @@ public class Main extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
-//            progressBar.setVisibility(View.GONE);
-  /*          if(switchFragment==true){
-                switchToDefaultFragment();
-                switchFragment=false;
-            }*/
+            startActivity(new Intent(getApplicationContext(), Main.class));
+            finish();
         }
     }
 
@@ -495,6 +511,40 @@ public class Main extends AppCompatActivity
             realm = Realm.getInstance(getApplicationContext());
             //    clearDB(realm);
             String JSONResponse = getResponseFromServer("getCamera", null);
+            Log.i(TAG, JSONResponse);
+            try {
+                JSONObject jObject = new JSONObject(JSONResponse);
+                String product = jObject.getString("products");
+                JSONArray productArray = new JSONArray(product);
+                for (int i = 0; i < productArray.length(); i++) {
+                    JSONObject obj = productArray.getJSONObject(i);
+                    System.out.println("obj array" + obj);
+
+                    String brand = obj.getString("brand");
+                    String model = obj.getString("model");
+                    String type = obj.getString("type");
+                    String price = obj.getString("price");
+                    String os = obj.getString("os");
+                    String monitor = obj.getString("monitor");
+                    String camera = obj.getString("camera");
+                    String path = obj.getString("image_name");
+                    //    Log.i(TAG, "Image_Name = " + path);
+                    createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class getNotebook extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            realm = Realm.getInstance(getApplicationContext());
+            //    clearDB(realm);
+            String JSONResponse = getResponseFromServer("getNotebook", null);
             Log.i(TAG, JSONResponse);
             try {
                 JSONObject jObject = new JSONObject(JSONResponse);
@@ -658,6 +708,7 @@ public class Main extends AppCompatActivity
         new getTablet().execute();
         new getCamera().execute();
         new getEarphone().execute();
+        new getNotebook().execute();
         new getProductList().execute();
         refreshLocalStore.setRefreshStatus(false);
     }

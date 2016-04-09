@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +33,11 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import activity.CameraFragment;
+import activity.EarphoneFragment;
+import activity.GameConsoleFragment;
+import activity.SmartphoneFragment;
+import activity.TabletFragment;
 import server.GetPostCallback;
 import server.ServerRequests;
 import user.UserLocalStore;
@@ -55,8 +61,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     String timeSelectFrom, type, brand, model, warranty, color, scratch, price, timeStart, timeStart2,
             timeEnd, timeEnd2, seller_location, seller_location2, datePattern, datePattern2, seller, line;
     ImageButton addCameraBtn, addGalleryBtn, addCameraBtn2, addGalleryBtn2;
-    CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
-            , MondayNew, TuesdayNew, WednesdayNew, ThursdayNew, FridayNew, SaturdayNew, SundayNew;
+    CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, MondayNew, TuesdayNew, WednesdayNew, ThursdayNew, FridayNew, SaturdayNew, SundayNew;
     Spinner productBrand, productModel, productType, locationSpinner, scratchSpinner, colorSpinner, locationSpecificSpinner, locationSpinnerNew, locationSpecificSpinnerNew;
     EditText gPrice, gWarranty;
     RadioGroup rgroup;
@@ -209,27 +214,32 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 // User chose the "Confirm" item, show the app settings UI...
                 //              Toast.makeText(getApplicationContext(), "Confirm Button Clicked", Toast.LENGTH_SHORT).show();
                 datePattern = getCheckBoxValue();
-                Log.i(TAG, "datePattern: "+datePattern);
-                if(canAddCheckBoxes==false){
+                Log.i(TAG, "datePattern: " + datePattern);
+                if (canAddCheckBoxes == false) {
                     datePattern2 = getCheckBoxValueNew();
                 }
-                Log.i(TAG, "datePattern2: "+datePattern2);
+                Log.i(TAG, "datePattern2: " + datePattern2);
                 price = gPrice.getText().toString();
                 warranty = gWarranty.getText().toString();
-                ServerRequests serverRequests = new ServerRequests(this);
-                serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
-                        timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {
-                            @Override
-                            public void done() {
-                                successMessage();
-                                finish();
-                            }
+                if (image1 != null && image2 != null && !warranty.equals("") && !price.equals("") && datePattern != null
+                        && !timeStart.equals("") && !timeEnd.equals("")) {
+                    ServerRequests serverRequests = new ServerRequests(this);
+                    serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
+                            timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {
+                                @Override
+                                public void done() {
+                                    successMessage();
+                                    updateList();
+                                    finish();
+                                }
 
-                            @Override
-                            public void done(String response) {
+                                @Override
+                                public void done(String response) {
 
-                            }
-                        }, userLocalStore.getLoggedInUser().getPhone(), timeStart2, timeEnd2, seller_location2, datePattern2);
+                                }
+                            }, userLocalStore.getLoggedInUser().getPhone(), timeStart2, timeEnd2, seller_location2, datePattern2);
+                }
+
                 return true;
 
             default:
@@ -265,6 +275,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         }
         return dates;
     }
+
     private String getCheckBoxValueNew() {
         String dates = null;
         if (MondayNew.isChecked()) {
@@ -369,7 +380,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                     Date time = simpleDateFormat.parse(msg);
                     simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
                     timeStart2 = simpleDateFormat.format(time);
-                    Log.i(TAG,"timeStart2: "+ timeStart2);
+                    Log.i(TAG, "timeStart2: " + timeStart2);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -381,7 +392,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                     Date time = simpleDateFormat.parse(msg);
                     simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
                     timeEnd2 = simpleDateFormat.format(time);
-                    Log.i(TAG,"timeEnd2: "+ timeEnd2);
+                    Log.i(TAG, "timeEnd2: " + timeEnd2);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -468,6 +479,28 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         dialogBuilder.show();
     }
 
+    private void updateList() {
+        Message msg = new Message();
+        msg.what = 99;
+        switch (type) {
+            case "相機鏡頭":
+                CameraFragment.mHandler.sendMessage(msg);
+                break;
+            case "平板電腦":
+                TabletFragment.mHandler.sendMessage(msg);
+                break;
+            case "智能手機":
+                SmartphoneFragment.mHandler.sendMessage(msg);
+                break;
+            case "電子遊戲機":
+                GameConsoleFragment.mHandler.sendMessage(msg);
+                break;
+            case "耳機":
+                EarphoneFragment.mHandler.sendMessage(msg);
+                break;
+        }
+    }
+
     private String[] getSpinnerArray(String value) {
         String[] result = null;
         switch (value) {
@@ -487,9 +520,18 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
             case "耳機":
                 result = getResources().getStringArray(R.array.epBrand);
                 break;
+            case "手提電腦":
+                result = getResources().getStringArray(R.array.notebookBrand);
+                break;
             // Set Model From Brand
             case "Apple":
-                result = getResources().getStringArray(R.array.iPhone);
+                if (type.equals("手提電腦")) {
+                    result = getResources().getStringArray(R.array.macbooks);
+                } else if (type.equals("平板電腦")) {
+                    result = getResources().getStringArray(R.array.ipads);
+                } else {
+                    result = getResources().getStringArray(R.array.iPhone);
+                }
                 break;
             case "LG":
                 result = getResources().getStringArray(R.array.LGPhone);
@@ -497,15 +539,18 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
             case "Sony":
                 if (type.equals("智能手機")) {
                     result = getResources().getStringArray(R.array.sonyPhone);
+                } else if (type.equals("平板電腦")) {
+                    result = getResources().getStringArray(R.array.SonyTab);
                 } else {
                     result = getResources().getStringArray(R.array.sonyGame);
                 }
                 break;
-            case "HTC":
-                result = getResources().getStringArray(R.array.HTCPhone);
-                break;
             case "Samsung":
-                result = getResources().getStringArray(R.array.SamsungPhone);
+                if (type.equals("平板電腦")) {
+                    result = getResources().getStringArray(R.array.SamsungTab);
+                } else {
+                    result = getResources().getStringArray(R.array.SamsungPhone);
+                }
                 break;
             case "Nintendo":
                 result = getResources().getStringArray(R.array.nintendo);
@@ -524,6 +569,9 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 break;
             case "Tamron":
                 result = getResources().getStringArray(R.array.Tamron);
+                break;
+            case "Lenovo":
+                result = getResources().getStringArray(R.array.LenovoTab);
                 break;
             default:
                 result = getResources().getStringArray(R.array.SamsungPhone);

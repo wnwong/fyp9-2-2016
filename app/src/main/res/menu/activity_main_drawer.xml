@@ -12,6 +12,8 @@
             android:title="@string/nav_item_camera" />
         <item android:id="@+id/nav_games" android:icon="@mipmap/ic_vgame"
             android:title="@string/nav_item_vgame" />
+        <item android:id="@+id/nav_notebook" android:icon="@mipmap/ic_computer"
+            android:title="@string/nav_item_notebook" />
     </group>
 
     <item android:title="會員">

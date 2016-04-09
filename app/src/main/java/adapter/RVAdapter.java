@@ -24,6 +24,7 @@ import RealmModel.RealmProduct;
 import activity.CameraFragment;
 import activity.EarphoneFragment;
 import activity.GameConsoleFragment;
+import activity.NotebookFragment;
 import activity.SmartphoneFragment;
 import activity.TabletFragment;
 
@@ -85,6 +86,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CameraViewHolder> 
                     GameConsoleFragment.mHandler.sendMessage(message);
                 }else if(type.equals("耳機")){
                     EarphoneFragment.mHandler.sendMessage(message);
+                }else if(type.equals("手提電腦")){
+                    NotebookFragment.mHandler.sendMessage(message);
                 }
 
             }

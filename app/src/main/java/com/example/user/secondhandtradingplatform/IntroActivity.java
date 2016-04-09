@@ -1,18 +1,26 @@
 package com.example.user.secondhandtradingplatform;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.example.user.secondhandtradingplatform.Utils.NetworkCheck;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,6 +46,7 @@ public class IntroActivity extends Activity {
 
     Realm realm;
     ProgressBar progressBar;
+    AlertDialog.Builder alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +57,16 @@ public class IntroActivity extends Activity {
         progressBar = (ProgressBar) findViewById(R.id.progress_spinner);
         if (refreshLocalStore.getRefreshStatus() == true) {
             Log.i("Refresh", "Refreshing");
-            showProgress();
-            refreshDB();
+            if(NetworkCheck.isConnected(this)==true){
+                showProgress();
+               refreshDB();
+                Log.i(TAG,"No Network");
+            }else{
+                startActivity(new Intent(this, Main.class));
+            }
+
         }else{
-            waitTV.setVisibility(View.GONE);
+            //waitTV.setVisibility(View.GONE);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -236,7 +251,39 @@ public class IntroActivity extends Activity {
             return null;
         }
     }
+    public class getNotebook extends AsyncTask<Void, Void, Void> {
 
+        @Override
+        protected Void doInBackground(Void... params) {
+            realm = Realm.getInstance(getApplicationContext());
+            //    clearDB(realm);
+            String JSONResponse = getResponseFromServer("getNotebook", null);
+            Log.i(TAG, JSONResponse);
+            try {
+                JSONObject jObject = new JSONObject(JSONResponse);
+                String product = jObject.getString("products");
+                JSONArray productArray = new JSONArray(product);
+                for (int i = 0; i < productArray.length(); i++) {
+                    JSONObject obj = productArray.getJSONObject(i);
+                    System.out.println("obj array" + obj);
+
+                    String brand = obj.getString("brand");
+                    String model = obj.getString("model");
+                    String type = obj.getString("type");
+                    String price = obj.getString("price");
+                    String os = obj.getString("os");
+                    String monitor = obj.getString("monitor");
+                    String camera = obj.getString("camera");
+                    String path = obj.getString("image_name");
+                    //    Log.i(TAG, "Image_Name = " + path);
+                    createProductEntry(realm, brand, model, type, price, os, monitor, camera, path);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
     public class getCamera extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -389,6 +436,7 @@ public class IntroActivity extends Activity {
         new getTablet().execute();
         new getCamera().execute();
         new getEarphone().execute();
+        new getNotebook().execute();
         new getProductList().execute();
         refreshLocalStore.setRefreshStatus(false);
     }
@@ -398,5 +446,23 @@ public class IntroActivity extends Activity {
 //        realm.allObjects(RealmProduct.class).clear();
         realm.allObjects(RealmGadget.class).clear();
         realm.commitTransaction();
+    }
+
+    public AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet connection.");
+        builder.setMessage("You have no internet connection");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+
+        return builder;
     }
 }

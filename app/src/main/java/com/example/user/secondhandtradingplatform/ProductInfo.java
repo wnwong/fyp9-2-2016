@@ -129,7 +129,7 @@ public class ProductInfo extends AppCompatActivity {
                         });
                         break;
                     case 4:
-                        Intent mIntent = new Intent(getApplicationContext(), UserProfile.class);
+                        Intent mIntent = new Intent(getApplicationContext(), Profile.class);
                         String name = (String) msg.obj;
                         mIntent.putExtra("name", name);
                         startActivity(mIntent);
