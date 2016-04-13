@@ -39,13 +39,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     public static class SearchViewHolder extends RecyclerView.ViewHolder {
         CardView cview;
-        TextView name;
+        TextView name, type;
         ImageView photo;
 
         SearchViewHolder(View itemView) {
             super(itemView);
             cview = (CardView) itemView.findViewById(R.id.cview);
             name = (TextView) itemView.findViewById(R.id.product_name);
+            type = (TextView) itemView.findViewById(R.id.product_type);
             photo = (ImageView) itemView.findViewById(R.id.product_photo);
         }
     }
@@ -64,6 +65,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         Picasso.with(context).load(IMAGE_ADDRESS + product.getPath()).into(holder.photo);
         //       holder.photo.setImageBitmap(image);
         holder.name.setText(product.getBrand() + " " + product.getModel());
+        holder.type.setText(product.getType());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

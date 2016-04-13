@@ -40,7 +40,7 @@ public class SearchResultActivity extends AppCompatActivity {
         //use a linear layout manager
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-        SearchAdapter adapter = new SearchAdapter(results, R.layout.cardview, this);
+        SearchAdapter adapter = new SearchAdapter(results, R.layout.cardview_search, this);
         rv.setAdapter(adapter);
         mHandler = new Handler() {
             @Override
