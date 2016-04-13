@@ -108,36 +108,39 @@
                     style="?android:borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/avgPriceLayout"
                     android:layout_alignParentRight="true"
                     android:clickable="true"
-                    android:layout_alignBottom="@+id/avgPriceLayout"
                     android:foreground="?android:selectableItemBackground"
-                    android:textStyle="bold"
+                    android:text="詳細圖表"
                     android:textColor="#7100a1"
-                    android:text="詳細圖表" />
+                    android:textStyle="bold" />
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
                     android:id="@+id/avgPriceLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/camera"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/lastMonthAvg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:text="上月平均交易價:"
                         android:textColor="@color/colorPrimaryDark"
-                        android:text="上月平均交易價:" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
                     <TextView
+                        android:id="@+id/avgPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/avgPrice"
                         android:layout_marginLeft="8dp"
+                        android:text="$2600"
                         android:textColor="@color/colorPrimaryDark"
-                        android:textSize="24sp"
-                        android:text="$2600"/>
+                        android:textSize="24sp" />
 
                 </LinearLayout>
             </RelativeLayout>

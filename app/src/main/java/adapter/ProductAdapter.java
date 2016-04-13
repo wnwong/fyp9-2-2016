@@ -84,8 +84,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(ProductViewHolder holder, final int position) {
         if (holder.getItemViewType() == TYPE_INFO) {
             InfoViewHolder iHolder = (InfoViewHolder) holder;
+            //download the product image
             Picasso.with(context).load(IMAGE_ADDRESS + image).into(iHolder.image);
+            //Set product name
             iHolder.pName.setText(pName);
+
             if(type.equals("相機鏡頭")){
                 iHolder.tvmon.setText("尺寸");
                 iHolder.mon.setText(mon);
@@ -105,6 +108,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             }
             iHolder.os.setText(os);
             iHolder.price.setText("HK$" + price);
+            iHolder.avgPrice.setText("HK$" + Integer.parseInt(price)*40/100);
 
             //Camera
             if(type.equals("相機鏡頭")){
@@ -206,7 +210,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public class InfoViewHolder extends ProductViewHolder {
-        TextView pName, price, os, mon, camera, tvos, tvcamera, tvmon;
+        TextView pName, price, os, mon, camera, tvos, tvcamera, tvmon, avgPrice;
         ImageView image;
         Button graphBtn;
 
@@ -222,6 +226,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvos = (TextView) itemView.findViewById(R.id.os);
             tvcamera = (TextView) itemView.findViewById(R.id.camera);
             tvmon = (TextView) itemView.findViewById(R.id.mon);
+            avgPrice = (TextView) itemView.findViewById(R.id.avgPrice);
         }
     }
 

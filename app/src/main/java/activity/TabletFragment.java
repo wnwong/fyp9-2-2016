@@ -59,6 +59,8 @@ public class TabletFragment extends Fragment {
                         Intent intent = new Intent(context, ProductInfo.class);
                         startActivity(intent);
                         break;
+                    case 99:
+                        break;
                 }
             }
         };

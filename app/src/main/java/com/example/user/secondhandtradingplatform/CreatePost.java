@@ -222,7 +222,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 price = gPrice.getText().toString();
                 warranty = gWarranty.getText().toString();
                 if (image1 != null && image2 != null && !warranty.equals("") && !price.equals("") && datePattern != null
-                        && !timeStart.equals("") && !timeEnd.equals("")) {
+                        && !timeStart.equals("") && !timeEnd.equals("")) { //Check if any input empty
                     ServerRequests serverRequests = new ServerRequests(this);
                     serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
                             timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {
@@ -238,6 +238,10 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
 
                                 }
                             }, userLocalStore.getLoggedInUser().getPhone(), timeStart2, timeEnd2, seller_location2, datePattern2);
+                }else{
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+                    dialogBuilder.setMessage("所有產品資料不能留空");
+                    dialogBuilder.show();
                 }
 
                 return true;
@@ -482,7 +486,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     private void updateList() {
         Message msg = new Message();
         msg.what = 99;
-        switch (type) {
+/*        switch (type) {
             case "相機鏡頭":
                 CameraFragment.mHandler.sendMessage(msg);
                 break;
@@ -498,7 +502,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
             case "耳機":
                 EarphoneFragment.mHandler.sendMessage(msg);
                 break;
-        }
+        }*/
     }
 
     private String[] getSpinnerArray(String value) {

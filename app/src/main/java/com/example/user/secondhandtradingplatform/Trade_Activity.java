@@ -447,6 +447,18 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
                 Log.i(TAG, "Case T2 TRUE");
                 ArrayAdapter locationAdapter = new ArrayAdapter(this, R.layout.myspinner, getLocationList(gadget.getSeller_location_2()));
                 locationSpinner.setAdapter(locationAdapter);
+            } else if(TimePattern1Check ==  true && TimePattern2Check == true){
+                Log.i(TAG, "Case Both TRUE");
+                int aLen = getLocationList(gadget.getSeller_location()).length;
+                int bLen = getLocationList(gadget.getSeller_location_2()).length;
+                String[] C= new String[aLen+bLen];
+                Log.i(TAG, "Length of C:"+ C.length);
+                System.arraycopy(getLocationList(gadget.getSeller_location()), 0, C, 0, aLen);
+                Log.i(TAG, "First time copy: " + C[0]);
+                System.arraycopy(getLocationList(gadget.getSeller_location_2()), 0, C, aLen, bLen);
+                Log.i(TAG, "Second time copy: " + C[1]);
+                ArrayAdapter locationAdapter = new ArrayAdapter(this, R.layout.myspinner, C);
+                locationSpinner.setAdapter(locationAdapter);
             }
         }
     }

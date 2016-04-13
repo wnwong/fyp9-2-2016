@@ -21,6 +21,6 @@
         android:id="@+id/action_refresh"
         android:icon="@mipmap/ic_renew"
         android:orderInCategory="100"
-        android:title="refresh"
+        android:title="重新整理"
         app:showAsAction="ifRoom" />
 </menu>
