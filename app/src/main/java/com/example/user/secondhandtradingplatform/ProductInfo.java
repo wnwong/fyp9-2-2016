@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -84,6 +85,7 @@ public class ProductInfo extends AppCompatActivity {
         queryCamera = new QueryCamera(this);
         // Retrieve posts of specific gadget
         RealmResults<RealmGadget> result = queryCamera.retrieveProductsByModel(realmProduct.getModel());
+        Log.i(TAG, "Result.size()" + result.size() );
         for (int i = 0; i < result.size(); i++) {
             gadgets.add(result.get(i));
         }

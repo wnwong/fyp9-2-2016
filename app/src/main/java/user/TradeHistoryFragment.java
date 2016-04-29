@@ -59,10 +59,12 @@ public class TradeHistoryFragment extends Fragment {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
-                        queryCamera = new QueryCamera(getContext());
-                        realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
-                        adapter = new TradeHistoryAdapter(realmGadgets, getContext());
-                        rv.setAdapter(adapter);
+                        if(getContext()!=null){
+                            queryCamera = new QueryCamera(getContext());
+                            realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());
+                            adapter = new TradeHistoryAdapter(realmGadgets, getContext());
+                            rv.setAdapter(adapter);
+                        }
                         break;
                     case 2:
                         realmGadgets = queryCamera.retrieveCompletedGadgetBySeller(userLocalStore.getLoggedInUser().getUsername());

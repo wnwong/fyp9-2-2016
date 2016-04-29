@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">簡易二手物品交易平台</string>
+    <string name="app_name">易寶 Treasure</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="search_hint">搜尋 品牌,型號</string>
@@ -793,6 +793,57 @@
         <item>Yoga Tab 3 Pro</item>
         <item>Tab3 Business</item>
     </string-array>
-    <string name="title_activity_profile">Profile</string>
+    <!--******************************************************************Earphone*************************************************************************** -->
+    <string-array name="earphonebrand">
+        <item>SHURE</item>
+        <item>UE</item>
+        <item>Beats</item>
+        <item>Sennheiser</item>
+    </string-array>
+    <string-array name="shure">
+        <item>SE215</item>
+        <item>SE315</item>
+        <item>SE415</item>
+    </string-array>
+    <string-array name="UE">
+        <item>UE900</item>
+    </string-array>
+    <string-array name="Beats">
+        <item>powerbeats2 wireless</item>
+        <item>powerbeats2</item>
+        <item>urbeats</item>
+        <item>solo</item>
+        <item>Tour 2</item>
+        <item>beats x MCM</item>
+        <item>solo2 wireless</item>
+        <item>solo2</item>
+        <item>studio wireless</item>
+        <item>Studio</item>
+        <item>Mixr</item>
+        <item>Pro</item>
+        <item>pill</item>
+    </string-array>
+    <string-array name="Sennheiser">
+        <item>URBANITE XL WIRELESS</item>
+        <item>URBANITE XL</item>
+        <item>MOMENTUM WIRELESS</item>
+        <item>MOMENTUM(2ND Generation)</item>
+        <item>HD 280 PRO</item>
+        <item>HD 380 PRO</item>
+        <item>HD 518</item>
+        <item>HD 558</item>
+        <item>HD 600</item>
+        <item>HD 650</item>
+        <item>HD 800</item>
+        <item>RS 175</item>
+        <item>RS 185</item>
+        <item>RS 195</item>
+        <item>RS 170</item>
+        <item>PXC 450</item>
+        <item>MM 550-X TRAVEL</item>
+        <item>PC 333D</item>
+        <item>PC 350 Special Edition</item>
+    </string-array>
     <!-- **************************************************All Product List******************************************************************-->
+    <string name="title_activity_profile">Profile</string>
 </resources>

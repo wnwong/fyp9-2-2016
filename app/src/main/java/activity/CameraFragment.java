@@ -1,5 +1,6 @@
 package activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import com.example.user.secondhandtradingplatform.ProductInfo;
 import com.example.user.secondhandtradingplatform.R;
 
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +29,11 @@ import adapter.RVAdapter;
 
 
 public class CameraFragment extends Fragment{
-
+    private static final String TAG = "CameraFragment";
     public static Context context;
     public static Handler mHandler;
     final String productType = "相機鏡頭";
+    RVAdapter adapter;
     List<RealmProduct> products = new ArrayList<>();
 
     @Override
@@ -72,8 +75,8 @@ public class CameraFragment extends Fragment{
         for (int i = 0; i < result.size(); i++) {
             products.add(result.get(i));
         }
-        RVAdapter adapter = new RVAdapter(products, R.layout.cardview, getContext(), productType);
-        Log.i("Refresh", "" + products.size());
+        adapter = new RVAdapter(products, R.layout.cardview, getContext(), productType);
+        Log.i(TAG, "" + products.size());
         rv.setAdapter(adapter);
     }
 
@@ -91,6 +94,7 @@ public class CameraFragment extends Fragment{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.user.secondhandtradingplatform;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -30,14 +31,18 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.user.secondhandtradingplatform.Utils.NetworkCheck;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import RealmModel.RealmGadget;
 import activity.CameraFragment;
 import activity.EarphoneFragment;
 import activity.GameConsoleFragment;
 import activity.SmartphoneFragment;
 import activity.TabletFragment;
+import io.realm.Realm;
 import server.GetPostCallback;
 import server.ServerRequests;
 import user.UserLocalStore;
@@ -56,6 +61,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     SimpleDateFormat simpleDateFormat;
     ImageView imageToUpload, imageToUpload2;
     boolean canAddCheckBoxes = true;
+    boolean secondPatternEmptyCheck = true;
     UserLocalStore userLocalStore;
     Bitmap image1, image2;
     String timeSelectFrom, type, brand, model, warranty, color, scratch, price, timeStart, timeStart2,
@@ -217,32 +223,52 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 Log.i(TAG, "datePattern: " + datePattern);
                 if (canAddCheckBoxes == false) {
                     datePattern2 = getCheckBoxValueNew();
+                    if(mTimeStartButtonNew.getText().equals("") || mTimeEndButtonNew.getText().equals("") || seller_location2.equals("")|| datePattern2==null){
+                        secondPatternEmptyCheck = false;
+                    }
                 }
                 Log.i(TAG, "datePattern2: " + datePattern2);
                 price = gPrice.getText().toString();
                 warranty = gWarranty.getText().toString();
-                if (image1 != null && image2 != null && !warranty.equals("") && !price.equals("") && datePattern != null
-                        && !timeStart.equals("") && !timeEnd.equals("")) { //Check if any input empty
-                    ServerRequests serverRequests = new ServerRequests(this);
-                    serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
-                            timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {
-                                @Override
-                                public void done() {
-                                    successMessage();
-                                    updateList();
-                                    finish();
-                                }
+                if(NetworkCheck.isConnected(this) == true){
+                    if (image1 != null && image2 != null && !warranty.equals("") && !price.equals("") && datePattern != null
+                            && !timeStart.equals("") && !timeEnd.equals("") && secondPatternEmptyCheck==true) { //Check if any input empty
+                        ServerRequests serverRequests = new ServerRequests(this);
+                        serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
+                                timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {
+                                    @Override
+                                    public void done() {
+                                        successMessage();
+                                        updateList();
+                                        finish();
+                                    }
 
-                                @Override
-                                public void done(String response) {
+                                    @Override
+                                    public void done(String response) {
 
-                                }
-                            }, userLocalStore.getLoggedInUser().getPhone(), timeStart2, timeEnd2, seller_location2, datePattern2);
-                }else{
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-                    dialogBuilder.setMessage("所有產品資料不能留空");
-                    dialogBuilder.show();
+                                    }
+                                }, userLocalStore.getLoggedInUser().getPhone(), timeStart2, timeEnd2, seller_location2, datePattern2);
+                    }else{
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+                        dialogBuilder.setMessage("所有產品資料不能留空");
+                        dialogBuilder.show();
+                    }
+                }else {
+                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+                    builder.setTitle("網絡連接錯誤");
+                    builder.setMessage("沒有網絡連線");
+
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
                 }
+
 
                 return true;
 
@@ -328,6 +354,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                     ll.removeView(addView);
                     delBtn.setVisibility(View.GONE);
                     addViewBtn.setVisibility(View.VISIBLE);
+                    secondPatternEmptyCheck = true;
                     canAddCheckBoxes = true;
                 }
             });
@@ -484,25 +511,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     }
 
     private void updateList() {
-        Message msg = new Message();
-        msg.what = 99;
-/*        switch (type) {
-            case "相機鏡頭":
-                CameraFragment.mHandler.sendMessage(msg);
-                break;
-            case "平板電腦":
-                TabletFragment.mHandler.sendMessage(msg);
-                break;
-            case "智能手機":
-                SmartphoneFragment.mHandler.sendMessage(msg);
-                break;
-            case "電子遊戲機":
-                GameConsoleFragment.mHandler.sendMessage(msg);
-                break;
-            case "耳機":
-                EarphoneFragment.mHandler.sendMessage(msg);
-                break;
-        }*/
+
     }
 
     private String[] getSpinnerArray(String value) {
@@ -522,7 +531,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 result = getResources().getStringArray(R.array.game_consoleBrand);
                 break;
             case "耳機":
-                result = getResources().getStringArray(R.array.epBrand);
+                result = getResources().getStringArray(R.array.earphonebrand);
                 break;
             case "手提電腦":
                 result = getResources().getStringArray(R.array.notebookBrand);
@@ -576,6 +585,18 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                 break;
             case "Lenovo":
                 result = getResources().getStringArray(R.array.LenovoTab);
+                break;
+            case "SHURE":
+                result = getResources().getStringArray(R.array.shure);
+                break;
+            case "UE":
+                result = getResources().getStringArray(R.array.UE);
+                break;
+            case "Beats":
+                result = getResources().getStringArray(R.array.Beats);
+                break;
+            case "Sennheiser":
+                result = getResources().getStringArray(R.array.Sennheiser);
                 break;
             default:
                 result = getResources().getStringArray(R.array.SamsungPhone);

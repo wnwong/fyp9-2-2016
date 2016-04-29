@@ -37,6 +37,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.secondhandtradingplatform.Utils.NetworkCheck;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -211,13 +212,30 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "buyer_time OnClicked"+buyer_time);
-                Log.i(TAG, "buyer_date OnClicked"+buyer_date);
-                if (buyer_time != null && buyer_date != null) {
-                    confirmSendMessage();
-                } else {
-                    showErrorMessage(EMPTY_ERROR);
-                }
+               if(NetworkCheck.isConnected(Trade_Activity.this) == true){
+                   Log.i(TAG, "buyer_time OnClicked"+buyer_time);
+                   Log.i(TAG, "buyer_date OnClicked"+buyer_date);
+                   if (buyer_time != null && buyer_date != null) {
+                       confirmSendMessage();
+                   } else {
+                       showErrorMessage(EMPTY_ERROR);
+                   }
+               }else{
+                   android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(Trade_Activity.this);
+                   builder.setTitle("網絡連接錯誤");
+                   builder.setMessage("沒有網絡連線");
+
+                   builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+
+                           dialog.dismiss();
+                       }
+                   });
+                   builder.show();
+               }
+
             }
         });
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
@@ -227,7 +245,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
                 finish();
             }
         });
-        if (!gadget.getSeller_location_2().equals("null") && !gadget.getSeller_location_2().equals("")) {
+        if (!gadget.getSeller_date_2().equals("null") && !gadget.getSeller_location_2().equals("")) {
             addView();
         }
 
