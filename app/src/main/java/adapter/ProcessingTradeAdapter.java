@@ -91,7 +91,7 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
         }
 
         if (realmGadget.getAvailability().equals("放售中")) {
-            holder.availability.setTextColor(Color.parseColor("#FFE4DA23"));
+            holder.availability.setTextColor(Color.parseColor("#FF16E42E"));
             holder.place.setVisibility(View.GONE);
             holder.date.setVisibility(View.GONE);
             holder.person.setVisibility(View.GONE);
@@ -105,7 +105,7 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
             holder.sellingPrice.setPadding(0,0,0,24);
 
         } else {
-            holder.availability.setTextColor(Color.parseColor("#FF16E42E"));
+            holder.availability.setTextColor(Color.parseColor("#FFE4DA23"));
             holder.place.setVisibility(View.VISIBLE);
             holder.date.setVisibility(View.VISIBLE);
             holder.person.setVisibility(View.VISIBLE);
@@ -115,19 +115,22 @@ public class ProcessingTradeAdapter extends RecyclerView.Adapter<ProcessingTrade
             holder.sellerPhone.setVisibility(View.VISIBLE);
 
             holder.buyer.setVisibility(View.VISIBLE);
-            holder.ratingBar.setVisibility(View.VISIBLE);
+            if(!realmGadget.getSeller().equals(userLocalStore.getLoggedInUser().getUsername())){
+                holder.ratingBar.setVisibility(View.VISIBLE);
+                holder.confirmBtn.setVisibility(View.VISIBLE);
+            }
             holder.tradeDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Message message = new Message();
                     message.what = 1;
                     String person = holder.buyer.getText().toString();
-                    String title = "同 "+person+" 交易 "+ holder.product.getText().toString();
-                    message.obj=new Event(title, realmGadget.getTrade_date(), realmGadget.getTrade_time(), realmGadget.getBuyer_location());
+                    String title = "同 " + person + " 交易 " + holder.product.getText().toString();
+                    message.obj = new Event(title, realmGadget.getTrade_date(), realmGadget.getTrade_time(), realmGadget.getBuyer_location());
                     UserProfile.mHandler.sendMessage(message);
                 }
             });
-            holder.confirmBtn.setVisibility(View.VISIBLE);
+
             holder.confirmBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

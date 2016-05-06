@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +25,16 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import activity.Main;
 import server.GetUserCallback;
 import server.ServerRequests;
+import server.UsernameCheckCallback;
 import user.User;
 
 public class Register extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, View.OnFocusChangeListener {
@@ -33,6 +43,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
     private static final String ERROR_MSG = "此欄不能留白";
     private static final String EMAIL_ERROR = "這不是有效的電郵地址";
     private static final String PHONE_ERROR = "這不是有效的電話號碼";
+    private static final String UNAME_ERROR = "使用者名稱已被使用";
+    public static final String SERVER_ADDRESS = "http://php-etrading.rhcloud.com/";
+    public static final String TAG = "Register";
+    boolean redundantUsernameCheck = false;
     Button reg;
     EditText uname, pwd, email, phone, confirmPwd;
     RadioButton male, female;
@@ -75,6 +89,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         email.setOnFocusChangeListener(this);
         confirmPwd.setOnFocusChangeListener(this);
         phone.setOnFocusChangeListener(this);
+        uname.setOnFocusChangeListener(this);
 
     }
 
@@ -163,16 +178,17 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
     }
 
     private boolean inputCheck() {
-        return (pwdCheck() && emptyFieldCheck() && emailCheck() && phoneCheck());
+        return (pwdCheck() && emptyFieldCheck() && emailCheck() && phoneCheck() && redundantUsernameCheck);
     }
 
-    private boolean emailCheck(){
-        if(!email.getText().toString().contains("@")){
+    private boolean emailCheck() {
+        if (!email.getText().toString().contains("@")) {
             email.setError(EMAIL_ERROR);
             return false;
         }
         return true;
     }
+
     private boolean pwdCheck() {
         if (!pwd.getText().toString().equals(confirmPwd.getText().toString())) {
             confirmPwd.setError(PWD_NOT_MATCH);
@@ -181,13 +197,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         return true;
     }
 
-    private  boolean phoneCheck(){
-        if(phone.getText().toString().length() != 8){
+    private boolean phoneCheck() {
+        if (phone.getText().toString().length() != 8) {
             phone.setError(PHONE_ERROR);
             return false;
         }
         return true;
     }
+
     private boolean emptyFieldCheck() {
         if (uname.getText().toString().isEmpty()) {
             uname.setError(ERROR_MSG);
@@ -267,22 +284,92 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.r_email:
-                if(!hasFocus){
+                if (!hasFocus) {
                     emailCheck();
                 }
                 break;
             case R.id.r_confirm:
-                if(!hasFocus){
+                if (!hasFocus) {
                     pwdCheck();
                 }
                 break;
             case R.id.r_phone:
-                if(!hasFocus){
+                if (!hasFocus) {
                     phoneCheck();
                 }
                 break;
+            case R.id.r_uname:
+                new unameCheck(uname.getText().toString(), new UsernameCheckCallback() {
+                    @Override
+                    public void done(String response) {
+                        if(response.contains("null")){
+                            redundantUsernameCheck = true;
+                            Log.i(TAG, "usernameCheck = true");
+                        }else{
+                            uname.setError(UNAME_ERROR);
+                            redundantUsernameCheck = false;
+                        }
+                    }
+                }).execute();
+                break;
         }
+    }
+
+    public class unameCheck extends AsyncTask<Void, Void, String> {
+        String response;
+        String uname;
+        UsernameCheckCallback usernameCheckCallback;
+        public unameCheck(String username, UsernameCheckCallback usernameCheckCallback){
+            this.uname = username;
+            this.usernameCheckCallback = usernameCheckCallback;
+        }
+        @Override
+        protected String doInBackground(Void... params) {
+            Uri.Builder builder = new Uri.Builder()
+                    .appendQueryParameter("uname", uname);
+            Log.i(TAG, "Username to Check: " + uname);
+            String query = builder.build().getEncodedQuery();
+            response = getResponseFromServer("unameCheck", query);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            usernameCheckCallback.done(response);
+        }
+    }
+
+
+    private String getResponseFromServer(String php, String query) {
+        String json = null;
+        try {
+            URL url = new URL(SERVER_ADDRESS + php + ".php");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setDoInput(true);
+            if (query != null) {
+                con.setDoOutput(true);
+                Log.i(TAG, "Writing to Server!");
+                OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                writer.write(query);
+                writer.flush();
+                writer.close();
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+                Log.i(TAG, "Response from server: " + line);
+            }
+            json = sb.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }

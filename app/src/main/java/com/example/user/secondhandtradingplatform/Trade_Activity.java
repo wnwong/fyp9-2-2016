@@ -488,10 +488,12 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             date = msg;
             simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
             Date date = simpleDateFormat.parse(msg);
+            Log.i(TAG, "Date = " + date);
             // Check the validity of Date Picked
             calendar = Calendar.getInstance();
             calendar.setTime(date);
             Calendar current = Calendar.getInstance();
+            // Error here
             if(calendar.before(current)){
                 showErrorMessage(DATE_ERROR);
                 mDateButton.setText("");
@@ -627,6 +629,7 @@ public class Trade_Activity extends AppCompatActivity implements DatePickerDialo
             dialogBuilder.setMessage("請確認你已經選擇交易時間和日期");
         } else if (type.equals(DATE_ERROR)) {
             dialogBuilder.setMessage("這不是有效的交易日子");
+            Log.i(TAG, "Error msg here");
         } else if (type.equals(TIME_ERROR)) {
             dialogBuilder.setMessage("這不是有效的交易時間");
         }

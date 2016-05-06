@@ -162,10 +162,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 }
 
                 if (gadget.getAvailability().equals("放售中")){
-                    pHolder.availability.setTextColor(Color.parseColor("#FFE4DA23"));
+                    pHolder.availability.setTextColor(Color.parseColor("#FF16E42E"));
                     pHolder.tradeBtn.setVisibility(View.VISIBLE);
                 }else if(gadget.getAvailability().equals("已被預訂")){
-                    pHolder.availability.setTextColor(Color.parseColor("#FF16E42E"));
+                    pHolder.availability.setTextColor(Color.parseColor("#FFE4DA23"));
                     //Hide Trade Button
                     pHolder.tradeBtn.setVisibility(View.GONE);
                     pHolder.tradePlace.setPadding(0,0,0,8);

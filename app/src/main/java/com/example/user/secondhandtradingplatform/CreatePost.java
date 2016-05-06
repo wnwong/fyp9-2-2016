@@ -33,7 +33,9 @@ import android.widget.Toast;
 
 import com.example.user.secondhandtradingplatform.Utils.NetworkCheck;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import RealmModel.RealmGadget;
@@ -62,10 +64,15 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
     ImageView imageToUpload, imageToUpload2;
     boolean canAddCheckBoxes = true;
     boolean secondPatternEmptyCheck = true;
+    boolean secondTimeCheck = true;
     UserLocalStore userLocalStore;
     Bitmap image1, image2;
-    String timeSelectFrom, type, brand, model, warranty, color, scratch, price, timeStart, timeStart2,
-            timeEnd, timeEnd2, seller_location, seller_location2, datePattern, datePattern2, seller, line;
+    String timeSelectFrom, type, brand, model, color, scratch, timeStart2,
+            timeEnd2, seller_location, seller_location2, datePattern, datePattern2, seller, line;
+    String price = "";
+    String warranty = "";
+    String timeStart = "";
+    String timeEnd = "";
     ImageButton addCameraBtn, addGalleryBtn, addCameraBtn2, addGalleryBtn2;
     CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, MondayNew, TuesdayNew, WednesdayNew, ThursdayNew, FridayNew, SaturdayNew, SundayNew;
     Spinner productBrand, productModel, productType, locationSpinner, scratchSpinner, colorSpinner, locationSpecificSpinner, locationSpinnerNew, locationSpecificSpinnerNew;
@@ -226,13 +233,17 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                     if(mTimeStartButtonNew.getText().equals("") || mTimeEndButtonNew.getText().equals("") || seller_location2.equals("")|| datePattern2==null){
                         secondPatternEmptyCheck = false;
                     }
+                    if(timeStart2 != null && timeEnd2 != null){
+                        secondTimeCheck = TimeCheck(timeStart2, timeEnd2);
+                        Log.i(TAG, "secondTimeCheck"+ secondTimeCheck);
+                    }
                 }
                 Log.i(TAG, "datePattern2: " + datePattern2);
                 price = gPrice.getText().toString();
                 warranty = gWarranty.getText().toString();
                 if(NetworkCheck.isConnected(this) == true){
                     if (image1 != null && image2 != null && !warranty.equals("") && !price.equals("") && datePattern != null
-                            && !timeStart.equals("") && !timeEnd.equals("") && secondPatternEmptyCheck==true) { //Check if any input empty
+                            && !timeStart.equals("") && !timeEnd.equals("") && secondPatternEmptyCheck==true && TimeCheck(timeStart,timeEnd)==true && secondTimeCheck == true) { //Check if any input empty
                         ServerRequests serverRequests = new ServerRequests(this);
                         serverRequests.storeTradeDataInBackground(type, brand, model, warranty, color, scratch, price, timeStart,
                                 timeEnd, image1, image2, seller_location, datePattern, seller, new GetPostCallback() {
@@ -250,7 +261,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                                 }, userLocalStore.getLoggedInUser().getPhone(), timeStart2, timeEnd2, seller_location2, datePattern2);
                     }else{
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-                        dialogBuilder.setMessage("所有產品資料不能留空");
+                        dialogBuilder.setMessage("產品資料有誤");
                         dialogBuilder.show();
                     }
                 }else {
@@ -355,6 +366,7 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
                     delBtn.setVisibility(View.GONE);
                     addViewBtn.setVisibility(View.VISIBLE);
                     secondPatternEmptyCheck = true;
+                    secondTimeCheck = true;
                     canAddCheckBoxes = true;
                 }
             });
@@ -379,6 +391,38 @@ public class CreatePost extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    private boolean TimeCheck(String start, String end){
+        simpleDateFormat = new SimpleDateFormat(SQL_TIME_FORMAT);
+        try {
+            Date starttime = simpleDateFormat.parse(start);
+            Date endtime = simpleDateFormat.parse(end);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(starttime);
+            int startHour = calendar.get(Calendar.HOUR_OF_DAY);
+            Log.i(TAG, "startHour:" + startHour);
+            int startMinute = calendar.get(Calendar.MINUTE);
+            Log.i(TAG, "startMinute:" + startMinute);
+            calendar.setTime(endtime);
+            int endHour = calendar.get(Calendar.HOUR_OF_DAY);
+            Log.i(TAG, "endHour:" + endHour);
+            int endMinute = calendar.get(Calendar.MINUTE);
+            Log.i(TAG, "endMinute:" + endMinute);
+
+            if(startHour == endHour){
+                if(startMinute >= endMinute){
+                    Log.i(TAG,"Same Hour, TimeCheck = false");
+                    return false;
+                }
+            }else if(startHour > endHour){
+                Log.i(TAG,"startHour > endHour, TimeCheck = false");
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "TimeCheck = true;");
+        return true;
+    }
     @Override
     public void OnTimePicked(String msg) {
         switch (timeSelectFrom) {
